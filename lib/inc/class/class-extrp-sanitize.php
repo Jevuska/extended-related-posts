@@ -229,7 +229,7 @@ class EXTRP_Sanitize
 	
 	public function array_parameter( $parameter )
 	{
-		$id = extrp_multidimensional_search( 
+		$id = $this->extrp_multidimensional_search( 
 			$this->big_data(), 
 			array( 
 				'parameter' => $parameter 
@@ -297,7 +297,7 @@ class EXTRP_Sanitize
 		global $extrp_settings;
 		
 		if ( ! is_array( $args ) ) :
-			$id = extrp_multidimensional_search( $this->big_data(), array( 'parameter' => 'noimage' ) );
+			$id = $this->extrp_multidimensional_search( $this->big_data(), array( 'parameter' => 'noimage' ) );
 			return $this->big_data()[ $id ]['normal'];
 		endif;
 		
@@ -348,6 +348,26 @@ class EXTRP_Sanitize
 				$result[] = $post_type;
 		endforeach;
 		return $result;
+	}
+
+	public function extrp_multidimensional_search( $parents, $searched )
+	{
+	  if ( empty( $searched ) || empty( $parents ) )
+		return false; 
+
+	  foreach ( $parents as $key => $value ) :
+		$exists = true; 
+		
+		foreach ( $searched as $skey => $svalue ) :
+		  $exists = ( $exists && isset( $parents[ $key ][ $skey ] ) && $parents[ $key ][ $skey ] == $svalue ); 
+		endforeach; 
+		
+		if ( $exists )
+			return $key;
+		
+	  endforeach;
+
+	  return false; 
 	}
 
 	public function array_post_types()
