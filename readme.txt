@@ -1,7 +1,7 @@
 === Extended Related Posts ===
 Contributors: Jevuska
 Donate link: http://www.jevuska.com/contact/
-Tags: posts, relevanssi, relevant, search, shortcode
+Tags: posts, relevanssi, relevant, search, shortcode, widget, multilanguage, thumbnail
 Requires at least: 4.3
 Tested up to: 4.3
 Stable tag: 4.3
@@ -24,20 +24,11 @@ Extended Related Posts plugin could be supported by [Relevanssi](https://wordpre
 You can use php code `<?php do_action('jv-related-posts'); ?>` and add this single line code after the_content code. Single or sitewide pages is welcome. More advance code is available.
 
 == Screenshots ==
-1. General Settings `extrp-general-settings.jpg`.
-![screenshot 1](lib/assets/images/screenshots/extrp-general-settings.jpg)
-
-2. Thumbnail Settings `extrp-thumbnail-settings.jpg`.
-![screenshot 2](lib/assets/images/screenshots/extrp-thumbnail-settings.jpg)
-
-3. Additional Settings `extrp-additional-settings.jpg`.
-![screenshot 3](lib/assets/images/screenshots/extrp-additional-settings.jpg)
-
-4. Shortcode Generator `extrp-shortcode-generator.jpg`.
-![screenshot 4](lib/assets/images/screenshots/extrp-shortcode-generator.jpg)
-
-5. Widget Settings `extrp-widget.jpg`.
-![screenshot 4](lib/assets/images/screenshots/extrp-widget.jpg)
+1. General Settings
+2. Thumbnail Settings
+3. Additional Settings
+4. Shortcode Generator
+5. Widget Settings
 
 == Changelog ==
 * 1.0 = October 22, 2015
