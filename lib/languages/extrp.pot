@@ -1,0 +1,713 @@
+# Copyright (C) 2015 Extended Related Posts
+# This file is distributed under the same license as the Extended Related Posts package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Extended Related Posts\n"
+"POT-Creation-Date: 2015-10-22 01:40+0800\n"
+"PO-Revision-Date: 2015-09-12 10:11+0800\n"
+"Last-Translator: Rachmanuddin Chair Yahya <contact@jevuska.com>\n"
+"Language-Team: JEVUSKA <contact@jevuska.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"Language: en_US\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#. Author of the plugin/theme
+msgid "Jevuska"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.jevuska.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Create a better related posts more relevant under your post. Settings, shortcode and widget available."
+msgstr ""
+
+#: admin/admin-functions.php:46 admin/admin-functions.php:95
+msgid "Overview"
+msgstr ""
+
+#: admin/admin-functions.php:47
+msgid ""
+"Extended Related Posts plugin could be supported by Relevanssi plugin if you activate the feature in plugin administration area. Searching related posts by post title is default search algorithm of this plugin, as "
+"WordPress search default. And if no results by post title, it will continued get the related posts by their categories automatically, then by tags, and by split each post title words. If no more relevant posts, it will "
+"show your random posts. Abuse with any extension that you made is welcome to support this plugin. Have fun!."
+msgstr ""
+
+#: admin/admin-functions.php:50
+msgid "Troubleshooting"
+msgstr ""
+
+#: admin/admin-functions.php:51
+msgid ""
+"Try to uninstall then install this plugin again if you get an error php code. Using caching to make your pages become static and make your website load faster, it also lessens the load on your server’s CPU, Memory and "
+"HD."
+msgstr ""
+
+#: admin/admin-functions.php:62
+msgid "Main Shortcode"
+msgstr ""
+
+#: admin/admin-functions.php:64
+msgid "It will display related posts as list style without thumbnail. Set the size parameter to show the thumbnails as configuration below."
+msgstr ""
+
+#: admin/admin-functions.php:65
+msgid "Shortcode with parameters"
+msgstr ""
+
+#: admin/admin-functions.php:66 admin/class/class-extrp-admin.php:1028 inc/class/class-extrp-sanitize.php:570
+msgid "Related News"
+msgstr ""
+
+#: admin/admin-functions.php:66
+msgid "Another News"
+msgstr ""
+
+#: admin/admin-functions.php:67
+msgid "Main PHP Code for theme"
+msgstr ""
+
+#: admin/admin-functions.php:69
+msgid "Use post id&#39;s only, specify post NOT to retrieve."
+msgstr ""
+
+#: admin/admin-functions.php:71
+msgid "PHP Code with parameters"
+msgstr ""
+
+#: admin/admin-functions.php:80
+msgid "or"
+msgstr ""
+
+#: admin/admin-functions.php:90
+msgid "Note: For PHP Code, the values of the un-set parameters will be set by your settings above, not default shortcode values. Parameters settings are the same with shortcode configuration. "
+msgstr ""
+
+#: admin/admin-functions.php:96
+msgid ""
+"Set parameters for your shortcode, and add into post area or text widget. PHP code for theme, add inside sitewide page content loop function on theme files (ie: <kbd>content.php</kbd> in <em>twentyfifteen</em> theme), "
+"usually right after the content code <kbd>the_content</kbd>. Use Code Generator below for more convenience."
+msgstr ""
+
+#: admin/admin-functions.php:102
+msgid "Usage"
+msgstr ""
+
+#: admin/admin-functions.php:106
+msgid "Instruction"
+msgstr ""
+
+#: admin/admin-functions.php:107
+msgid ""
+"<strong>Check</strong> the parameters; <strong>Click</strong> their optional value to selected; then <strong>Push</strong> <code>Generate Code</code> button.<br>Make sure that selected values are <code class=\"wp-ui-"
+"highlight\">highlighted</code> by single click.<br>The values of <code>0</code> = <em>false/disable</em> and <code>1</code> = <em>true/enable</em>.<br>Require browser javascript enable."
+msgstr ""
+
+#: admin/admin-functions.php:125
+msgid "For more information:"
+msgstr ""
+
+#: admin/admin-functions.php:127
+msgid "Plugin Page"
+msgstr ""
+
+#: admin/admin-functions.php:275 admin/admin-functions.php:276
+msgid "Use HTML color codes (#rrggbb)"
+msgstr ""
+
+#: admin/admin-functions.php:277
+msgid "You can use any CSS styling here, style will be inserted with a <span>"
+msgstr ""
+
+#: admin/admin-functions.php:278
+msgid "Name a class here, the terms will be wrapped in a <span> with the class"
+msgstr ""
+
+#: admin/admin-functions.php:408
+msgid "No Image Default"
+msgstr ""
+
+#: admin/admin-functions.php:414
+msgid "The url default image was set, but the image doesn&#39;t exists. Try to add new one or you can push &#39;Save Changes&#39; button directly to create default image."
+msgstr ""
+
+#: admin/admin-functions.php:418
+msgid "The url default image is not set up yet."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:92 admin/class/class-extrp-admin.php:621
+msgid "Tool of Extended Related Posts"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:93
+msgid "EXTRP Tool"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:199
+msgid "Success to delete all cache."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:202
+msgid "These caches still exist, try to delete again. If error still exist, check your database connection."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:208
+msgid "Cache was empty, there is no cache need to be deleted."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:222
+msgid "Unable to hide the post title if thumbnail not set."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:231
+msgid "Unable to use Relevanssi algorithm, please activate/install Relevanssi plugin"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:256
+msgid "Unable to add this image size, please check your input again."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:297
+msgid "Unable to set highlight, please check your input again."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:308
+msgid "Success to reset your data."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:584 admin/class/class-extrp-admin.php:622
+msgid "Create a better related posts under your post."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:660 admin/class/class-extrp-admin.php:673
+msgid "Save Changes"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:663 admin/class/class-extrp-admin.php:676 admin/class/class-extrp-admin.php:698 inc/class/class-extrp-sanitize.php:810
+msgid "Reset"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:663
+msgid "Delete Cache"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:694
+msgid "Back to Settings"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:697
+msgid "Generate Code"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:712
+msgid "This are global settings, and some of configuration may affect your default shortcode, unless shortcode that set-up with parameters. Enter your settings below:"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:718
+msgid "Some of these settings may affect your shortcode settings, especially Thumbnail Custom Size settings. Enter your settings below:"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:724
+msgid "This are global settings, and some of configuration may affect your default shortcode, unless shortcode with set-up with parameters. Enter your settings below:"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:730
+msgid "save"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:760
+msgid "Setup Widget"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:762
+msgid "Create Shortcode"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:769
+msgid "Instruction available under <code>Help</code> tab on your screen ( top right )."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:777
+msgid "Shortcode result"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:778
+msgid "Theme PHP code result"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:879 admin/class/class-extrp-admin.php:944
+msgid "You do not have permission to do that."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:901
+msgid "Fail to generate image. Refresh your page and try again."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:915
+#, php-format
+msgid ""
+"Image not exists. Please check your image from media library. You can <a target=\"_blank\" href=\"%1$s\" class=\"thickbox\" title=\"%2$s\">Edit</a> or push &#39;Save Changes&#39; button to get default image directly."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:915
+msgid "Edit Media"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:933
+msgid "Success"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:993
+msgid "plugin by"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1003
+msgid "Version"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1029 inc/class/class-extrp-sanitize.php:594
+msgid "Random News"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1030
+msgid "You don&#39;t need this parameter by this highlight type."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1031
+msgid "Please choose type of highlight first."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1032
+msgid "Its default value, enter another one."
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1033
+msgid "No Value"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1034
+msgid "Activate or install Relevanssi plugin"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1035
+msgid "OK"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1036
+msgid "empty"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1037
+msgid "Select or Upload Media Of Your Chosen Persuasion"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:1038
+msgid "Set as No Image Thumbnail"
+msgstr ""
+
+#: admin/class/class-extrp-setup.php:64 inc/class/class-extrp-thumbnail.php:650
+msgid "Fail to delete No Image default. Try to delete it manually."
+msgstr ""
+
+#: admin/class/class-extrp-shortcode-table.php:104
+msgid "Parameter"
+msgstr ""
+
+#: admin/class/class-extrp-shortcode-table.php:105
+msgid "Default"
+msgstr ""
+
+#: admin/class/class-extrp-shortcode-table.php:106
+msgid "Option Value"
+msgstr ""
+
+#: admin/class/class-extrp-shortcode-table.php:107
+msgid "Language"
+msgstr ""
+
+#: admin/class/class-extrp-shortcode-table.php:108
+msgid "Description"
+msgstr ""
+
+#: inc/class/class-extrp-load.php:70
+msgid "Every "
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:367
+msgid "Show post date"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:368
+msgid "Show time difference"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:472
+msgid "Show Related Posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:473
+msgid "Show under post content automatically"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:475 inc/class/class-extrp-sanitize.php:487 inc/class/class-extrp-sanitize.php:499 inc/class/class-extrp-sanitize.php:511 inc/class/class-extrp-sanitize.php:523
+#: inc/class/class-extrp-sanitize.php:538 inc/class/class-extrp-sanitize.php:550 inc/class/class-extrp-sanitize.php:562 inc/class/class-extrp-sanitize.php:574 inc/class/class-extrp-sanitize.php:586
+#: inc/class/class-extrp-sanitize.php:598 inc/class/class-extrp-sanitize.php:610 inc/class/class-extrp-sanitize.php:622 inc/class/class-extrp-sanitize.php:634 inc/class/class-extrp-sanitize.php:646
+#: inc/class/class-extrp-sanitize.php:658 inc/class/class-extrp-sanitize.php:670 inc/class/class-extrp-sanitize.php:682
+msgid "general settings"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:484
+msgid "Posts Types"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:485
+msgid "This list is your existing post types."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:496
+msgid "Related Posts By"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:497
+msgid "Define your related posts by."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:508
+msgid "Show on Single Post Only"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:509
+msgid "Unset for sitewide page"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:520
+msgid "Posts Count"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:521
+msgid "Post Count per post"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:532
+msgid "Post Date"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:533
+msgid "Time Difference"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:535
+msgid "Show Post Date"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:536
+msgid "Show both of post date and/or time difference"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:547
+msgid "HTML Heading Subtitle"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:548
+msgid "HTML Headings tags of subtitle. &lt;h1&gt;,&lt;h2&gt;,&lt;h3&gt;,..."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:559
+msgid "HTML Heading Post Titles"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:560
+msgid "HTML Headings tags of post titles. &lt;h1&gt;,&lt;h2&gt;,&lt;h3&gt;,..."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:569
+msgid "Related Posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:571
+msgid "Subtitle Related Posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:572
+msgid "Changed the text, or leave as an empty <kbd>subtitle=\"\"</kbd> to hide."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:583
+msgid "Enable Random Posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:584
+msgid "Unset to disable random posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:593
+msgid "Random Posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:595
+msgid "Subtitle Random Posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:596
+msgid "Changed the text, or leave as an empty <kbd>titlerandom=\"\"</kbd> to hide."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:607
+msgid "Show Post Title"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:608
+msgid "You can hide the posts title if thumbnail is set."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:619
+msgid "Show Post Description"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:620
+msgid "Unset to hide the posts description."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:631
+msgid "Stopwords"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:632
+msgid "Separate them by comma."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:643
+msgid "Style of list"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:644
+msgid "Style of list."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:655
+msgid "Include Post IDs"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:656
+msgid "Type by comma. Only the post IDs with post exists will be listed here."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:667
+msgid "Exclude Post IDs"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:668
+msgid "Type by comma. This post IDs will be excluded of your related posts"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:679
+msgid "Use CSS on Plugin"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:680
+msgid "Unset to disable. Your shortcode style will be affected too."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:691
+msgid "Enable Thumbnail"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:692
+msgid "Unset to disabled."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:694 inc/class/class-extrp-sanitize.php:706 inc/class/class-extrp-sanitize.php:718 inc/class/class-extrp-sanitize.php:750 inc/class/class-extrp-sanitize.php:767
+#: inc/class/class-extrp-sanitize.php:779 inc/class/class-extrp-sanitize.php:813
+msgid "thumbnail settings"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:703
+msgid "Allow External URL"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:704
+msgid "Use it if no local image attached on your post but have external image. With activate this feature, it will increase page load time. Enable cache to get better performance load."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:715
+msgid "Size"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:716
+msgid "The sizes are your current settings in \"Media Settings\" and additional custom size."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:741
+msgid "Add Custom Size"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:743
+msgid "Add Thumbnail Custom Size"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:744
+msgid "Key (allowed a to z, hypen [ - ] or underscore [ _ ])"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:745
+msgid "Width (px)"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:746
+msgid "Height (px)"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:747
+msgid "Set the post thumbnail by cropping the image"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:764
+msgid "Shape"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:765
+msgid "Thumbnail shape style."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:776
+msgid "Crop thumbnail"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:777
+msgid "Set the post thumbnail by cropping the image (either from the sides, or from the top and bottom)"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:806
+msgid "Default Thumbnail"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:808
+msgid "If there is no post thumbnail specified, then it will display this default image."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:809
+msgid "Set New Image"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:825
+msgid "Excerpt Type"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:826
+msgid "Snippet - like search engine, the description based on the query."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:828 inc/class/class-extrp-sanitize.php:873 inc/class/class-extrp-sanitize.php:885 inc/class/class-extrp-sanitize.php:914 inc/class/class-extrp-sanitize.php:929
+#: inc/class/class-extrp-sanitize.php:941 inc/class/class-extrp-sanitize.php:956
+msgid "additional settings"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:870
+msgid "Highlight Query"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:871
+msgid "Highlighting snippets."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:882
+msgid "Excerpt Length"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:883
+msgid "Maximum allowed characters length of post excerpt."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:894
+msgid "Enable Relevanssi Algorithm"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:897
+#, php-format
+msgid "Require Relevanssi plugin installed. <a href=\"%1$s\" class=\"thickbox\" aria-label=\"%2$s\" title=\"%2$s\"><i class=\"dashicons dashicons-external\"></i></a>"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:910
+msgid "More information about Relevanssi plugin"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:911
+msgid ""
+"With activate this feature, highlight and length of excerpt settings will affected to your Relevanssi plugin settings. If both of shortcode and related posts under post showing in one single page, I recommend to enable "
+"cache setting. As a note, the excerpt of Relevanssi plugin not running stable on outside search pages, don&#39t be worried, just lets this plugin handle it."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:923
+msgid "Enable Cache"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:925
+msgid "Cache to database as transient."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:926
+msgid ""
+"Your shortcode will be cached too. Transients only get deleted when a request is made after expire time and create the new one. So, until someone visits your page and calls up the Transient, it will stay in the DB. In "
+"short: It&#39s not a real persistent cache and not equal to stuff running on cron jobs."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:938
+msgid "Cache Expire Time"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:939 inc/class/class-extrp-sanitize.php:952
+msgid "Minimum 3600 seconds"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:950
+msgid "Schedule Delete All Caches"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:953
+msgid "This is wp schedule event and run by wp cron. With cache enabled and the scheduled time has passed, the action will trigger when someone visits your WordPress site."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:966
+#, php-format
+msgid ""
+"<p><i class=\"%1$s\">Remember, if you ever need a helping hand, you will find one at the end of each of your arms. As you grow older, you will discover that you have two hands, one for helping yourself and the other for "
+"helping others.</i></p><p class=\"%2$s\"> &#126; Sam Levenson</p><p class=\"%2$s\">Here my support contact &amp; PayPal email <i class=\"%3$s\"></i> <a href=\"%4$s\" title=\"%5$s\">%6$s</a></p>"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:979
+msgid "Help Support, Credit &amp; Donate"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:989
+msgid "EXTRP features."
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:991
+msgid "Features"
+msgstr ""
+
+#: inc/class/class-extrp-sanitize.php:1003
+msgid "save your settings"
+msgstr ""
+
+#: inc/class/class-extrp-widget.php:16
+msgid "A related posts on your sidebar."
+msgstr ""
+
+#: inc/class/class-extrp-widget.php:246
+msgid "No Thumbnail"
+msgstr ""
+
+#: inc/load/functions.php:268
+msgid "ago"
+msgstr ""
