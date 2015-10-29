@@ -23,7 +23,8 @@ class EXTRP_Load
 	{
 		global $extrp_settings;
 
-		if ( $extrp_settings['cache'] ) {
+		if ( $extrp_settings['cache'] )
+		{
 			add_filter( 'cron_schedules', array(
 				$this,
 				'extrp_del_cache_schedule' 
@@ -53,6 +54,7 @@ class EXTRP_Load
 		), 30 );
 		
 		add_action( 'extrp_set_noimage_first', 'extrp_set_noimage' );
+		add_filter( 'plugin_action_links', 'extrp_plugin_action_links', 10, 5 );
 	}
 	
 	public function load_file()
@@ -75,16 +77,25 @@ class EXTRP_Load
 	public function extrp_del_cache_transient()
 	{
 		global $wpdb;
-		$s          = "%extrp_cache_post_%";
-		$transients = $wpdb->get_col( $wpdb->prepare( "
-			SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s
-			", $s ) );
 		
-		//check the cache transient plugin if any and begin to delete
-		if ( $transients ) :
-			foreach ( $transients as $transient ) :
+		$caches = wp_cache_get( 'extrp_transient_cache_all', 'extrpcache' );
+		
+		if ( false == $caches ) :
+			$s	    = "%extrp_cache_post_%";
+			$sql    = "
+					  SELECT option_name
+					  FROM $wpdb->options
+					  WHERE option_name
+					  LIKE %s
+					  ";
+			$sql    = $wpdb->prepare( $sql, $s );
+			$caches = $wpdb->get_col( $sql );
+			wp_cache_set( 'extrp_transient_cache_all', $caches, 'extrpcache', 300  );
+		endif;
+		
+		if ( $caches ) :
+			foreach ( $caches as $transient )
 				delete_option( $transient );
-			endforeach;
 		endif;
 	}
 }

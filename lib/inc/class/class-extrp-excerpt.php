@@ -48,7 +48,8 @@ class EXTRP_Excerpt
 	
 	public static function getInstance()
 	{
-		if ( ! self::$instance ) {
+		if ( ! self::$instance )
+		{
 			self::$instance = new self();
 		}
 		return self::$instance;
@@ -67,8 +68,10 @@ class EXTRP_Excerpt
 	protected function post_content()
 	{
 		$post = get_post( $this->post_id );
-		if ( !empty( $post->post_password ) ) {
-			if ( stripslashes( $_COOKIE['wp-postpass_' . COOKIEHASH] ) != $post->post_password ) {
+		if ( !empty( $post->post_password ) )
+		{
+			if ( stripslashes( $_COOKIE['wp-postpass_' . COOKIEHASH] ) != $post->post_password )
+			{
 				return get_the_password_form();
 			}
 		}
@@ -101,26 +104,30 @@ class EXTRP_Excerpt
 		$ranges   = array();
 		$included = array();
 		$length   = 0;
-		while ( 256 > $length && count( $workkeys ) ) {
-			foreach ( $workkeys as $k => $key ) {
-				if ( 0 == strlen( $key ) ) {
+		while ( 256 > $length && count( $workkeys ) )
+		{
+			foreach ( $workkeys as $k => $key )
+			{
+				if ( 0 == strlen( $key ) )
+				{
 					unset( $workkeys[ $k ] );
 					continue;
 				}
-				if ( 256 <= $length ) {
+				if ( 256 <= $length )
 					break;
-				}
 				
-				if ( ! isset( $included[ $key ] ) ) {
+				if ( ! isset( $included[ $key ] ) )
 					$included[ $key ] = 0;
-				}
 				
-				if ( preg_match( '/' . $key . '/iu', $text, $match, PREG_OFFSET_CAPTURE, $included[ $key ] ) ) {
+				if ( preg_match( '/' . $key . '/iu', $text, $match, PREG_OFFSET_CAPTURE, $included[ $key ] ) )
+				{
 					$p       = $match[0][1];
 					$success = 0;
-					if ( false !== ( $q = strpos( $text, ' ', max( 0, $p - 60 ) ) ) && $q < $p ) {
+					if ( false !== ( $q = strpos( $text, ' ', max( 0, $p - 60 ) ) ) && $q < $p )
+					{
 						$end = substr( $text, $p, 80 );
-						if ( false !== ( $s = strrpos( $end, ' ' ) ) && 0 < $s ) {
+						if ( false !== ( $s = strrpos( $end, ' ' ) ) && 0 < $s )
+						{
 							$ranges[ $q ] = $p + $s;
 							$length += $p + $s - $q;
 							$included[ $key ] = $p + 1;
@@ -128,21 +135,26 @@ class EXTRP_Excerpt
 						}
 					}
 					
-					if ( ! $success ) {
-						
+					if ( ! $success )
+					{
 						$q = $this->_jamul_find_1stbyte( $text, max( 0, $p - 60 ) );
 						$q = $this->_jamul_find_delimiter( $text, $q );
 						$s = $this->_jamul_find_1stbyte_reverse( $text, $p + 80, $p );
 						$s = $this->_jamul_find_delimiter( $text, $s );
-						if ( ( $s >= $p ) && ( $q <= $p ) ) {
+						if ( ( $s >= $p ) && ( $q <= $p ) )
+						{
 							$ranges[ $q ] = $s;
 							$length += $s - $q;
 							$included[ $key ] = $p + 1;
-						} else {
+						}
+						else
+						{
 							unset( $workkeys[ $k ] );
 						}
 					}
-				} else {
+				}
+				else
+				{
 					unset( $workkeys[ $k ] );
 				}
 			}
@@ -154,15 +166,20 @@ class EXTRP_Excerpt
 		ksort( $ranges );
 		
 		$newranges = array();
-		foreach ( $ranges as $from2 => $to2 ) {
-			if ( ! isset( $from1 ) ) {
+		foreach ( $ranges as $from2 => $to2 )
+		{
+			if ( ! isset( $from1 ) )
+			{
 				$from1 = $from2;
 				$to1   = $to2;
 				continue;
 			}
-			if ( $from2 <= $to1 ) {
+			if ( $from2 <= $to1 )
+			{
 				$to1 = max( $to1, $to2 );
-			} else {
+			}
+			else
+			{
 				$newranges[ $from1 ] = $to1;
 				$from1             = $from2;
 				$to1               = $to2;
@@ -223,7 +240,8 @@ class EXTRP_Excerpt
 		global $more;
 		global $wp_query;
 		
-		if ( ! $filter_deactivated ) {
+		if ( ! $filter_deactivated )
+		{
 			remove_filter( 'the_excerpt', 'wpautop' );
 			$filter_deactivated = true;
 		}
@@ -238,11 +256,14 @@ class EXTRP_Excerpt
 	protected function _jamul_find_1stbyte( $string, $pos = 0, $stop = -1 )
 	{
 		$len = strlen( $string );
-		if ( 0 > $stop || $stop > $len ) {
+		if ( 0 > $stop || $stop > $len )
+		{
 			$stop = $len;
 		}
-		for ( ; $pos < $stop; $pos++ ) {
-			if ( ( ord( $string[ $pos ] ) < 0x80 ) || ( ord( $string[ $pos ] ) >= 0xC0 ) ) {
+		for ( ; $pos < $stop; $pos++ )
+		{
+			if ( ( ord( $string[ $pos ] ) < 0x80 ) || ( ord( $string[ $pos ] ) >= 0xC0 ) )
+			{
 				break;
 			}
 		}
@@ -252,11 +273,14 @@ class EXTRP_Excerpt
 	protected function _jamul_find_1stbyte_reverse( $string, $pos = -1, $stop = 0 )
 	{
 		$len = strlen( $string );
-		if ( 0 > $pos || $pos >= $len ) {
+		if ( 0 > $pos || $pos >= $len )
+		{
 			$pos = $len - 1;
 		}
-		for ( ; $pos >= $stop; $pos-- ) {
-			if ( ( ord( $string[ $pos ] ) < 0x80 ) || ( ord( $string[ $pos ] ) >= 0xC0 ) ) {
+		for ( ; $pos >= $stop; $pos-- )
+		{
+			if ( ( ord( $string[ $pos ] ) < 0x80 ) || ( ord( $string[ $pos ] ) >= 0xC0 ) )
+			{
 				break;
 			}
 		}
@@ -266,45 +290,55 @@ class EXTRP_Excerpt
 	protected function _jamul_find_delimiter( $string, $pos = 0, $min = -1, $max = -1 )
 	{
 		$len = strlen( $string );
-		if ( 0 == $pos || 0 > $pos || $pos >= $len ) {
+		if ( 0 == $pos || 0 > $pos || $pos >= $len )
 			return $pos;
-		}
-		if ( 0 > $min ) {
+
+		if ( 0 > $min )
 			$min = max( 0, $pos - _EXTRP_LEN_SEARCH );
-		}
-		if ( 0 > $max || $max >= $len ) {
+
+		if ( 0 > $max || $max >= $len )
 			$max = min( $len - 1, $pos + _EXTRP_LEN_SEARCH );
-		}
-		if ( ord( $string[ $pos ] ) < 0x80 ) {
-			
+
+		if ( ord( $string[ $pos ] ) < 0x80 )
+		{
 			$pos3 = -1;
-			for ( $pos2 = $pos; $pos2 <= $max; $pos2++ ) {
-				if ( $string[ $pos2 ] == ' ' ) {
+			for ( $pos2 = $pos; $pos2 <= $max; $pos2++ )
+			{
+				if ( $string[ $pos2 ] == ' ' )
+				{
 					break;
-				} else if ( 0 > $pos3 && ord( $string[ $pos2 ] ) >= 0x80 ) {
+				} else if ( 0 > $pos3 && ord( $string[ $pos2 ] ) >= 0x80 )
+				{
 					$pos3 = $pos2;
 				}
 			}
-			if ( $pos2 > $max && 0 <= $pos3 ) {
+			if ( $pos2 > $max && 0 <= $pos3 )
+			{
 				$pos2 = $pos3;
 			}
-			if ( $pos2 > $max ) {
+			if ( $pos2 > $max )
+			{
 				$pos3 = -1;
-				for ( $pos2 = $pos; $pos2 >= $min; $pos2-- ) {
-					if ( $string[ $pos2 ] == ' ' ) {
+				for ( $pos2 = $pos; $pos2 >= $min; $pos2-- )
+				{
+					if ( $string[ $pos2 ] == ' ' )
+					{
 						break;
-					} else if ( 0 > $pos3 && ord( $string[ $pos2 ] ) >= 0x80 ) {
+					}
+					else if ( 0 > $pos3 && ord( $string[ $pos2 ] ) >= 0x80 )
+					{
 						$pos3 = $pos2 + 1;
 					}
 				}
-				if ( $pos2 < $min && 0 <= $pos3 ) {
+				if ( $pos2 < $min && 0 <= $pos3 )
 					$pos2 = $pos3;
-				}
 			}
-			if ( $pos2 <= $max && $pos2 >= $min ) {
+			if ( $pos2 <= $max && $pos2 >= $min )
+			{
 				$pos = $pos2;
 			}
-		} else if ( ( ord( $string[ $pos ] ) >= 0x80 ) || ( ord( $string[ $pos ] ) < 0xC0 ) ) {
+		} else if ( ( ord( $string[ $pos ] ) >= 0x80 ) || ( ord( $string[ $pos ] ) < 0xC0 ) )
+		{
 			$pos = $this->_jamul_find_1stbyte( $string, $pos, $max );
 		}
 		return $pos;

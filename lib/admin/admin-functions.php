@@ -18,11 +18,27 @@ function extrp_plugin_updates()
 {
 	$current_version = get_option( 'extrp_version' );
 
-	if ( version_compare( $current_version, '1.0.0', '<' ) )
+	if ( version_compare( $current_version, '1.0.2', '<' ) )
 	{
-		include( EXTRP_ADMIN_PATH . 'updates/extrp-1.0.0.php' );
-		update_option( 'extrp_version', '1.0.0' );
+		include( EXTRP_ADMIN_PATH . 'updates/extrp-1.0.2.php' );
+		update_option( 'extrp_version', '1.0.2' );
 	}
+}
+
+function extrp_plugin_action_links( $actions, $plugin_file ) 
+{
+	static $plugin;
+	
+	if ( ! isset( $plugin ) )
+		$plugin = plugin_basename( EXTRP_PLUGIN_FILE );
+
+	if ( $plugin == $plugin_file )
+	{
+			$settings  = array( 
+				'settings' => '<a href="options-general.php?page=extrp">' . __( 'Settings', 'extrp' ) . '</a>' );
+			$actions = array_merge( $settings, $actions );
+	}
+	return $actions;
 }
 
 function extrp_tabs_array()
@@ -230,18 +246,25 @@ function extrp_selected_input( $type, $array )
 			$val = $v;
 		
 		$selected = $extrp_settings[ $type ] == $val ? 'selected="selected"' : '';
-		if ( 'image_size' == $type ) {
+		if ( 'image_size' == $type )
+		{
 			$class .= 'class="set-noimage change-size"';
 			$value = $k . ' - ' . $v['width'] . ' x ' . $v['height'];
-		} else if ( 'highlight' == $type ) {
+		} 
+		else if ( 'highlight' == $type )
+		{
 			$value = $v[0];
 			$val = $k;
 			$classhl .= 'class="select-' . $k . '"';
 			$selected = $extrp_settings[ $type ]['hl'] == $val ? ' selected="selected"' : '';
-		} elseif ( 'post_excerpt' == $type ) {
+		} 
+		elseif ( 'post_excerpt' == $type )
+		{
 			$val = $v;
 			$value = ucwords( $k );
-		} else {
+		} 
+		else
+		{
 			$value = ucwords( $v );
 		}
 		

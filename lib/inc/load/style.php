@@ -25,14 +25,14 @@ function extrp_list_group_style( $post_date, $thumbnail, $post_title, $descripti
 function extrp_float_style( $post_date, $thumbnail, $post_title, $description, $display )
 {
 	$thumb = '';
-	if ( empty( $thumbnail ) ) {
+	if ( empty( $thumbnail ) ) :
 		$class = 'extrp-text-body';
 		$html  = '<li class="extrp-text">';
-	} else {
+	else :
 		$class = 'extrp-media-body';
 		$html  = '<div class="extrp-media">';
 		$thumb = sprintf( '<div class="extrp-media-%s">%s</div>', $display, $thumbnail );
-	}
+	endif;
 	
 	if ( 'left' == $display )
 		$html .= $thumb;
@@ -52,14 +52,14 @@ function extrp_float_style( $post_date, $thumbnail, $post_title, $description, $
 function extrp_wrap_style( $post_date, $thumbnail, $post_title, $description, $display )
 {
 	$thumb = '';
-	if ( empty( $thumbnail ) ) {
+	if ( empty( $thumbnail ) ) :
 		$class = 'extrp-text-body';
 		$html  = '<li class="extrp-text">';
-	} else {
+	else :
 		$class = 'extrp-media-body';
 		$html  = '<div class="extrp-media">';
 		$thumb = sprintf( '<div class="extrp-media-%s">%s</div>', $display, $thumbnail );
-	}
+	endif;
 	
 	$html .= sprintf( '<div class="%s">%s%s%s<span>%s</span></div>', $class, $post_title,$post_date, $thumb, $description);
 

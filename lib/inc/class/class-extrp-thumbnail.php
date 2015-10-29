@@ -62,14 +62,12 @@ class EXTRP_Thumbnail
 		$this->attachment          = get_post( $this->attachment_id );
 
 		add_filter( 'icon_dir', array( $this, 'filter_icon_dir' ) );
-
 	}
 	
 	public static function getInstance()
 	{
-		if ( ! self::$instance ) {
+		if ( ! self::$instance )
 			self::$instance = new self();
-		}
 		return self::$instance;
 	}
 
@@ -123,7 +121,8 @@ class EXTRP_Thumbnail
 		elseif ( $this->size && 'none' != $this->size ) :
 			$this->link_text = $this->get_attachment_image()['link_text'];
 			$default_attr['class'] = 'link-' . $this->attachment_id;
-			if ( -1 == $this->attachment_id ) {
+			if ( -1 == $this->attachment_id )
+			{
 				$style = '';
 
 				if ( @GetImageSize( $this->img_src ) )
@@ -140,20 +139,21 @@ class EXTRP_Thumbnail
 						{
 							$this->img_width  = $_wp_additional_image_sizes[ $this->size ]['width'];
 							$this->img_height = $_wp_additional_image_sizes[ $this->size ]['height'];
-						} else {
+						}
+						else
+						{
 							$this->img_width  = get_option( $this->size . '_size_w' );
 							$this->img_height = get_option( $this->size . '_size_h' );
-						};
-				
+						}
 						
 						$style = 'display:block;width:' . intval( $this->img_width ) . 'px;height:' . intval( $this->img_height ) . 'px';
 					}
-				
 				}
-
 				$default_attr['class'] = 'link-' . $this->attachment_id;
 				$default_attr['style'] = $style;
-			} else {
+			}
+			else
+			{
 				unset( $default_attr['style'] );
 			}
 		else :
@@ -280,7 +280,8 @@ class EXTRP_Thumbnail
 		$this->attr = wp_parse_args( $default_attr, $this->attr  );
 
 		$html = rtrim( "<img " );
-		foreach ( $this->attr as $name => $value ) {
+		foreach ( $this->attr as $name => $value )
+		{
 			$html .= " $name=" . '"' . $value . '"';
 		}
 		$html .= ' />';
@@ -399,7 +400,8 @@ class EXTRP_Thumbnail
 		$id = '';
 		$data = array();
 		
-		foreach ( $attachments as $attachment ) {
+		foreach ( $attachments as $attachment )
+		{
 			$id  .= $attachment->ID;
 			$data = wp_get_attachment_image_src( $id, $this->size, $this->icon );
 		}
@@ -437,11 +439,17 @@ class EXTRP_Thumbnail
 		$this->attachment_id  = wp_cache_get( 'attachment_id_' . $this->post_id, 'getattachid' );
 		
 		if ( false === $this->attachment_id ) :
-			$this->attachment_id = $wpdb->get_var( $wpdb->prepare( "
-					SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'
-				", $this->local_img_filename ) );
-				
-				wp_cache_set( 'attachment_id_' . $this->post_id, $this->attachment_id, 'getattachid', 300 );
+			$sql = "
+				   SELECT wposts.ID 
+				   FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta
+				   WHERE wposts.ID = wpostmeta.post_id
+						AND wpostmeta.meta_key = '_wp_attached_file'
+						AND wpostmeta.meta_value = '%s'
+						AND wposts.post_type = 'attachment'
+				   ";
+			$sql = $wpdb->prepare( $sql, $this->local_img_filename );
+			$this->attachment_id = $wpdb->get_var( $sql );
+			wp_cache_set( 'attachment_id_' . $this->post_id, $this->attachment_id, 'getattachid', 300 );
 		endif;
 		
 		if ( empty ( $this->attachment_id ) )
@@ -530,7 +538,8 @@ class EXTRP_Thumbnail
 		$img_filename  = str_replace( $this->upurl . '/', '', $this->img_src );
 		$img_path      = $this->updir . '/' . $img_filename;
 
-		if ( file_exists( $img_path ) && false != getimagesize( $img_path ) ) {
+		if ( file_exists( $img_path ) && false != getimagesize( $img_path ) )
+		{
 			if ( 5 > getimagesize( $img_path )[0] || 5 > getimagesize( $img_path )[1] )
 				$result['toosmall'] = array(
 					'filename' => $img_filename,
@@ -716,7 +725,9 @@ class EXTRP_Thumbnail
 		{
 			$this->img_width  = $_wp_additional_image_sizes[ $this->size ]['width'];
 			$this->img_height = $_wp_additional_image_sizes[ $this->size ]['height'];
-		} else {
+		}
+		else
+		{
 			$this->img_width  = get_option( $this->size . '_size_w' );
 			$this->img_height = get_option( $this->size . '_size_h' );
 		}

@@ -84,11 +84,12 @@ class EXTRP_Widget extends WP_Widget
 		global $extrp_sanitize, $extrp_settings;
 
 		$extrp_data = $extrp_sanitize->big_data(); 
-		$id = extrp_multidimensional_search( $extrp_data, array('parameter'=>'post_type') );
+		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array('parameter'=>'post_type') );
 		
 		$post_type = [];
 		foreach ( $extrp_data[ $id ]['optional'] as $type) :
-			if ( isset( $input['post_type_' . $type] ) ) {
+			if ( isset( $input['post_type_' . $type] ) )
+			{
 				unset( $input['post_type_' . $type] );
 				$post_type[] = $type;
 			}
@@ -106,7 +107,8 @@ class EXTRP_Widget extends WP_Widget
 		
 		if ( isset( $input['highlight'] ) )
 		{
-			if ( $extrp_sanitize->highlight_name( $input['highlight'] ) ) {
+			if ( $extrp_sanitize->highlight_name( $input['highlight'] ) )
+			{
 				if ( is_array( $input['highlight'] ) ) :
 					$input['hl'] = $input['highlight']['hl'];
 				else :

@@ -36,13 +36,13 @@ class EXTRP_Shortcode_Table extends WP_List_Table
 	
 	private function table_data()
 	{
-		global $extrp_data;
+		global $extrp_data, $extrp_sanitize;
 			
 		$setting = array_keys( extrp_default_setting( 'shortcode' ) );
 		
 		$data = [];
 		foreach ( $setting as $k ) :
-			$id       = extrp_multidimensional_search( $extrp_data, array( 'parameter' => $k ) );
+			$id       = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => $k ) );
 			
 			$normal   = $extrp_data[ $id ]['normal'];
 			$optional = $extrp_data[ $id ]['optional'];

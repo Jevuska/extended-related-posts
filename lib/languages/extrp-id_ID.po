@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended Related Posts\n"
-"POT-Creation-Date: 2015-10-22 01:42+0800\n"
-"PO-Revision-Date: 2015-10-22 01:42+0800\n"
+"POT-Creation-Date: 2015-10-25 03:58+0800\n"
+"PO-Revision-Date: 2015-10-25 03:58+0800\n"
 "Last-Translator: \n"
 "Language-Team: JEVUSKA <contact@jevuska.com>\n"
 "Language: id_ID\n"
@@ -37,11 +37,11 @@ msgstr ""
 "Membuat pos-pos terkait lebih relavan berdasarkan postingan Anda. Pengaturan, "
 "shortcode dan widget tersedia."
 
-#: admin/admin-functions.php:46 admin/admin-functions.php:95
+#: admin/admin-functions.php:32 admin/admin-functions.php:81
 msgid "Overview"
 msgstr "Ulasan"
 
-#: admin/admin-functions.php:47
+#: admin/admin-functions.php:33
 msgid ""
 "Extended Related Posts plugin could be supported by Relevanssi plugin if you activate "
 "the feature in plugin administration area. Searching related posts by post title is "
@@ -60,11 +60,11 @@ msgstr ""
 "akan menampilkan daftar pos acak. Dipersilahkan memanfaatkan ekstensi yang Anda buat "
 "untuk mendukung plugin ini. Have enjoy it."
 
-#: admin/admin-functions.php:50
+#: admin/admin-functions.php:36
 msgid "Troubleshooting"
 msgstr "Penyelesaian masalah"
 
-#: admin/admin-functions.php:51
+#: admin/admin-functions.php:37
 msgid ""
 "Try to uninstall then install this plugin again if you get an error php code. Using "
 "caching to make your pages become static and make your website load faster, it also "
@@ -75,11 +75,11 @@ msgstr ""
 "membuat website Anda memuat lebih cepat, juga mengurangi beban pada server  CPU, "
 "memori dan HD Anda."
 
-#: admin/admin-functions.php:62
+#: admin/admin-functions.php:48
 msgid "Main Shortcode"
 msgstr "Kode Shortcode Utama"
 
-#: admin/admin-functions.php:64
+#: admin/admin-functions.php:50
 msgid ""
 "It will display related posts as list style without thumbnail. Set the size parameter "
 "to show the thumbnails as configuration below."
@@ -87,36 +87,36 @@ msgstr ""
 "Ini akan menampilkan pos dalam bentuk list, tanpa gambar kecil. Atur parameter size "
 "untuk menampilkan gambar seperti kunfigurasi di bawah ini."
 
-#: admin/admin-functions.php:65
+#: admin/admin-functions.php:51
 msgid "Shortcode with parameters"
 msgstr "Shortcode dengan parameter"
 
-#: admin/admin-functions.php:66 admin/class/class-extrp-admin.php:1028
-#: inc/class/class-extrp-sanitize.php:570
+#: admin/admin-functions.php:52 admin/class/class-extrp-admin.php:1026
+#: inc/class/class-extrp-sanitize.php:498
 msgid "Related News"
 msgstr "Berita Terkait"
 
-#: admin/admin-functions.php:66
+#: admin/admin-functions.php:52
 msgid "Another News"
 msgstr "Berita Lainnya"
 
-#: admin/admin-functions.php:67
+#: admin/admin-functions.php:53
 msgid "Main PHP Code for theme"
 msgstr "Kode PHP utama untuk tema"
 
-#: admin/admin-functions.php:69
+#: admin/admin-functions.php:55
 msgid "Use post id&#39;s only, specify post NOT to retrieve."
 msgstr "Gunakan hanya id postingan, tentukan pos yang tidak ditampilkan."
 
-#: admin/admin-functions.php:71
+#: admin/admin-functions.php:57
 msgid "PHP Code with parameters"
 msgstr "Kode PHP dengan parameter"
 
-#: admin/admin-functions.php:80
+#: admin/admin-functions.php:66
 msgid "or"
 msgstr "atau"
 
-#: admin/admin-functions.php:90
+#: admin/admin-functions.php:76
 msgid ""
 "Note: For PHP Code, the values of the un-set parameters will be set by your settings "
 "above, not default shortcode values. Parameters settings are the same with shortcode "
@@ -126,7 +126,7 @@ msgstr ""
 "di atas, tidak shortcode nilai default. Pengaturan parameter yang sama dengan "
 "shortcode konfigurasi."
 
-#: admin/admin-functions.php:96
+#: admin/admin-functions.php:82
 msgid ""
 "Set parameters for your shortcode, and add into post area or text widget. PHP code "
 "for theme, add inside sitewide page content loop function on theme files (ie: "
@@ -139,15 +139,15 @@ msgstr ""
 "biasanya tepat setelah kode konten <kbd>the_content</kbd> . Gunakan Code Generator di "
 "bawah ini untuk kenyamanan Anda membuatnya."
 
-#: admin/admin-functions.php:102
+#: admin/admin-functions.php:88
 msgid "Usage"
 msgstr "Pengunaan"
 
-#: admin/admin-functions.php:106
+#: admin/admin-functions.php:92
 msgid "Instruction"
 msgstr "Petunjuk"
 
-#: admin/admin-functions.php:107
+#: admin/admin-functions.php:93
 msgid ""
 "<strong>Check</strong> the parameters; <strong>Click</strong> their optional value to "
 "selected; then <strong>Push</strong> <code>Generate Code</code> button.<br>Make sure "
@@ -162,32 +162,32 @@ msgstr ""
 "menonaktifkan</em> dan <code>1</code> = <em>true/aktifkan</em>.<br>Javascript browser "
 "wajib diaktifkan."
 
-#: admin/admin-functions.php:125
+#: admin/admin-functions.php:112
 msgid "For more information:"
 msgstr "Untuk informasi lanjut:"
 
-#: admin/admin-functions.php:127
+#: admin/admin-functions.php:114
 msgid "Plugin Page"
 msgstr "Halaman Plugin"
 
-#: admin/admin-functions.php:275 admin/admin-functions.php:276
+#: admin/admin-functions.php:273 admin/admin-functions.php:274
 msgid "Use HTML color codes (#rrggbb)"
 msgstr "Gunakan kode warna HTML (#rrggbb)"
 
-#: admin/admin-functions.php:277
+#: admin/admin-functions.php:275
 msgid "You can use any CSS styling here, style will be inserted with a <span>"
 msgstr ""
 "Anda dapat menggunakan style CSS apapun di sini, style akan diapit dengan kode <span>"
 
-#: admin/admin-functions.php:278
+#: admin/admin-functions.php:276
 msgid "Name a class here, the terms will be wrapped in a <span> with the class"
 msgstr "Nama class di sini, nama yang dimasukkan akan diapit oleh kode <span>"
 
-#: admin/admin-functions.php:408
+#: admin/admin-functions.php:406
 msgid "No Image Default"
 msgstr "Gamba Default"
 
-#: admin/admin-functions.php:414
+#: admin/admin-functions.php:412
 msgid ""
 "The url default image was set, but the image doesn&#39;t exists. Try to add new one "
 "or you can push &#39;Save Changes&#39; button directly to create default image."
@@ -196,11 +196,11 @@ msgstr ""
 "gambar baru atau menekan tombul &#39;Simpan Perubahan&#39; secara langsung untuk "
 "mendapat gambar default."
 
-#: admin/admin-functions.php:418
+#: admin/admin-functions.php:416
 msgid "The url default image is not set up yet."
 msgstr "URL gambar default belum diatur."
 
-#: admin/class/class-extrp-admin.php:92 admin/class/class-extrp-admin.php:621
+#: admin/class/class-extrp-admin.php:92 admin/class/class-extrp-admin.php:619
 msgid "Tool of Extended Related Posts"
 msgstr "Perkakas Extended Related Posts"
 
@@ -246,32 +246,32 @@ msgstr "Tidak dapat mengatur fitur Sorot, silahkan periksa input Anda lagi."
 msgid "Success to reset your data."
 msgstr "Berhasil mengatur kembali data Anda."
 
-#: admin/class/class-extrp-admin.php:584 admin/class/class-extrp-admin.php:622
+#: admin/class/class-extrp-admin.php:584 admin/class/class-extrp-admin.php:620
 msgid "Create a better related posts under your post."
 msgstr "Membuat pos terkait Anda lebih relevan"
 
-#: admin/class/class-extrp-admin.php:660 admin/class/class-extrp-admin.php:673
+#: admin/class/class-extrp-admin.php:658 admin/class/class-extrp-admin.php:671
 msgid "Save Changes"
 msgstr "Simpan Perubahan"
 
-#: admin/class/class-extrp-admin.php:663 admin/class/class-extrp-admin.php:676
-#: admin/class/class-extrp-admin.php:698 inc/class/class-extrp-sanitize.php:810
+#: admin/class/class-extrp-admin.php:661 admin/class/class-extrp-admin.php:674
+#: admin/class/class-extrp-admin.php:696 inc/class/class-extrp-sanitize.php:738
 msgid "Reset"
 msgstr "Atur Kembali"
 
-#: admin/class/class-extrp-admin.php:663
+#: admin/class/class-extrp-admin.php:661
 msgid "Delete Cache"
 msgstr "Hapus Cache"
 
-#: admin/class/class-extrp-admin.php:694
+#: admin/class/class-extrp-admin.php:692
 msgid "Back to Settings"
 msgstr "Kembali Ke Halaman Pengaturan"
 
-#: admin/class/class-extrp-admin.php:697
+#: admin/class/class-extrp-admin.php:695
 msgid "Generate Code"
 msgstr "Hasilkan Kode"
 
-#: admin/class/class-extrp-admin.php:712
+#: admin/class/class-extrp-admin.php:710
 msgid ""
 "This are global settings, and some of configuration may affect your default "
 "shortcode, unless shortcode that set-up with parameters. Enter your settings below:"
@@ -280,7 +280,7 @@ msgstr ""
 "dasar, kecuali shortcode yang ditambahkan parameter. Silahkan lakukan pengaturan di "
 "bawah ini:"
 
-#: admin/class/class-extrp-admin.php:718
+#: admin/class/class-extrp-admin.php:716
 msgid ""
 "Some of these settings may affect your shortcode settings, especially Thumbnail "
 "Custom Size settings. Enter your settings below:"
@@ -288,7 +288,7 @@ msgstr ""
 "Beberapa pengaturan kemungkinan dapat mempengaruhi pengaturan shortcode, khususnya "
 "pengaturan ukuran gambar tambahan. Silahkan lakukan pengaturan di bawah ini:"
 
-#: admin/class/class-extrp-admin.php:724
+#: admin/class/class-extrp-admin.php:722
 msgid ""
 "This are global settings, and some of configuration may affect your default "
 "shortcode, unless shortcode with set-up with parameters. Enter your settings below:"
@@ -297,39 +297,39 @@ msgstr ""
 "dasar, kecuali shortcode yang ditambahkan parameter. Silahkan lakukan pengaturan di "
 "bawah ini:"
 
-#: admin/class/class-extrp-admin.php:730
+#: admin/class/class-extrp-admin.php:728
 msgid "save"
 msgstr "Simpan Perubahan"
 
-#: admin/class/class-extrp-admin.php:760
+#: admin/class/class-extrp-admin.php:758
 msgid "Setup Widget"
 msgstr "Atur Widget"
 
-#: admin/class/class-extrp-admin.php:762
+#: admin/class/class-extrp-admin.php:760
 msgid "Create Shortcode"
 msgstr "Buat Shortcode"
 
-#: admin/class/class-extrp-admin.php:769
+#: admin/class/class-extrp-admin.php:767
 msgid "Instruction available under <code>Help</code> tab on your screen ( top right )."
 msgstr "Instruksi tersedia di tab <code>Bantuan</code> pada layar Anda ( kanan atas )."
 
-#: admin/class/class-extrp-admin.php:777
+#: admin/class/class-extrp-admin.php:775
 msgid "Shortcode result"
 msgstr "Hasil Shortcode"
 
-#: admin/class/class-extrp-admin.php:778
+#: admin/class/class-extrp-admin.php:776
 msgid "Theme PHP code result"
 msgstr "Hasil Kode PHP untuk Tema"
 
-#: admin/class/class-extrp-admin.php:879 admin/class/class-extrp-admin.php:944
+#: admin/class/class-extrp-admin.php:877 admin/class/class-extrp-admin.php:942
 msgid "You do not have permission to do that."
 msgstr "Anda tidak diizinkan untuk melakukan ini."
 
-#: admin/class/class-extrp-admin.php:901
+#: admin/class/class-extrp-admin.php:899
 msgid "Fail to generate image. Refresh your page and try again."
 msgstr "Gagal. Segarkan halaman Anda dan coba sekali lagi."
 
-#: admin/class/class-extrp-admin.php:915
+#: admin/class/class-extrp-admin.php:913
 #, php-format
 msgid ""
 "Image not exists. Please check your image from media library. You can <a target="
@@ -340,63 +340,63 @@ msgstr ""
 "href=\"%1$s\" class=\"thickbox\" title=\"%2$s\">Mengubah</a> atau menekan tombol &#39;"
 "Simpan Perubahan&#39; untuk mendapatkan gambar default secara langsung."
 
-#: admin/class/class-extrp-admin.php:915
+#: admin/class/class-extrp-admin.php:913
 msgid "Edit Media"
 msgstr "Edit Media"
 
-#: admin/class/class-extrp-admin.php:933
+#: admin/class/class-extrp-admin.php:931
 msgid "Success"
 msgstr "Sukses"
 
-#: admin/class/class-extrp-admin.php:993
+#: admin/class/class-extrp-admin.php:991
 msgid "plugin by"
 msgstr "plugin oleh"
 
-#: admin/class/class-extrp-admin.php:1003
+#: admin/class/class-extrp-admin.php:1001
 msgid "Version"
 msgstr "Versi"
 
-#: admin/class/class-extrp-admin.php:1029 inc/class/class-extrp-sanitize.php:594
+#: admin/class/class-extrp-admin.php:1027 inc/class/class-extrp-sanitize.php:522
 msgid "Random News"
 msgstr "Berita Acak"
 
-#: admin/class/class-extrp-admin.php:1030
+#: admin/class/class-extrp-admin.php:1028
 msgid "You don&#39;t need this parameter by this highlight type."
 msgstr "Anda tidak membutuhkan nilai untuk jenis highlight ini."
 
-#: admin/class/class-extrp-admin.php:1031
+#: admin/class/class-extrp-admin.php:1029
 msgid "Please choose type of highlight first."
 msgstr "Silahkan pliih jenis highlight terlebih dahulu"
 
-#: admin/class/class-extrp-admin.php:1032
+#: admin/class/class-extrp-admin.php:1030
 msgid "Its default value, enter another one."
 msgstr "Nilai dasar, masukkan lainnya"
 
-#: admin/class/class-extrp-admin.php:1033
+#: admin/class/class-extrp-admin.php:1031
 msgid "No Value"
 msgstr "Tanpa Nilai"
 
-#: admin/class/class-extrp-admin.php:1034
+#: admin/class/class-extrp-admin.php:1032
 msgid "Activate or install Relevanssi plugin"
 msgstr "Aktifkan atau instal plugin Relevanssi"
 
-#: admin/class/class-extrp-admin.php:1035
+#: admin/class/class-extrp-admin.php:1033
 msgid "OK"
 msgstr "OK"
 
-#: admin/class/class-extrp-admin.php:1036
+#: admin/class/class-extrp-admin.php:1034
 msgid "empty"
 msgstr "kosong"
 
-#: admin/class/class-extrp-admin.php:1037
+#: admin/class/class-extrp-admin.php:1035
 msgid "Select or Upload Media Of Your Chosen Persuasion"
 msgstr "Pilih atau Upload Gambar Yang Anda Inginkan"
 
-#: admin/class/class-extrp-admin.php:1038
+#: admin/class/class-extrp-admin.php:1036
 msgid "Set as No Image Thumbnail"
 msgstr "Atur sebagai Gambar No Image"
 
-#: admin/class/class-extrp-setup.php:64 inc/class/class-extrp-thumbnail.php:650
+#: admin/class/class-extrp-setup.php:69 inc/class/class-extrp-thumbnail.php:650
 msgid "Fail to delete No Image default. Try to delete it manually."
 msgstr "Gagal menghapus No Image default. Coba untuk menghapusnya secara manual."
 
@@ -424,211 +424,211 @@ msgstr "Deskripsi"
 msgid "Every "
 msgstr "Setiap"
 
-#: inc/class/class-extrp-sanitize.php:367
+#: inc/class/class-extrp-sanitize.php:289
 msgid "Show post date"
 msgstr "Tampilkan tanggal pos"
 
-#: inc/class/class-extrp-sanitize.php:368
+#: inc/class/class-extrp-sanitize.php:290
 msgid "Show time difference"
 msgstr "Tampilkan selisih waktu"
 
-#: inc/class/class-extrp-sanitize.php:472
+#: inc/class/class-extrp-sanitize.php:394
 msgid "Show Related Posts"
 msgstr "Tampilkan Pos Terkait"
 
-#: inc/class/class-extrp-sanitize.php:473
+#: inc/class/class-extrp-sanitize.php:395
 msgid "Show under post content automatically"
 msgstr "Tampil di bawah postingan secara otomatis"
 
-#: inc/class/class-extrp-sanitize.php:475 inc/class/class-extrp-sanitize.php:487
-#: inc/class/class-extrp-sanitize.php:499 inc/class/class-extrp-sanitize.php:511
-#: inc/class/class-extrp-sanitize.php:523 inc/class/class-extrp-sanitize.php:538
+#: inc/class/class-extrp-sanitize.php:397 inc/class/class-extrp-sanitize.php:409
+#: inc/class/class-extrp-sanitize.php:427 inc/class/class-extrp-sanitize.php:439
+#: inc/class/class-extrp-sanitize.php:451 inc/class/class-extrp-sanitize.php:466
+#: inc/class/class-extrp-sanitize.php:478 inc/class/class-extrp-sanitize.php:490
+#: inc/class/class-extrp-sanitize.php:502 inc/class/class-extrp-sanitize.php:514
+#: inc/class/class-extrp-sanitize.php:526 inc/class/class-extrp-sanitize.php:538
 #: inc/class/class-extrp-sanitize.php:550 inc/class/class-extrp-sanitize.php:562
 #: inc/class/class-extrp-sanitize.php:574 inc/class/class-extrp-sanitize.php:586
 #: inc/class/class-extrp-sanitize.php:598 inc/class/class-extrp-sanitize.php:610
-#: inc/class/class-extrp-sanitize.php:622 inc/class/class-extrp-sanitize.php:634
-#: inc/class/class-extrp-sanitize.php:646 inc/class/class-extrp-sanitize.php:658
-#: inc/class/class-extrp-sanitize.php:670 inc/class/class-extrp-sanitize.php:682
 msgid "general settings"
 msgstr "Pengaturan Umum"
 
-#: inc/class/class-extrp-sanitize.php:484
+#: inc/class/class-extrp-sanitize.php:406
 msgid "Posts Types"
 msgstr "Tipe Pos"
 
-#: inc/class/class-extrp-sanitize.php:485
+#: inc/class/class-extrp-sanitize.php:407
 msgid "This list is your existing post types."
 msgstr "Ini adalah daftar jenis post Anda yang sudah ada."
 
-#: inc/class/class-extrp-sanitize.php:496
+#: inc/class/class-extrp-sanitize.php:424
 msgid "Related Posts By"
 msgstr "Pos terkait berdasarkan"
 
-#: inc/class/class-extrp-sanitize.php:497
+#: inc/class/class-extrp-sanitize.php:425
 msgid "Define your related posts by."
 msgstr "Pos Terkait Berdasarkan"
 
-#: inc/class/class-extrp-sanitize.php:508
+#: inc/class/class-extrp-sanitize.php:436
 msgid "Show on Single Post Only"
 msgstr "Tampilkan hanya di halaman pos"
 
-#: inc/class/class-extrp-sanitize.php:509
+#: inc/class/class-extrp-sanitize.php:437
 msgid "Unset for sitewide page"
 msgstr "Unset untuk menampilkan di seluruh halaman"
 
-#: inc/class/class-extrp-sanitize.php:520
+#: inc/class/class-extrp-sanitize.php:448
 msgid "Posts Count"
 msgstr "Jumlah Pos"
 
-#: inc/class/class-extrp-sanitize.php:521
+#: inc/class/class-extrp-sanitize.php:449
 msgid "Post Count per post"
 msgstr "Jumlah pos terkait dalam 1 halaman, minimal <kbd>1</kbd>"
 
-#: inc/class/class-extrp-sanitize.php:532
+#: inc/class/class-extrp-sanitize.php:460
 msgid "Post Date"
 msgstr "Tanggal Pos"
 
-#: inc/class/class-extrp-sanitize.php:533
+#: inc/class/class-extrp-sanitize.php:461
 msgid "Time Difference"
 msgstr "Selisih waktu"
 
-#: inc/class/class-extrp-sanitize.php:535
+#: inc/class/class-extrp-sanitize.php:463
 msgid "Show Post Date"
 msgstr "Tampilkan Tanggal Pos"
 
-#: inc/class/class-extrp-sanitize.php:536
+#: inc/class/class-extrp-sanitize.php:464
 msgid "Show both of post date and/or time difference"
 msgstr "Tampilkan tanggal dan/atau selisih waktu"
 
-#: inc/class/class-extrp-sanitize.php:547
+#: inc/class/class-extrp-sanitize.php:475
 msgid "HTML Heading Subtitle"
 msgstr "HTML Heading untuk Sub Judul"
 
-#: inc/class/class-extrp-sanitize.php:548
+#: inc/class/class-extrp-sanitize.php:476
 msgid "HTML Headings tags of subtitle. &lt;h1&gt;,&lt;h2&gt;,&lt;h3&gt;,..."
 msgstr "Tag HTML Headings untuk sub judul.<br>&lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt; ..."
 
-#: inc/class/class-extrp-sanitize.php:559
+#: inc/class/class-extrp-sanitize.php:487
 msgid "HTML Heading Post Titles"
 msgstr "HTML Heading Judul Pos"
 
-#: inc/class/class-extrp-sanitize.php:560
+#: inc/class/class-extrp-sanitize.php:488
 msgid "HTML Headings tags of post titles. &lt;h1&gt;,&lt;h2&gt;,&lt;h3&gt;,..."
 msgstr "Tag HTML Headings untuk judul pos.<br>&lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt; ..."
 
-#: inc/class/class-extrp-sanitize.php:569
+#: inc/class/class-extrp-sanitize.php:497
 msgid "Related Posts"
 msgstr "Pos Terkait"
 
-#: inc/class/class-extrp-sanitize.php:571
+#: inc/class/class-extrp-sanitize.php:499
 msgid "Subtitle Related Posts"
 msgstr "Sub Judul Pos Terkait"
 
-#: inc/class/class-extrp-sanitize.php:572
+#: inc/class/class-extrp-sanitize.php:500
 msgid "Changed the text, or leave as an empty <kbd>subtitle=\"\"</kbd> to hide."
 msgstr "Ubah teks, atau biarkan  kosong <kbd>subtitle=\"\"</kbd> untuk menyembunyikan."
 
-#: inc/class/class-extrp-sanitize.php:583
+#: inc/class/class-extrp-sanitize.php:511
 msgid "Enable Random Posts"
 msgstr "Aktifkan Pos Acak"
 
-#: inc/class/class-extrp-sanitize.php:584
+#: inc/class/class-extrp-sanitize.php:512
 msgid "Unset to disable random posts"
 msgstr "Unset untuk me-non-aktifkan pos acak"
 
-#: inc/class/class-extrp-sanitize.php:593
+#: inc/class/class-extrp-sanitize.php:521
 msgid "Random Posts"
 msgstr "Pos Acak"
 
-#: inc/class/class-extrp-sanitize.php:595
+#: inc/class/class-extrp-sanitize.php:523
 msgid "Subtitle Random Posts"
 msgstr "Sub Judul Pos Acak"
 
-#: inc/class/class-extrp-sanitize.php:596
+#: inc/class/class-extrp-sanitize.php:524
 msgid "Changed the text, or leave as an empty <kbd>titlerandom=\"\"</kbd> to hide."
 msgstr ""
 "Ubah teks, atau biarkan  kosong <kbd>titlerandom=\"\"</kbd> untuk menyembunyikan."
 
-#: inc/class/class-extrp-sanitize.php:607
+#: inc/class/class-extrp-sanitize.php:535
 msgid "Show Post Title"
 msgstr "Tampilkan Judul Pos"
 
-#: inc/class/class-extrp-sanitize.php:608
+#: inc/class/class-extrp-sanitize.php:536
 msgid "You can hide the posts title if thumbnail is set."
 msgstr "Anda dapat menyembunyikan judul pos hanya jika settingan gambar di aktifkan"
 
-#: inc/class/class-extrp-sanitize.php:619
+#: inc/class/class-extrp-sanitize.php:547
 msgid "Show Post Description"
 msgstr "Tampilkan Deskripsi Pos"
 
-#: inc/class/class-extrp-sanitize.php:620
+#: inc/class/class-extrp-sanitize.php:548
 msgid "Unset to hide the posts description."
 msgstr "Unset untuk menyembunyikan deskripsi pos."
 
-#: inc/class/class-extrp-sanitize.php:631
+#: inc/class/class-extrp-sanitize.php:559
 msgid "Stopwords"
 msgstr "Filter Kata"
 
-#: inc/class/class-extrp-sanitize.php:632
+#: inc/class/class-extrp-sanitize.php:560
 msgid "Separate them by comma."
 msgstr "ID Pos yang hanya diikutkan, pisahkan dengan tanda koma."
 
-#: inc/class/class-extrp-sanitize.php:643
+#: inc/class/class-extrp-sanitize.php:571
 msgid "Style of list"
 msgstr "Model List"
 
-#: inc/class/class-extrp-sanitize.php:644
+#: inc/class/class-extrp-sanitize.php:572
 msgid "Style of list."
 msgstr "Tipe List."
 
-#: inc/class/class-extrp-sanitize.php:655
+#: inc/class/class-extrp-sanitize.php:583
 msgid "Include Post IDs"
 msgstr "Tampilkan hanya ID Pos ini"
 
-#: inc/class/class-extrp-sanitize.php:656
+#: inc/class/class-extrp-sanitize.php:584
 msgid "Type by comma. Only the post IDs with post exists will be listed here."
 msgstr ""
 "Ketik dengan tanda koma untuk pemisah. Hanya id pos yang ada yang daat terdaftar di "
 "sini."
 
-#: inc/class/class-extrp-sanitize.php:667
+#: inc/class/class-extrp-sanitize.php:595
 msgid "Exclude Post IDs"
 msgstr "Tidak menampilkan ID Pos ini"
 
-#: inc/class/class-extrp-sanitize.php:668
+#: inc/class/class-extrp-sanitize.php:596
 msgid "Type by comma. This post IDs will be excluded of your related posts"
 msgstr ""
 "Ketik dengan tanda koma untuk pemisah. Pos dengan ID Post ini akan dihilangkan dari "
 "pos terkait Anda"
 
-#: inc/class/class-extrp-sanitize.php:679
+#: inc/class/class-extrp-sanitize.php:607
 msgid "Use CSS on Plugin"
 msgstr "Gunakan CSS plugin ini"
 
-#: inc/class/class-extrp-sanitize.php:680
+#: inc/class/class-extrp-sanitize.php:608
 msgid "Unset to disable. Your shortcode style will be affected too."
 msgstr "Unse untuk me-non-aktifkan. Tampilan shortcode Anda akan terpengaruh juga."
 
-#: inc/class/class-extrp-sanitize.php:691
+#: inc/class/class-extrp-sanitize.php:619
 msgid "Enable Thumbnail"
 msgstr "Aktifkan Gambar"
 
-#: inc/class/class-extrp-sanitize.php:692
+#: inc/class/class-extrp-sanitize.php:620
 msgid "Unset to disabled."
 msgstr "Unset untuk dinonaktifkan."
 
-#: inc/class/class-extrp-sanitize.php:694 inc/class/class-extrp-sanitize.php:706
-#: inc/class/class-extrp-sanitize.php:718 inc/class/class-extrp-sanitize.php:750
-#: inc/class/class-extrp-sanitize.php:767 inc/class/class-extrp-sanitize.php:779
-#: inc/class/class-extrp-sanitize.php:813
+#: inc/class/class-extrp-sanitize.php:622 inc/class/class-extrp-sanitize.php:634
+#: inc/class/class-extrp-sanitize.php:646 inc/class/class-extrp-sanitize.php:678
+#: inc/class/class-extrp-sanitize.php:695 inc/class/class-extrp-sanitize.php:707
+#: inc/class/class-extrp-sanitize.php:741
 msgid "thumbnail settings"
 msgstr "Pengaturan Gambar"
 
-#: inc/class/class-extrp-sanitize.php:703
+#: inc/class/class-extrp-sanitize.php:631
 msgid "Allow External URL"
 msgstr "Izinkan URL Eksternal"
 
-#: inc/class/class-extrp-sanitize.php:704
+#: inc/class/class-extrp-sanitize.php:632
 msgid ""
 "Use it if no local image attached on your post but have external image. With activate "
 "this feature, it will increase page load time. Enable cache to get better performance "
@@ -638,54 +638,54 @@ msgstr ""
 "memiliki gambar eksternal. Dengan mengaktifkan fitur ini, itu akan meningkatkan waktu "
 "buka halaman. Aktifkan cache untuk mendapatkan kinerja beban yang lebih baik."
 
-#: inc/class/class-extrp-sanitize.php:715
+#: inc/class/class-extrp-sanitize.php:643
 msgid "Size"
 msgstr "Ukuran Gambar"
 
-#: inc/class/class-extrp-sanitize.php:716
+#: inc/class/class-extrp-sanitize.php:644
 msgid ""
 "The sizes are your current settings in \"Media Settings\" and additional custom size."
 msgstr ""
 "Ukuran gambar adalah pengaturan Anda yang sekarang pada \"Pengaturan Media\" dan "
 "ukuran gambar tambahan."
 
-#: inc/class/class-extrp-sanitize.php:741
+#: inc/class/class-extrp-sanitize.php:669
 msgid "Add Custom Size"
 msgstr "Tambahkan ukuran kustom"
 
-#: inc/class/class-extrp-sanitize.php:743
+#: inc/class/class-extrp-sanitize.php:671
 msgid "Add Thumbnail Custom Size"
 msgstr "Jenis ukuran gambar tambahan"
 
-#: inc/class/class-extrp-sanitize.php:744
+#: inc/class/class-extrp-sanitize.php:672
 msgid "Key (allowed a to z, hypen [ - ] or underscore [ _ ])"
 msgstr "Kata kunci ( a- z, tanda minus [ - ] atau garis bawah [ _ ] )"
 
-#: inc/class/class-extrp-sanitize.php:745
+#: inc/class/class-extrp-sanitize.php:673
 msgid "Width (px)"
 msgstr "Lebar (px)"
 
-#: inc/class/class-extrp-sanitize.php:746
+#: inc/class/class-extrp-sanitize.php:674
 msgid "Height (px)"
 msgstr "Tinggi (px)"
 
-#: inc/class/class-extrp-sanitize.php:747
+#: inc/class/class-extrp-sanitize.php:675
 msgid "Set the post thumbnail by cropping the image"
 msgstr "Atur gambar dengan memotong gambar"
 
-#: inc/class/class-extrp-sanitize.php:764
+#: inc/class/class-extrp-sanitize.php:692
 msgid "Shape"
 msgstr "Bentuk"
 
-#: inc/class/class-extrp-sanitize.php:765
+#: inc/class/class-extrp-sanitize.php:693
 msgid "Thumbnail shape style."
 msgstr "Model bentuk gambar"
 
-#: inc/class/class-extrp-sanitize.php:776
+#: inc/class/class-extrp-sanitize.php:704
 msgid "Crop thumbnail"
 msgstr "Pangkas Gambar"
 
-#: inc/class/class-extrp-sanitize.php:777
+#: inc/class/class-extrp-sanitize.php:705
 msgid ""
 "Set the post thumbnail by cropping the image (either from the sides, or from the top "
 "and bottom)"
@@ -693,56 +693,56 @@ msgstr ""
 "Mengatur gambar kecil pos dengan memotong gambar (baik itu dari sisi, atau dari "
 "bagian atas dan bawah)"
 
-#: inc/class/class-extrp-sanitize.php:806
+#: inc/class/class-extrp-sanitize.php:734
 msgid "Default Thumbnail"
 msgstr "Gambar Dasar"
 
-#: inc/class/class-extrp-sanitize.php:808
+#: inc/class/class-extrp-sanitize.php:736
 msgid ""
 "If there is no post thumbnail specified, then it will display this default image."
 msgstr "Jika tidak gambar dalam pos, maka gambar dasar ini yang akan ditampilkan."
 
-#: inc/class/class-extrp-sanitize.php:809
+#: inc/class/class-extrp-sanitize.php:737
 msgid "Set New Image"
 msgstr "Atur Gambar Baru"
 
-#: inc/class/class-extrp-sanitize.php:825
+#: inc/class/class-extrp-sanitize.php:753
 msgid "Excerpt Type"
 msgstr "Jenis Deskripsi"
 
-#: inc/class/class-extrp-sanitize.php:826
+#: inc/class/class-extrp-sanitize.php:754
 msgid "Snippet - like search engine, the description based on the query."
 msgstr ""
 "Jenis Snippet - seperti mesin pencari, deskripsi yang tampil berdasarkan kata kunci"
 
-#: inc/class/class-extrp-sanitize.php:828 inc/class/class-extrp-sanitize.php:873
-#: inc/class/class-extrp-sanitize.php:885 inc/class/class-extrp-sanitize.php:914
-#: inc/class/class-extrp-sanitize.php:929 inc/class/class-extrp-sanitize.php:941
-#: inc/class/class-extrp-sanitize.php:956
+#: inc/class/class-extrp-sanitize.php:756 inc/class/class-extrp-sanitize.php:801
+#: inc/class/class-extrp-sanitize.php:813 inc/class/class-extrp-sanitize.php:842
+#: inc/class/class-extrp-sanitize.php:857 inc/class/class-extrp-sanitize.php:869
+#: inc/class/class-extrp-sanitize.php:884
 msgid "additional settings"
 msgstr "Pengaturan Tambahan"
 
-#: inc/class/class-extrp-sanitize.php:870
+#: inc/class/class-extrp-sanitize.php:798
 msgid "Highlight Query"
 msgstr "Highlight Kata Kunci"
 
-#: inc/class/class-extrp-sanitize.php:871
+#: inc/class/class-extrp-sanitize.php:799
 msgid "Highlighting snippets."
 msgstr "Memberikan Highlight di deskripsi"
 
-#: inc/class/class-extrp-sanitize.php:882
+#: inc/class/class-extrp-sanitize.php:810
 msgid "Excerpt Length"
 msgstr "Panjang Karakter Deskripsi"
 
-#: inc/class/class-extrp-sanitize.php:883
+#: inc/class/class-extrp-sanitize.php:811
 msgid "Maximum allowed characters length of post excerpt."
 msgstr "Panjang maksimal jumlah karakter dalam deskripsi pos."
 
-#: inc/class/class-extrp-sanitize.php:894
+#: inc/class/class-extrp-sanitize.php:822
 msgid "Enable Relevanssi Algorithm"
 msgstr "Aktifkan Algoritma Relevanssi"
 
-#: inc/class/class-extrp-sanitize.php:897
+#: inc/class/class-extrp-sanitize.php:825
 #, php-format
 msgid ""
 "Require Relevanssi plugin installed. <a href=\"%1$s\" class=\"thickbox\" aria-label="
@@ -751,11 +751,11 @@ msgstr ""
 "Memerlukan plugin Relevanssi terpasang. <a href=\"%1$s\" class=\"thickbox\" aria-"
 "label=\"%2$s\" title=\"%2$s\"><i class=\"dashicons dashicons-external\"></i></a>"
 
-#: inc/class/class-extrp-sanitize.php:910
+#: inc/class/class-extrp-sanitize.php:838
 msgid "More information about Relevanssi plugin"
 msgstr "Informasi lebih lanjut tentang plugin Relevanssi"
 
-#: inc/class/class-extrp-sanitize.php:911
+#: inc/class/class-extrp-sanitize.php:839
 msgid ""
 "With activate this feature, highlight and length of excerpt settings will affected to "
 "your Relevanssi plugin settings. If both of shortcode and related posts under post "
@@ -769,15 +769,15 @@ msgstr ""
 "cache. Sebagai catatan, deskripsi dari Plugin Relevanssi tidak berjalan stabil di "
 "luar halaman pencarian, jangan khawatir, plugin ini memungkinkan untuk menanganinya."
 
-#: inc/class/class-extrp-sanitize.php:923
+#: inc/class/class-extrp-sanitize.php:851
 msgid "Enable Cache"
 msgstr "Aktifkan Cache"
 
-#: inc/class/class-extrp-sanitize.php:925
+#: inc/class/class-extrp-sanitize.php:853
 msgid "Cache to database as transient."
 msgstr "Cache ke dalam database sebagai transient."
 
-#: inc/class/class-extrp-sanitize.php:926
+#: inc/class/class-extrp-sanitize.php:854
 msgid ""
 "Your shortcode will be cached too. Transients only get deleted when a request is made "
 "after expire time and create the new one. So, until someone visits your page and "
@@ -790,19 +790,19 @@ msgstr ""
 "dalam database. Singkatnya, ini bukanlah cache yang menetap sebenarnya dan bukan "
 "sesuatu yang dijalankan oleh cron job."
 
-#: inc/class/class-extrp-sanitize.php:938
+#: inc/class/class-extrp-sanitize.php:866
 msgid "Cache Expire Time"
 msgstr "Waktu Kadaluarsa Cache"
 
-#: inc/class/class-extrp-sanitize.php:939 inc/class/class-extrp-sanitize.php:952
+#: inc/class/class-extrp-sanitize.php:867 inc/class/class-extrp-sanitize.php:880
 msgid "Minimum 3600 seconds"
 msgstr "Minimal 3600 detik"
 
-#: inc/class/class-extrp-sanitize.php:950
+#: inc/class/class-extrp-sanitize.php:878
 msgid "Schedule Delete All Caches"
 msgstr "Jadwal Penghapusan Cache"
 
-#: inc/class/class-extrp-sanitize.php:953
+#: inc/class/class-extrp-sanitize.php:881
 msgid ""
 "This is wp schedule event and run by wp cron. With cache enabled and the scheduled "
 "time has passed, the action will trigger when someone visits your WordPress site."
@@ -811,7 +811,7 @@ msgstr ""
 "cache, waktu penghapusan cache akan dipicu ketika seseorang mengunjungi situs "
 "WordPress Anda, jika waktu penjadwalan telah terlewati."
 
-#: inc/class/class-extrp-sanitize.php:966
+#: inc/class/class-extrp-sanitize.php:894
 #, php-format
 msgid ""
 "<p><i class=\"%1$s\">Remember, if you ever need a helping hand, you will find one at "
@@ -827,19 +827,19 @@ msgstr ""
 "p><p class=\"%2$s\">Email kontak &amp; PayPal saya <i class=\"%3$s\"></i> <a href="
 "\"%4$s\" title=\"%5$s\">%6$s</a></p>"
 
-#: inc/class/class-extrp-sanitize.php:979
+#: inc/class/class-extrp-sanitize.php:907
 msgid "Help Support, Credit &amp; Donate"
 msgstr "Bantuan, Kredit & Donasi"
 
-#: inc/class/class-extrp-sanitize.php:989
+#: inc/class/class-extrp-sanitize.php:917
 msgid "EXTRP features."
 msgstr "Fitur EXTRP"
 
-#: inc/class/class-extrp-sanitize.php:991
+#: inc/class/class-extrp-sanitize.php:919
 msgid "Features"
 msgstr "Fitur"
 
-#: inc/class/class-extrp-sanitize.php:1003
+#: inc/class/class-extrp-sanitize.php:931
 msgid "save your settings"
 msgstr "simpan pengaturan Anda"
 
@@ -851,7 +851,7 @@ msgstr "Pos terkait di sidebar Anda"
 msgid "No Thumbnail"
 msgstr "Tanpa Gambar"
 
-#: inc/load/functions.php:268
+#: inc/load/functions.php:267
 msgid "ago"
 msgstr "yang lalu"
 

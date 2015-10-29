@@ -161,7 +161,7 @@ class EXTRP_Admin
 		
 		$new_input = array();
 		
-		$id = extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'post_type' ) );
+		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'post_type' ) );
 		
 		$post_type = [];
 		foreach ( $extrp_data[ $id ]['optional'] as $type) :
@@ -182,15 +182,25 @@ class EXTRP_Admin
 		if ( isset( $input['delcache'] ) )
 		{
 			global $wpdb;
-			$pos        = $wpdb->esc_like( 'extrp_cache_post_' );
-			$s          = "%$pos%";
-			$transients = $wpdb->get_col( $wpdb->prepare( "
-				SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s
-				", $s ) );
+		
+			$caches = wp_cache_get( 'extrp_transient_cache_all', 'extrpcache' );
 			
-			if ( $transients ) :
+			if ( false == $caches ) :
+				$s	    = "%extrp_cache_post_%";
+				$sql    = "
+						  SELECT option_name
+						  FROM $wpdb->options
+						  WHERE option_name
+						  LIKE %s
+						  ";
+				$sql    = $wpdb->prepare( $sql, $s );
+				$caches = $wpdb->get_col( $sql );
+				wp_cache_set( 'extrp_transient_cache_all', $caches, 'extrpcache', 300  );
+			endif;
+			
+			if ( $caches ) :
 				$del_transient = array();
-				foreach ( $transients as $transient ) :
+				foreach ( $caches as $transient ) :
 					if ( ! delete_option( $transient ) )
 						$del_transient[] = $transient;
 				endforeach;
@@ -282,7 +292,8 @@ class EXTRP_Admin
 				$input['hlt'] = isset( $input['hl_val_' . $input['hl']] ) ? $input['hl_val_' . $input['hl']] :   $input['hl'];
 				
 
-				if ( 'no' != $input['hlt'] ) {
+				if ( 'no' != $input['hlt'] )
+				{
 					if ( 'col' == $input['hlt'] || 'bgcol' == $input['hlt'] )
 						$input['hlt'] = $extrp_sanitize->sanitize_hex_color( $input['hlt'] );
 					if ( 'css' == $input['hlt'] || 'class' == $input['hlt'] )
@@ -448,9 +459,8 @@ class EXTRP_Admin
 		$group = extrp_mb_group();
 
 		foreach ( $group as $k => $v ) :
-			if ( 'tool' == $v ) {
+			if ( 'tool' == $v )
 				continue;
-			}
 			$id = ( 'save' == $v ) ? 'submitdiv' : $v;
 			$context = ( 'sidebar' == $extrp_data[ $k ]['parameter'] ) ? 'side' : 'advanced';
 
@@ -519,13 +529,13 @@ class EXTRP_Admin
 	public function create_page_tool()
 	{
 		
-		global $extrp_screen_id_tool, $extrp_data;
+		global $extrp_screen_id_tool, $extrp_data, $extrp_sanitize;
 		
 		$screen = get_current_screen();
 		if ( $screen->id != $extrp_screen_id_tool )
 			return;
 		
-		$id = extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'tool') );
+		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'tool') );
 
 		add_settings_section( 
 				$extrp_data[ $id ]['parameter'] . '_section', 
@@ -644,7 +654,8 @@ class EXTRP_Admin
 	public function callback_meta_box( $post = null, $args )
 	{
 		$option = $args['args']['mb'];
-		switch( $option ) {
+		switch( $option )
+		{
 			case 'general':
 				do_settings_sections( 'extrp_general' );
 			break;
@@ -731,7 +742,7 @@ class EXTRP_Admin
 	
 	public function print_section_info_support()
 	{
-		global $extrp_data;
+		global $extrp_data, $extrp_sanitize;
 		$class           = 'extrp-quote';
 		$textright       = 'textright';
 		$dashicons_email = 'dashicons dashicons-email-alt';
@@ -739,7 +750,7 @@ class EXTRP_Admin
 		$title           = 'My Contact Page';
 		$email           = 'contact@jevuska.com';
 		
-		$id = extrp_multidimensional_search( $extrp_data, array( 'group' => 'support' ) );
+		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'group' => 'support' ) );
 
 		printf( $extrp_data[ $id ]['description'], 
 			esc_attr( $class ), 
@@ -868,7 +879,6 @@ class EXTRP_Admin
 	public function ajx_noimg_view_cb()
 	{
 		global $extrp_sanitize, $extrp_screen_id;
-		$chk = sanitize_text_field( $_POST['chk'] );
 		
 		if ( ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
 		{
@@ -881,14 +891,14 @@ class EXTRP_Admin
 			$msg = json_encode( $noperm );
 			wp_die( $msg );
 		}
-			
-		if ( isset( $chk ) && 'settings_page_extrp' == $chk )
+
+		if ( isset( $_POST['chk'] ) && 'settings_page_extrp' == sanitize_key( $_POST['chk'] ) )
 		{
 			$shape = $extrp_sanitize->shape( $_POST['shape'] );
 			
 			$thumb = $extrp_sanitize->data_thumb( array(
 				'size' => $extrp_sanitize->size( $_POST['size'] ),
-				'src'  => $_POST['src'],
+				'src'  => esc_url( $_POST['src'] ),
 				'crop' => wp_validate_boolean( $_POST['crop'] )
 			) );
 			
@@ -906,7 +916,7 @@ class EXTRP_Admin
 			
 			if ( ! $thumb['src'] )
 			{
-				$link = self_admin_url( 'post.php?post=' . $_POST['attach_id'] . '&action=edit&image-editor&amp;TB_iframe=true&amp;width=800&amp;height=500' );
+				$link = self_admin_url( 'post.php?post=' . intval( $_POST['attach_id'] ) . '&action=edit&image-editor&amp;TB_iframe=true&amp;width=800&amp;height=500' );
 				
 				$noperm = array(
 					'result' => array(
@@ -920,8 +930,8 @@ class EXTRP_Admin
 		
 			$success = array(
 				'result' => array(
-					'title'     => get_the_title( $_POST['attach_id'] ),
-					'src'       => $_POST['src'],
+					'title'     => get_the_title( intval( $_POST['attach_id'] ) ),
+					'src'       => esc_url( $_POST['src'] ),
 					'thumbnail' => $thumb['src'],
 					'size'      => $thumb['size'],
 					'width'     => $thumb['width'],
@@ -936,7 +946,9 @@ class EXTRP_Admin
 			$result = json_encode( $success );
 			wp_die( $result );
 			
-		} else {
+		}
+		else
+		{
 			$noperm = array(
 				'result' => array(
 					'msg'     => __( 'You do not have permission to do that.', 'extrp' ),
@@ -958,10 +970,8 @@ class EXTRP_Admin
 			$msg   = json_encode( $error );
 			wp_die( $msg );
 		}
-		
-		$check = $_POST['chk'];
 
-		if ( isset( $check ) && ( "tools_page_extrp-tool" == $check || "widgets" == $check ) )
+		if ( isset( $_POST['chk'] ) && ( 'tools_page_extrp-tool' == sanitize_key( $_POST['chk'] ) || 'widgets' == sanitize_key( $_POST['chk'] ) ) )
 		{
 			if ( 1 == get_option( 'extrp_with_relevanssi' ) && function_exists( 'relevanssi_do_query' ) ) :
 				$success = array(
@@ -974,7 +984,9 @@ class EXTRP_Admin
 				);
 				$msg  = json_encode( $fail );
 			endif;
-		} else {
+		}
+		else
+		{
 			$broken = array(
 				 'result' => (int) 2 
 			);

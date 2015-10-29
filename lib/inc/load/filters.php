@@ -19,7 +19,7 @@ function extrp_max_chars( $maxchars = '' )
 {
 	global $extrp_settings;
 	if ( empty( $maxchars ) )
-		$maxchars = apply_filters( 'extrp_max_chars', $extrp_settings['maxchars'] );
+		$maxchars = apply_filters( 'extrp_max_chars', $extrp_settings['max_char'] );
 	return absint( $maxchars );
 }
 

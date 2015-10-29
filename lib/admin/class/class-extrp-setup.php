@@ -19,10 +19,10 @@ class EXTRP_Setup
 			$extrp_settings = extrp_default_setting();
 		else :
 			$new_update = extrp_default_setting( 'update' );
-			foreach ( $new_update as $key => $value ) {
-				if ( ! isset( $extrp_settings[ $key ] ) ) {
+			foreach ( $new_update as $key => $value )
+			{
+				if ( ! isset( $extrp_settings[ $key ] ) )
 					$extrp_settings[ $key ] = $value;
-				}
 			}
 		endif;
 		
@@ -30,29 +30,32 @@ class EXTRP_Setup
 		
 		$current_version = get_option( 'extrp_version' );
 		
-		if ( '' != $current_version ) {
+		if ( '' != $current_version ) :
 			update_option( 'extrp_version_upgraded_from', $current_version );
-		} else {
+		else :
 			$extrp_data = get_plugin_data( EXTRP_PLUGIN_PATH . '/extended-related-posts.php' );
 			update_option( 'extrp_version', $extrp_data['Version'] );
-		}
+		endif;
 	}
 	
 	public static function on_deactivation()
 	{
-		global $extrp_settings;
-		
-		remove_action('extrp_set_noimage_first');
-		
-		self::delete_cache();
-		delete_option( 'extrp_option' );
-		delete_option( 'extrp_with_relevanssi' );
 		delete_option( 'extrp_version' );
-		
+		update_option( 'extrp_with_relevanssi', (bool) 0 );
 		$upgraded_from = get_option( 'extrp_version_upgraded_from' );
 		if ( $upgraded_from )
 			delete_option( 'extrp_version_upgraded_from' );
-		update_option( 'extrp_with_relevanssi', (bool) 0 );
+	}
+	
+	public static function on_uninstall()
+	{
+		global $extrp_settings;
+		remove_action('extrp_set_noimage_first');
+		self::delete_cache();
+		delete_option( 'extrp_option' );
+		delete_option( 'extrp_with_relevanssi' );
+		delete_option( 'widget_extrp_widget' );
+		
 		wp_clear_scheduled_hook( 'extrp_delete_cache' );
 
 		if ( 
@@ -66,30 +69,9 @@ class EXTRP_Setup
 		}
 	}
 	
-	public static function on_uninstall()
-	{
-		self::delete_cache();
-		delete_option( 'extrp_option' );
-		delete_option( 'extrp_with_relevanssi' );
-		delete_option( 'extrp_version' );
-		
-		$upgraded_from = get_option( 'extrp_version_upgraded_from' );
-		if ( $upgraded_from )
-			delete_option( 'extrp_version_upgraded_from' );
-	}
-	
 	protected static function delete_cache()
 	{
-		global $wpdb;
-		$s          = "%extrp_cache_post_%";
-		$transients = $wpdb->get_col( $wpdb->prepare( "
-				SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s
-				", $s ) );
-		
-		if ( $transients ) :
-			foreach ( $transients as $transient ) :
-				delete_option( $transient );
-			endforeach;
-		endif;
+		$extrp_load = new EXTRP_Load;
+		$extrp_load->extrp_del_cache_transient();
 	}
 }

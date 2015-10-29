@@ -1,10 +1,10 @@
 === Extended Related Posts ===
 Contributors: Jevuska
-Donate link: http://www.jevuska.com/contact/
+Donate link: http://www.jevuska.com/donate/
 Tags: posts, relevanssi, relevant, search, shortcode, widget, multilanguage, thumbnail
 Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 4.3
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,9 +31,23 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
 5. Widget Settings
 
 == Changelog ==
-* 1.0 = October 22, 2015
+* 1.0.2 = October 29, 2015
+ * patch `get_search_query` for shortcode and widget as base search if on search page
+ 
+* 1.0.1 = October 25, 2015
+ * Fix PHP warnings
+ * Fix `extrp_del_cache_transient`
+ * Fix item `on_deactivation` and `on_uninstall`
+ * Sanitize input field
+ * Fix code readability
+ * Fix stable tag readme file
+ 
+* 1.0.0 = October 22, 2015
  * First official release!
 
 == Upgrade Notice ==
+* 1.0.1
+ * This version fixes a security related bug. Upgrade immediately.
+
 * 1.0.0
  * This version is first release
