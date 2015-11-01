@@ -126,10 +126,14 @@ class EXTRP_Admin
 			'screen_tab' 
 		), 20 );
 		
+		add_action( 'load-plugins.php', 'extrp_set_noimage' );
+		
 		add_action( 'load-' . $extrp_screen_id_tool, array(
 			$this,
 			'screen_tab_tool' 
 		), 20 );
+		
+		add_action( 'extrp_set_noimage_first', 'extrp_set_noimage' );
 		
 		add_action( 'admin_enqueue_scripts', array(
 			$this,
@@ -161,10 +165,11 @@ class EXTRP_Admin
 		
 		$new_input = array();
 		
-		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'post_type' ) );
+		$id = absint( $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'post_type' ) ) );
 		
-		$post_type = [];
+		$post_type = array();
 		foreach ( $extrp_data[ $id ]['optional'] as $type) :
+			$type = sanitize_key( $type );
 			if ( isset( $input['post_type_' . $type] ) )
 				$post_type[] = $type;
 		endforeach;
@@ -175,14 +180,14 @@ class EXTRP_Admin
 		$input['post_type'] = $post_type;
 		
 		$input['post_date'] = array(
-			isset( $input['post_date_show_date'] ) ? $input['post_date_show_date'] : '',
-			isset( $input['post_date_time_diff'] ) ? $input['post_date_time_diff'] : ''
+			( isset( $input['post_date_show_date'] ) ) ? sanitize_key( $input['post_date_show_date'] ) : '',
+			( isset( $input['post_date_time_diff'] ) ) ? sanitize_key( $input['post_date_time_diff'] ) : ''
 		);
 		
 		if ( isset( $input['delcache'] ) )
 		{
 			global $wpdb;
-		
+			
 			$caches = wp_cache_get( 'extrp_transient_cache_all', 'extrpcache' );
 			
 			if ( false == $caches ) :
@@ -202,7 +207,7 @@ class EXTRP_Admin
 				$del_transient = array();
 				foreach ( $caches as $transient ) :
 					if ( ! delete_option( $transient ) )
-						$del_transient[] = $transient;
+						$del_transient[] = sanitize_key( $transient );
 				endforeach;
 				
 				if ( false == in_array( 'error', $del_transient ) ) :
@@ -220,22 +225,14 @@ class EXTRP_Admin
 			endif;
 		}
 
-		if ( isset( $input['thumb'] ) )
+		if ( ! isset( $input['thumb'] ) && ! isset( $input['post_title'] ) )
 		{
-			if ( 'list' == $input['display'] )
-				$input['display'] = 'left_wrap';
-		}
-		else
-		{
-			if ( 0 == $input['title'] && 1 == $extrp_settings['title'] )
-			{
-				$msg = __( 'Unable to hide the post title if thumbnail not set.', 'extrp' );
-				add_settings_error( 'extrp-notices', esc_attr( 'hide-title' ), $msg, 'notice-warning' );
-			}
-			$input['title'] = (bool) 1;
+			$msg = __( 'Unable to hide the post title if thumbnail not set.', 'extrp' );
+				add_settings_error( 'extrp-notices', 'hide-title', $msg, 'notice-warning' );
+			$input['post_title'] = (bool) 1;
 		}
 		
-		if ( isset( $input['relevanssi'] ) )
+		if ( isset( $input['relevanssi'] ) && 1 == $input['relevanssi'] )
 		{
 			if ( 0 == $this->with_relevanssi ) :
 				add_settings_error( 'extrp-notices', esc_attr( 'error-notice-relevanssi' ), __( 'Unable to use Relevanssi algorithm, please activate/install Relevanssi plugin', 'extrp' ), 'notice-warning' );
@@ -243,87 +240,88 @@ class EXTRP_Admin
 			endif;
 		}
 		
-		if ( isset( $input['customsize_size'] ) && '' != $input['customsize_size'] )
+		if ( isset( $input['customsize_size'] ) && '' !== $input['customsize_size'] )
 		{
-			if ( $extrp_sanitize->customsize_key( $input['customsize_size']) && intval( $input['customsize_width']) ) :
-				$input['customsize_crop']       = isset( $input['customsize_crop'] ) ? (bool) 1 : (bool) 0;
-				
-				$customsize = array();
-				for ( $i = 0 ;$i < count( $input['customsize_size'] ) ; $i++ ) :
-					if ( ! isset( $input['customsize_size'] ) )
-						break;
-					$customsize[ $i ] = 
-						array(
-							'size'   => $input['customsize_size'],
-							'width'  => intval( $input['customsize_width'] ),
-							'height' => intval( $input['customsize_height'] ),
-							'crop'   => wp_validate_boolean( $input['customsize_crop'] ) 
-						);
-				endfor;
-				$input['customsize'] = $customsize;
-				
-			else :
+			if ( false == $extrp_sanitize->customsize_key( $input['customsize_size'] ) )
+			{
 				$msg     = __( 'Unable to add this image size, please check your input again.', 'extrp' );
-				$keyname_0 = '';
-				$keyname_1 = '';
-				if ( false == $extrp_sanitize->customsize_key( $input['customsize_key_0'] ) )
-					$keyname_0 = sprintf( '<kbd>%s</kbd>', $input['customsize_size'] );
-				
-				if ( false == intval( $input['customsize_width'] ) )
-					$keyname_1 = sprintf( '<kbd>%s</kbd>', $input['customsize_height'] );
-				
-				$keyname = $keyname_0 . $keyname_1;
-				
-				add_settings_error( 'extrp-notices', esc_attr( 'error-notice-customsize' ), $msg . $keyname, 'error' );
+				$keyname = sprintf( '<kbd>%s</kbd>', esc_html( $input['customsize_size'] ) );
+				add_settings_error( 'extrp-notices', 'error-notice-customsize', $msg . $keyname, 'error' );
 				$input['customsize'] = $extrp_settings['customsize'];
-			endif;
+			} else {
+				if ( '' != intval( $input['customsize_width'] ) && '' != intval( $input['customsize_height'] ) ) :
+					$input['customsize_crop'] = ( isset( $input['customsize_crop'] ) ) ? (bool) 1 : (bool) 0;
+		
+					$customsize = array();
+					for ( $i = 0 ;$i < count( $input['customsize_size'] ) ; $i++ ) :
+						$customsize[ $i ] = 
+							array(
+								'size'   => sanitize_key( $input['customsize_size'] ),
+								'width'  => intval( $input['customsize_width'] ),
+								'height' => intval( $input['customsize_height'] ),
+								'crop'   => wp_validate_boolean( $input['customsize_crop'] ) 
+							);
+					endfor;
+					$input['customsize'] = $customsize;
+				else :
+					$msg     = __( 'Unable to add this image size, width or height is not defined.', 'extrp' );
+					add_settings_error( 'extrp-notices', 'error-notice-customsize', $msg, 'error' );
+					$input['customsize'] = $extrp_settings['customsize'];
+				endif;
+			}
 		}
 		
 		if ( isset( $input['highlight'] ) )
 		{
-			if ( $extrp_sanitize->highlight_name( $input['highlight'] ) ) :
-
-				if ( is_array( $input['highlight'] ) ) :
-					$input['hl'] = $input['highlight']['hl'];
-				else :
-					$input['hl'] = $input['highlight'];	
-				endif;
-					
-				$input['hlt'] = isset( $input['hl_val_' . $input['hl']] ) ? $input['hl_val_' . $input['hl']] :   $input['hl'];
+			if ( '' != $input['highlight'] ) :
+				$input['hl']  = ( is_array( $input['highlight'] ) ) ? $extrp_sanitize->highlight_name( $input['highlight']['hl'] ) : $extrp_sanitize->highlight_name( $input['highlight'] );
 				
-
-				if ( 'no' != $input['hlt'] )
+				$input['hlt'] = ( isset( $input['hl_val_' . $input['hl']] ) ) ? sanitize_text_field( $input['hl_val_' . $input['hl']] ) : sanitize_key( $input['hl'] );
+				
+				if ( 'no' != $input['hl'] )
 				{
-					if ( 'col' == $input['hlt'] || 'bgcol' == $input['hlt'] )
+					if ( 'col' == $input['hl'] || 'bgcol' == $input['hl'] )
 						$input['hlt'] = $extrp_sanitize->sanitize_hex_color( $input['hlt'] );
-					if ( 'css' == $input['hlt'] || 'class' == $input['hlt'] )
+					
+					if ( 'css' == $input['hl'] )
 						$input['hlt'] = sanitize_text_field( $input['hlt'] );
+					
+					if ( 'class' == $input['hl'] )
+						$input['hlt'] = sanitize_html_class( $input['hlt'] );
 				};
 				
 				$input['highlight'] = array(
-					 'hl' => sanitize_text_field( $input['hl'] ),
-					'hlt' => sanitize_text_field( $input['hlt'] ) 
+					 'hl' => $input['hl'],
+					'hlt' => $input['hlt']
 				);
 			else :
-				$msg            = __( 'Unable to set highlight, please check your input again.', 'extrp' );
-				$highlight_name = sprintf( '<kbd>%s</kbd>', $input['highlight']['hl'] );
-				add_settings_error( 'extrp-notices', esc_attr( 'error-notice-highlight' ), $msg . $highlight_name, 'error' );
+				$msg = __( 'Unable to set highlight, please check your input again.', 'extrp' );
+				add_settings_error( 'extrp-notices', 'error-notice-highlight', $msg, 'error' );
 				$input['highlight'] = $extrp_settings['highlight'];
 			endif;
 		}
 		
 		$keys = array_keys( $default );
 
-		if ( isset( $input['reset'] ) && $input['reset'] == (bool) 1 )
+		if ( isset( $input['reset'] ) && 'Reset' == sanitize_text_field( $input['reset'] ) )
 		{
 			$msg = __( 'Success to reset your data.', 'extrp' );
 			add_settings_error( 'extrp-notices', esc_attr( 'reset-notice' ), $msg, 'updated' );
+			$attach_id = extrp_get_attach_id( esc_url_raw( $input['src'] ), null );
+			
+			if ( ! $attach_id )
+			{
+				$attach_id_default = extrp_get_attach_id( $extrp_sanitize->noimage_default(), null );
+				if ( ! $attach_id_default )
+					return extrp_bail_noimage();
+			}
 			return $default;
 		}
 		
 		if ( isset( $input['src'] ) )
 		{
-			$attach_id = extrp_get_attach_id( $input['src'], null );
+			$attach_id = extrp_get_attach_id( esc_url_raw( $input['src'] ), null );
+
 			if ( ! $attach_id )
 			{
 				$attach_id_default = extrp_get_attach_id( $extrp_sanitize->noimage_default(), null );
@@ -333,11 +331,11 @@ class EXTRP_Admin
 			}
 			
 			$input['noimage'] = array(
-					'attachment_id' => $input['attachment_id'],
-					'default' => $extrp_sanitize->noimage_default(),
-					'size' => $input['image_size'],
-					'src' => $input['src'],
-					'crop'    => isset( $input['crop'] ) ? $input['crop'] : false
+					'attachment_id' => absint( $input['attachment_id'] ),
+					'default'       => $extrp_sanitize->noimage_default(),
+					'size'          => sanitize_key( $input['image_size'] ),
+					'src'           => esc_url_raw( $input['src'] ),
+					'crop'          => ( isset( $input['crop'] ) ) ? wp_validate_boolean( $input['crop'] ) : false
 			);
 		}
 		
@@ -535,7 +533,7 @@ class EXTRP_Admin
 		if ( $screen->id != $extrp_screen_id_tool )
 			return;
 		
-		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'tool') );
+		$id = absint( $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'tool') ) );
 
 		add_settings_section( 
 				$extrp_data[ $id ]['parameter'] . '_section', 
@@ -743,21 +741,22 @@ class EXTRP_Admin
 	public function print_section_info_support()
 	{
 		global $extrp_data, $extrp_sanitize;
+		
 		$class           = 'extrp-quote';
 		$textright       = 'textright';
 		$dashicons_email = 'dashicons dashicons-email-alt';
-		$url             = 'http://www.jevuska.com/contact/';
-		$title           = 'My Contact Page';
+		$url             = $this->plugin_data['AuthorURI'] . '/donate/';
+		$title           = __( 'PayPal Donate' );
 		$email           = 'contact@jevuska.com';
 		
-		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'group' => 'support' ) );
+		$id = absint( $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'group' => 'support' ) ) );
 
 		printf( $extrp_data[ $id ]['description'], 
-			esc_attr( $class ), 
-			esc_attr( $textright ), 
+			sanitize_html_class( $class ), 
+			sanitize_html_class( $textright ), 
 			esc_attr( $dashicons_email ), 
 			esc_url( $url ), 
-			esc_attr__( $title ), 
+			esc_attr( $title ), 
 			sanitize_email( $email )  
 		);
 	}
@@ -850,7 +849,7 @@ class EXTRP_Admin
 				$input_field = extrp_input_type( $parameter, 'text' );
 			break;
 			
-			case 'badword':
+			case 'stopwords':
 			case 'post__in':
 			case 'post__not_in':
 				$input_field = extrp_textarea( $parameter );
@@ -880,7 +879,7 @@ class EXTRP_Admin
 	{
 		global $extrp_sanitize, $extrp_screen_id;
 		
-		if ( ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'heartbeat-nonce' ) || ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
 		{
 			$noperm = array(
 				'result' => array(
@@ -888,13 +887,12 @@ class EXTRP_Admin
 					'tokenid' => (int) 3 
 				)
 			);
-			$msg = json_encode( $noperm );
+			$msg = wp_json_encode( $noperm );
 			wp_die( $msg );
 		}
 
 		if ( isset( $_POST['chk'] ) && 'settings_page_extrp' == sanitize_key( $_POST['chk'] ) )
 		{
-			$shape = $extrp_sanitize->shape( $_POST['shape'] );
 			
 			$thumb = $extrp_sanitize->data_thumb( array(
 				'size' => $extrp_sanitize->size( $_POST['size'] ),
@@ -910,21 +908,19 @@ class EXTRP_Admin
 						'tokenid' => (int) 2 
 					) 
 				);
-				$msg  = json_encode( $fail );
+				$msg  = wp_json_encode( $fail );
 				wp_die( $msg );
 			}
 			
 			if ( ! $thumb['src'] )
 			{
-				$link = self_admin_url( 'post.php?post=' . intval( $_POST['attach_id'] ) . '&action=edit&image-editor&amp;TB_iframe=true&amp;width=800&amp;height=500' );
-				
 				$noperm = array(
 					'result' => array(
-						'msg'     => sprintf( wp_kses( __( 'Image not exists. Please check your image from media library. You can <a target="_blank" href="%1$s" class="thickbox" title="%2$s">Edit</a> or push &#39;Save Changes&#39; button to get default image directly.', 'extrp' ), array( 'a' => array( 'href' =>array(), 'class'  => array(), 'title' => array(), 'target' => array() )) ), $link, __( 'Edit Media','extrp' ) ),
-						'tokenid' => (int) 4 
-					) 
+						'msg'     => __( 'Image not exists. Please check your image from media library. You can add new one or push &#39;Save Changes&#39; button to get default image directly.', 'extrp' ),
+						'tokenid' => (int) 4
+					)
 				);
-				$msg    = json_encode( $noperm );
+				$msg    = wp_json_encode( $noperm );
 				wp_die( $msg );
 			};
 		
@@ -932,20 +928,19 @@ class EXTRP_Admin
 				'result' => array(
 					'title'     => get_the_title( intval( $_POST['attach_id'] ) ),
 					'src'       => esc_url( $_POST['src'] ),
-					'thumbnail' => $thumb['src'],
-					'size'      => $thumb['size'],
-					'width'     => $thumb['width'],
-					'height'    => $thumb['height'],
-					'crop'      => $thumb['crop'],
-					'shape'     => $shape,
+					'thumbnail' => esc_url( $thumb['src'] ),
+					'size'      => sanitize_key( $thumb['size'] ),
+					'width'     => intval( $thumb['width'] ),
+					'height'    => intval( $thumb['height'] ),
+					'crop'      => wp_validate_boolean( $thumb['crop'] ),
+					'shape'     => $extrp_sanitize->shape( $_POST['shape'] ),
 					'msg'       => __( 'Success', 'extrp' ),
-					'tokenid'   => (int) 1 
+					'tokenid'   => (int) 1
 				) 
 			);
 			
-			$result = json_encode( $success );
+			$result = wp_json_encode( $success );
 			wp_die( $result );
-			
 		}
 		else
 		{
@@ -955,19 +950,19 @@ class EXTRP_Admin
 					'tokenid' => (int) 3 
 				) 
 			);
-			$msg    = json_encode( $noperm );
+			$msg    = wp_json_encode( $noperm );
 			wp_die( $msg );
 		}
 	}
 	
 	public function chk_relevanssi()
 	{
-		if ( ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'heartbeat-nonce' ) || ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
 		{
 			$error = array(
 				'result' => (int) 3 
 			);
-			$msg   = json_encode( $error );
+			$msg   = wp_json_encode( $error );
 			wp_die( $msg );
 		}
 
@@ -977,12 +972,12 @@ class EXTRP_Admin
 				$success = array(
 					'result' => (bool) 1 
 				);
-				$msg     = json_encode( $success );
+				$msg     = wp_json_encode( $success );
 			else :
 				$fail = array(
 					'result' => (bool) 0 
 				);
-				$msg  = json_encode( $fail );
+				$msg  = wp_json_encode( $fail );
 			endif;
 		}
 		else
@@ -990,7 +985,7 @@ class EXTRP_Admin
 			$broken = array(
 				 'result' => (int) 2 
 			);
-			$msg    = json_encode( $broken );
+			$msg    = wp_json_encode( $broken );
 		}
 		wp_die( $msg );
 	}
@@ -1069,8 +1064,9 @@ class EXTRP_Admin
 	public function extrp_admin_inline_js()
 	{
 		print "<script type='text/javascript'>\n";
-		print "jQuery( document ).ready(function($){\n";
-		print "$( this ).extrp()});\n";
+		print "jQuery( document ).ready( function( $ ) {\n";
+		print "$( this ).extrp();\n";
+		print "} );\n";
 		print "</script>\n";
 	}
 }

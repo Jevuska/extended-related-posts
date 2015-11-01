@@ -26,6 +26,7 @@ class EXTRP_Thumbnail
 	public $text = false;
 	public $permalink = true;
 	public $attach_external_img = false;
+	public $local_img_filename = '';
 	
 	public function __construct( $args )
 	{
@@ -33,11 +34,12 @@ class EXTRP_Thumbnail
 			return;
 
 		$this->post_id             = ( null === $args['post_id'] ) ? null : (int) $args['post_id'];
-		$this->size                = ( isset( $args['size'] ) ) ? $args['size'] : false;
-		$this->crop                = ( isset( $args['crop'] ) ) ? $args['crop'] : (bool) 0;
-		$this->img_class           = ( isset( $args['img_class'] ) ) ? $args['img_class'] : '';
-		$this->img_default         = ( isset( $args['default'] ) ) ? $args['default'] : '';
-		$this->img_src             = ( isset( $args['src'] ) && '' != $args['src'] ) ? $args['src'] : '';
+		$this->size                = ( isset( $args['size'] ) ) ? sanitize_key( $args['size'] ) : false;
+		$this->crop                = ( isset( $args['crop'] ) ) ? wp_validate_boolean( $args['crop'] ) : (bool) 0;
+		$this->img_class           = ( isset( $args['img_class'] ) ) ? sanitize_html_class( $args['img_class'] ) : '';
+		$this->img_default         = ( isset( $args['default'] ) ) ? esc_url_raw( $args['default'] ) : '';
+		$this->img_src             = ( isset( $args['src'] ) && '' != $args['src'] ) ? esc_url_raw( $args['src'] ) : '';
+		$this->img_src             = ( isset( $args['full_src'] ) ) ? esc_url_raw( $args['full_src'] ) : $this->img_src;
 		$this->direct_src_external = ( '' != $this->img_src ) ? $this->img_src : '';
 		
 		$this->post = get_post( $this->post_id );
@@ -181,16 +183,16 @@ class EXTRP_Thumbnail
 		if ( is_admin() )
 			return;
 		
-		$thumbnail            = $this->thumbnail_meta_data();
-		$this->post_id        = $thumbnail['post_id'];
-		$this->img_src        = $thumbnail['src'];
-		$this->attachment_id  = $thumbnail['attachment_id'];
-		$this->img_width      = $thumbnail['width'];
-		$this->img_height     = $thumbnail['height'];
-		$this->hwstring       = $thumbnail['hwstring'];
-		$this->size           = $thumbnail['size'];
+		$thumbnail           = $this->thumbnail_meta_data();
+		$this->post_id       = $thumbnail['post_id'];
+		$this->img_src       = $thumbnail['src'];
+		$this->attachment_id = $thumbnail['attachment_id'];
+		$this->img_width     = $thumbnail['width'];
+		$this->img_height    = $thumbnail['height'];
+		$this->hwstring      = $thumbnail['hwstring'];
+		$this->size          = $thumbnail['size'];
 		
-		$attachment_html      = $this->img_html();
+		$attachment_html     = $this->img_html();
 		
 		$arg = array(
 			'link_text'     => $attachment_html['html'],
@@ -543,13 +545,13 @@ class EXTRP_Thumbnail
 			if ( 5 > getimagesize( $img_path )[0] || 5 > getimagesize( $img_path )[1] )
 				$result['toosmall'] = array(
 					'filename' => $img_filename,
-					'path' => $img_path 
+					'path'     => $img_path 
 				);
 			else
 				$result['exists'] = array(
 					'filename' => $img_filename,
-					'path' => $img_path,
-					'src' => $this->img_src					
+					'path'     => $img_path,
+					'src'      => $this->img_src					
 				);
 		} else {
 			$result['noexists'] = array(
@@ -648,25 +650,13 @@ class EXTRP_Thumbnail
 				$this->img_src != $this->image_exist()['external'] )
 			return false;
 		}
-		else
-		{
-			if ( 
-			isset( $extrp_settings['noimage']['attachment_id'] ) 
-			&& '' != $extrp_settings['noimage']['attachment_id'] 
-			&& false === wp_delete_attachment( $extrp_settings['noimage']['attachment_id'], true  ) 
-			) 
-			{
-				$msg = __( 'Fail to delete No Image default. Try to delete it manually.', 'extrp' );
-				add_settings_error( 'extrp-notices', esc_attr( 'delete-attachment-notice' ), $msg, 'notice-warning' );
-			}
-		}
 
 		$path            = parse_url( $this->img_src, PHP_URL_PATH );
 		$filename        = basename( $path );
 		$filename_title  = strtok( $filename, '.' );
-
-		$result          = media_sideload_image( $this->img_src, $this->post_id, $filename_title, 'src' );
 		
+		$result          = media_sideload_image( $this->img_src, $this->post_id, $filename_title, 'src' );
+
 		if ( is_wp_error( $result ) )
 			return false;
 
@@ -738,15 +728,18 @@ class EXTRP_Thumbnail
 		$this->img_width     = $this->thumb_url[1];
 		$this->img_height    = $this->thumb_url[2];
 		
+		if ( 0 == $this->attachment_id )
+			$this->attachment_id = extrp_get_attach_id( $this->img_src );
 		$this->data_thumb = array(
-			'default'  => $this->img_default,
-			'full_src' => $this->img_src,
-			'size'     => $this->size,
-			'src'      => $this->img_thumb_url,
-			'width'    => $this->img_width,
-			'height'   => $this->img_height,			
-			'crop'     => $this->crop,
-			'hwstring' => image_hwstring( $this->img_width, $this->img_height )
+		    'attachment_id' => $this->attachment_id,
+			'default'       => $this->img_default,
+			'full_src'      => $this->img_src,
+			'size'          => $this->size,
+			'src'           => $this->img_thumb_url,
+			'width'         => $this->img_width,
+			'height'        => $this->img_height,			
+			'crop'          => $this->crop,
+			'hwstring'      => image_hwstring( $this->img_width, $this->img_height )
 		);
 		
 		if ( ! array_filter( $this->data_thumb ) )

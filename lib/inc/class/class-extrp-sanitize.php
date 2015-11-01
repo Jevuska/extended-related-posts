@@ -30,46 +30,91 @@ class EXTRP_Sanitize
 		if ( is_array( $list ) )
 			$arr = $list;
 		else
-			$arr = ( $list != "" ) ? explode( ',', $list ) : array();
+			$arr = ( '' != $list ) ? explode( ',', $list ) : array();
 		
 		if ( array_filter( $arr ) )
 		{
 			foreach ( array_unique( $arr ) as $post_id ) :
-				$id = absint( $post_id );
-				if ( is_string( get_post_status( $id ) ) )
-					$result[] = $id;
+				$post_id = absint( $post_id );
+				
+				if ( '' == $post_id )
+					continue;
+				
+				if ( is_string( get_post_status( $post_id ) ) )
+					$result[] = $post_id;
 			endforeach;
+			
+			if ( array_filter( $result ) )
+				$result = array_values( array_unique( $result ) );
 		}
 		return $result;
 	}
 	
-	public function create_list_post_ids( $array )
+	public function data_textarea( $lists )
 	{
 		$list = '';
 		
-		if ( empty( $array ) )
+		if ( '' == $lists )
 			return $list;
 		
-		if ( is_array( $array ) )
+		$result = array();
+		
+		if ( is_array( $lists ) )
 		{
-			$result = array();
-			foreach ( $array as $id )
+			foreach ( $lists as $id )
 			{
-				$result[] = absint( $id );
+				$id = absint( $id );
+				
+				if ( '' == $id )
+					continue;
+				
+				$result[] = $id;
 			}
 			if ( array_filter( $result ) )
-				$list = implode( ',', $result );
+				$list = implode( ',', array_values( array_unique( $result ) ) );
 		}
 		else
 		{
-			$list = $array;
+			$words = explode( ',', _x( $lists, 'Comma-separated list of search stopwords in your language' ) );
+			
+			foreach ( $words as $word )
+			{
+				$word = $this->remove_char( $word );
+				if ( 0 == mb_strlen( $word ) )
+					continue;
+				
+				$result[] = $word;
+			}
+			if ( array_filter( $result ) )
+				$list = implode( ',', array_values( array_unique( $result ) ) );
 		}
 		return $list;
 	}
 	
+	public function remove_char( $q )
+	{
+		if ( '' == $q )
+			return '';
+		
+		$q = sanitize_title_with_dashes( $q, '', 'save' );
+		$q = wp_strip_all_tags( $q );
+		$q = preg_replace( '/&#?[a-z0-9]+;/i','', $q );
+		$q = preg_replace( '/[^%A-Za-z0-9 _-]/', ' ', $q );
+		$q = preg_replace( '/&.+?;/', '', $q );
+		$q = preg_replace( '/_+/', ' ', $q );
+		$q = preg_replace( '|-+|', ' ', $q );
+		$q = preg_replace( '/\s+/', ' ', $q );
+		$q = str_replace("'", '', $q );
+		$q = str_replace('"', '', $q );
+		$q = trim( $q, ' ' );
+		$q = htmlspecialchars( urldecode( trim( $q ) ) );
+		return $q;
+	}
+	
 	public function display( $display )
 	{
-		$list = 'list';
+		$list    = 'list';
+		$display = sanitize_key( $display );
 		if ( in_array( $display, $this->array_parameter( 'display' ) ) )
 			return $display;
 		return $list;
@@ -78,11 +123,12 @@ class EXTRP_Sanitize
 	public function heading( $heading )
 	{
 		$h3 = 'h3';
+		$heading = sanitize_key( $heading );
 		if ( in_array( $heading, $this->array_parameter( 'heading' ) ) )
 		{
-			return esc_attr( $heading );
+			return $heading;
 		}
-		return esc_attr( $h3 );
+		return sanitize_key( $h3 );
 	}
 	
 	public function size( $size )
@@ -95,17 +141,19 @@ class EXTRP_Sanitize
 	public function shape( $shape )
 	{
 		$noshape = 'noshape';
+		$shape   = sanitize_html_class( $shape );
 		if ( in_array( $shape, $this->array_parameter( 'shape' ) ) )
 			return $shape;
-		return $noshape;
+		return sanitize_html_class( $noshape );
 	}
 	
 	public function relatedby( $relatedby )
 	{
-		$default = 'title';
+		$default   = 'title';
+		$relatedby = sanitize_key( $relatedby );
 		if ( in_array( $relatedby, $this->array_parameter( 'relatedby' ) ) )
 			return $relatedby;
-		return $default;
+		return sanitize_key( $default );
 	}
 	
 	public function customsize_key( $key )
@@ -132,7 +180,7 @@ class EXTRP_Sanitize
 	
 	public function highlight( $hlg )
 	{
-		$hlg = is_array( $hlg ) ? array_values( $hlg ) : explode( '|', $hlg );
+		$hlg = ( is_array( $hlg ) ) ? array_values( $hlg ) : explode( '|', $hlg );
 		
 		$hl  = $this->highlight_name( $hlg[0] );
 		$hlt = $hlg[1];
@@ -171,14 +219,19 @@ class EXTRP_Sanitize
 		return $default;
 	}
 	
-	public function sanitize_hex_color( $color ) {
+	public function sanitize_hex_color( $color )
+	{
+		$id = absint( $this->extrp_multidimensional_search( $this->big_data(), array( 'parameter' => 'highlight' ) ) );
+		
+		$default_color = $this->big_data()[ $id ]['optional']['col'][1];
+		
 		if ( '' === $color )
-			return '';
-
+			return $default_color;
+		
 		if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) )
 			return $color;
-
-		return null;
+		
+		return $default_color;
 	}
 	
 	public function array_tf()
@@ -229,12 +282,12 @@ class EXTRP_Sanitize
 	
 	public function array_parameter( $parameter )
 	{
-		$id = $this->extrp_multidimensional_search( 
+		$id = absint( $this->extrp_multidimensional_search( 
 			$this->big_data(), 
 			array( 
 				'parameter' => $parameter 
 			) 
-		);
+		) );
 		
 		$args = $this->big_data()[ $id ]['optional'];
 		
@@ -277,8 +330,9 @@ class EXTRP_Sanitize
 			$args = explode( ',', $args );
 		
 		foreach ( $args as $k ) :
+			$k = sanitize_key( $k );
 			if ( in_array( $k, $array ) )
-				$result[] = esc_attr( $k );
+				$result[] = $k;
 		endforeach;
 		return $result;
 	}
@@ -295,19 +349,22 @@ class EXTRP_Sanitize
 	public function data_thumb( $args )
 	{
 		global $extrp_settings;
-		
+
 		if ( ! is_array( $args ) ) :
-			$id = $this->extrp_multidimensional_search( $this->big_data(), array( 'parameter' => 'noimage' ) );
+			$id = absint( $this->extrp_multidimensional_search( $this->big_data(), array( 'parameter' => 'noimage' ) ) );
 			return $this->big_data()[ $id ]['normal'];
 		endif;
-		
+
 		$noimage = $extrp_settings['noimage'];
-		
-		if ( ! isset( $noimage['default'] ) || empty( $noimage['default'] ) )
+			
+		if ( ! isset( $noimage['default'] ) ||  $args === $noimage ||  false == wp_get_attachment_image_src( $noimage['attachment_id'], 'full', false ) )
+		{
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+			{
+				return true;
+			}
 			return $args;
-		
-		if ( $args === $noimage )
-			return $args;
+		}
 		
 		$default = array(
 			'post_id'   => null,
@@ -315,24 +372,23 @@ class EXTRP_Sanitize
 		);
 		
 		$args       = wp_parse_args( $args, $default );
-		
+
 		$thumbnail  = extrp_thumbnail( $args );
+
 		$data_thumb = $thumbnail->process_thumb();
-		
-		if ( isset( $noimage['attachment_id'] ) )
-			$data_thumb = wp_parse_args( $data_thumb, array( 'attachment_id' => $noimage['attachment_id'] ) );
 		
 		if ( ! $data_thumb )
 			return false;
-		
 		return $data_thumb;
 	}
 	
 	public function noimage_default()
 	{
 		global $extrp_settings;
-		$noimage = ( ! empty( $extrp_settings['noimage']['default'] ) ) ?
-		$extrp_settings['noimage']['default'] : '';
+		
+		$url = esc_url_raw( $extrp_settings['noimage']['default'] );
+		
+		$noimage = ( ! empty( $url ) && isset( $extrp_settings['noimage']['attachment_id'] ) && false != wp_get_attachment_image_src( $extrp_settings['noimage']['attachment_id'], 'full', false ) ) ? $url : ''; 
 		return $noimage;
 	}
 
@@ -341,9 +397,10 @@ class EXTRP_Sanitize
 		$result = array();
 
 		if ( ! is_array( $array ) )
-			$array = array( $array );
+			$array = array( sanitize_key( $array ) );
 		
 		foreach ( $this->array_post_types() as $post_type ) :
+			$post_type    = sanitize_key( $post_type );
 			if ( in_array( $post_type, $array ) )
 				$result[] = $post_type;
 		endforeach;
@@ -379,7 +436,9 @@ class EXTRP_Sanitize
 		$output     = 'names';
 		$operator   = 'or';
 		$post_types = get_post_types( $args, $output, $operator );
-		return $post_types;
+		if ( is_array( $post_types ) )
+			return $post_types;
+		return false;
 	}
 
 	public function big_data()
@@ -529,7 +588,7 @@ class EXTRP_Sanitize
 		
 		$data[12] = array(
 			'id'          => 12,
-			'parameter'   => 'title',
+			'parameter'   => 'post_title',
 			'normal'      => (bool) 1,
 			'optional'    => $this->array_tf(),
 			'subtitle'    => __( 'Show Post Title', 'extrp' ),
@@ -553,7 +612,7 @@ class EXTRP_Sanitize
 		
 		$data[14] = array(
 			'id'          => 14,
-			'parameter'   => 'badword',
+			'parameter'   => 'stopwords',
 			'normal'      => 'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
 			'optional'    => '',
 			'subtitle'    => __( 'Stopwords', 'extrp' ),
@@ -713,18 +772,18 @@ class EXTRP_Sanitize
 			'parameter'   => 'noimage',
 			'normal'      => array(
 				'attachment_id' => '',
-				'default'  => $this->noimage_default(),
-				'full_src' => $this->noimage_default(),
+				'default'  => esc_url_raw( $this->noimage_default() ),
+				'full_src' => esc_url_raw( $this->noimage_default() ),
 				'size'     => 'thumbnail',
-				'src'      => $this->noimage_default(),
+				'src'      => esc_url_raw( $this->noimage_default() ),
 				'width'    => '',
 				'height'   => '',
 				'crop'     => (bool) 1
 			),
 			'optional'    => array(
 				'attachment_id' => '',
-				'default'       => $this->noimage_default(),
-				'full_src'      => $this->noimage_default(),
+				'default'       => esc_url_raw( $this->noimage_default() ),
+				'full_src'      => esc_url_raw( $this->noimage_default() ),
 				'size'          => 'thumbnail',
 				'src'           => '',
 				'width'         => '',
@@ -891,16 +950,17 @@ class EXTRP_Sanitize
 			'normal'      => '',
 			'optional'    => '',
 			'subtitle'    => '',
-			'description' => wp_kses( __( '<p><i class="%1$s">Remember, if you ever need a helping hand, you will find one at the end of each of your arms. As you grow older, you will discover that you have two hands, one for helping yourself and the other for helping others.</i></p><p class="%2$s"> &#126; Sam Levenson</p><p class="%2$s">Here my support contact &amp; PayPal email <i class="%3$s"></i> <a href="%4$s" title="%5$s">%6$s</a></p>', 'extrp' ), array(
+			'description' => wp_kses( __( '<p><i class="%1$s">Remember, if you ever need a helping hand, you will find one at the end of each of your arms. As you grow older, you will discover that you have two hands, one for helping yourself and the other for helping others.</i></p><p class="%2$s"> &#126; Sam Levenson</p><p class="%2$s">Here my support contact &amp; PayPal email <i class="%3$s"></i> <a target="_blank" href="%4$s" title="%5$s">%6$s</a></p>', 'extrp' ), array(
 				'p' => array(
-					 'class' => array()
+					'class' => array()
 				),
 				'i' => array(
-						 'class' => array()
+					'class' => array()
 				),
 				'a' => array(
-					'href' => array(),
-					'title' => array()
+					'target' => array(),
+					'href'   => array(),
+					'title'  => array()
 				) 
 			) ),
 			'group'       => 'support',
@@ -967,12 +1027,12 @@ class EXTRP_Sanitize
 			$a[5]  => $this->post_date( $b['post_date'] ),
 			$a[6]  => $this->heading( $b['heading'] ),
 			$a[7]  => $this->heading( $b['postheading'] ),
-			$a[8]  => esc_html__( $b['subtitle'], 'extrp' ),
+			$a[8]  => sanitize_text_field( $b['subtitle'] ),
 			$a[9]  => wp_validate_boolean( $b['randomposts'] ),
-			$a[10] => esc_html__( $b['titlerandom'], 'extrp' ),
-			$a[11] => wp_validate_boolean( $b['title'] ),
+			$a[10] => sanitize_text_field( $b['titlerandom'] ),
+			$a[11] => wp_validate_boolean( $b['post_title'] ),
 			$a[12] => wp_validate_boolean( $b['desc'] ),
-			$a[13] => sanitize_text_field( $b['badword'] ),
+			$a[13] => $this->data_textarea( $b['stopwords'] ),
 			$a[14] => $this->display( $b['display'] ),
 			$a[15] => $this->post_ids( $b['post__in'] ),
 			$a[16] => $this->post_ids( $b['post__not_in'] ),
@@ -983,7 +1043,7 @@ class EXTRP_Sanitize
 			$a[21] => $this->customsize( $b['customsize'] ),
 			$a[22] => $this->shape( $b['shape'] ),
 			$a[23] => wp_validate_boolean( $b['crop'] ),
-			$a[24] => $this->data_thumb($b['noimage']),
+			$a[24] => $this->data_thumb( $b['noimage'] ),
 			$a[25] => wp_validate_boolean( $b['post_excerpt'] ),
 			$a[26] => $this->highlight( $b['highlight'] ),
 			$a[27] => absint( $b['maxchars'] ),
@@ -997,20 +1057,19 @@ class EXTRP_Sanitize
 			if ( ! in_array( $k, $key ) )
 				unset( $args[ $k ] );
 		endforeach;
-		
 		return $args;
 	}
 	
 	public function array_default_setting()
 	{
 		$_data = $this->big_data();
-		$data = array_splice( $_data, 0, 32 );
-		array_unshift( $data,"" );
-		unset($data[0]);
+		$data  = array_splice( $_data, 0, 32 );
+		array_unshift( $data, '' );
+		unset( $data[0] );
 
 		$default = array();
 		for( $i = 1 ; $i <= count( $data ) ; $i++ ) :
-			$default[ $data[ $i ]['parameter']] = $data[ $i ]['normal'];
+			$default[ $data[ $i ]['parameter'] ] = $data[ $i ]['normal'];
 		endfor;
 		return $default;
 	}

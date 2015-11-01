@@ -18,10 +18,10 @@ function extrp_plugin_updates()
 {
 	$current_version = get_option( 'extrp_version' );
 
-	if ( version_compare( $current_version, '1.0.2', '<' ) )
+	if ( version_compare( $current_version, '1.0.3', '<' ) )
 	{
 		include( EXTRP_ADMIN_PATH . 'updates/extrp-1.0.2.php' );
-		update_option( 'extrp_version', '1.0.2' );
+		update_option( 'extrp_version', '1.0.3' );
 	}
 }
 
@@ -161,7 +161,7 @@ function extrp_checkbox( $type )
 	$checked = '';
 	if ( ( isset( $extrp_settings[ $type ] ) && $extrp_settings[ $type ] == true ) )
 		$checked = 'checked="checked"';
-
+	
 	$output = 
 		sprintf( 
 			'<label for="%1$s"><input type="checkbox" id="%1$s" name="extrp_option[%1$s]" value="%2$s" %3$s/></label>', 
@@ -208,7 +208,7 @@ function extrp_multiple_radio( $type, $array )
 	$input_field = '';
 	
 	foreach ( $array as $k => $v) :
-		$selected = $extrp_settings[ $type ] == $v ? 'checked="checked"' : '';
+		$selected = ( $extrp_settings[ $type ] == $v ) ? 'checked="checked"' : '';
 		$desc = ( ! empty( $v ) ) ? $v : $k;
 		$input_field .= 
 			sprintf( 
@@ -245,31 +245,24 @@ function extrp_selected_input( $type, $array )
 		else
 			$val = $v;
 		
-		$selected = $extrp_settings[ $type ] == $val ? 'selected="selected"' : '';
-		if ( 'image_size' == $type )
-		{
+		$selected = ( $extrp_settings[ $type ] == $val ) ? 'selected="selected"' : '';
+		if ( 'image_size' == $type ) :
 			$class .= 'class="set-noimage change-size"';
-			$value = $k . ' - ' . $v['width'] . ' x ' . $v['height'];
-		} 
-		else if ( 'highlight' == $type )
-		{
-			$value = $v[0];
-			$val = $k;
+			$text   = $k . ' - ' . $v['width'] . ' x ' . $v['height'];
+		elseif ( 'highlight' == $type ) :
+			$val      = $k;
+			$text     = $v[0];
 			$classhl .= 'class="select-' . $k . '"';
-			$selected = $extrp_settings[ $type ]['hl'] == $val ? ' selected="selected"' : '';
-		} 
-		elseif ( 'post_excerpt' == $type )
-		{
-			$val = $v;
-			$value = ucwords( $k );
-		} 
-		else
-		{
-			$value = ucwords( $v );
-		}
+			$selected = ( $extrp_settings[ $type ]['hl'] == $val ) ? ' selected="selected"' : '';
+		elseif ( 'post_excerpt' == $type ) :
+			$val  = $v;
+			$text = ucwords( $k );
+		else :
+			$text = ucwords( $v );
+		endif;
 		
 		$html .= "<option $classhl value='$val' $selected>";
-		$html .= $value;
+		$html .= $text;
 		$html .= "</option>";
 	}
 		
@@ -309,10 +302,10 @@ function extrp_hl_input( $extrp_settings, $type, $option, $name )
 			continue;
 		$input .= sprintf( 
 			'<div class="cp cp-%1$s"><input type="text" name="%2$s[hl_val_%1$s]" value="%3$s" class="%1$s-field" id="cp-%1$s"> <p id="%1$s-description" class="description">%4$s</p></div>',
-			$k,
-			$name,
-			$extrp_settings['hl'] == $k ? $extrp_settings['hlt'] : $v[1],
-			$text_arr[ $k ] 
+			sanitize_html_class( $k ),
+			esc_attr( $name ),
+			( $extrp_settings['hl'] == $k ) ? sanitize_text_field( $extrp_settings['hlt'] ) : sanitize_text_field( $v[1] ),
+			$text_arr[ $k ]
 		);
 	}
 	
@@ -343,14 +336,11 @@ function extrp_textarea( $type )
 {
 	global $extrp_settings, $extrp_sanitize;
 	$html = '<label for="%1$s"><textarea id="%1$s" class="large-text code" rows=3 name="extrp_option[%1$s]">%2$s</textarea></label>';
-
-	$value = $extrp_sanitize->create_list_post_ids( $extrp_settings[ $type ] );
 	
+	$value  = esc_textarea( $extrp_sanitize->data_textarea( $extrp_settings[ $type ] ) );
 	$output = sprintf( $html,
 		$type,
-		! empty( $extrp_settings[ $type ] ) 
-		? esc_textarea( $value ) 
-		: ''
+		( '' != $value ) ? $value : ''
 	);
 	return $output;
 }
@@ -364,7 +354,7 @@ function extrp_sample_preview( $type, $array )
 	else
 		$html = '<div class="extrp-display-image">';
 	for ( $i = 0; $i < count( $array ); $i++ ) :
-	$active = $extrp_settings[ $type ] == $array[ $i ] ? ' active current' : '';
+	$active = ( $extrp_settings[ $type ] == $array[ $i ] ) ? ' active current' : '';
 	$html .= sprintf( '<div class="extrp-out-box"><div data-img="%1$s"  class="extrp-%1$s sample-%1$s-%2$s%3$s"><div></div></div><span>%2$s</span></div>',esc_attr( $type ), esc_attr( $array[ $i ] ), $active );
 	endfor;
 	$html .= '</div>';
@@ -414,47 +404,57 @@ function extrp_upload_input( $type, $txt_arr )
 {
 	global $extrp_settings, $extrp_sanitize;
 	
-	$full_src = $extrp_settings[ $type ]['full_src'];
-	$img_src = $extrp_settings[ $type ]['src'];
-	$attach_id = extrp_get_attach_id( $full_src, null );
+	$full_src  = esc_url_raw( $extrp_settings[ $type ]['full_src'] );
 	
-	$html_img_preview = sprintf( '<p><a href="%1$s" class="thickbox"><img width="%2$s" height="%3$s" src="%4$s" class="extrp-shape-%5$s" data-size="%6$s" data-id="%7$s" alt="%8$s" id="upload-custom-img" data-title="%9$s"></a></p>',
-		$extrp_settings[ $type ]['full_src'],
-		$extrp_settings[ $type ]['width'], 
-		$extrp_settings[ $type ]['height'], 
-		$img_src, 
-		$extrp_settings['shape'], 
-		$extrp_settings[ $type ]['size'],
-		absint( $attach_id ),
-		__( 'No Image Default', 'extrp' ),
-		get_the_title( $attach_id )
-	);
-		
+	$html = '<input type="text" value="%1$s" class="regular-text noimage" id="set-noimage" name="extrp_option[src]" readonly="readonly"><input id="attachment_id" name="extrp_option[attachment_id]" type="hidden" value="%2$s">%3$s %4$s<div class="custom-img-container">%5$s</div>';
+	
+	$img_src   = esc_url_raw( $extrp_settings[ $type ]['src'] );
+	
 	if ( false == extrp_get_attach_id( $img_src ) )
 	{
-		$attention = __( 'The url default image was set, but the image doesn&#39;t exists. Try to add new one or you can push &#39;Save Changes&#39; button directly to create default image.', 'extrp' );
+		$attention = __( 'Image not exists. Please check your image from media library. You can add new one ', 'extrp' );
 
 		if ( '' == $img_src )
 		{
-			$attention = __( 'The url default image is not set up yet.', 'extrp' );
+			$attention = __( 'The url default image not set up. You can add new one ', 'extrp' );
 		}
 		
-		$html_img_preview = sprintf( '<p class="attention">%s</p>', $attention );
+		$attention .= __( 'or push &#39;Save Changes&#39; button to get default image directly.', 'extrp' );
+		
+		$attention = sprintf( '<div id="message" class="error fade notice is-dismissible"><p>%1$s</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">%2$s</span></button></div>', $attention, __( 'Dismiss this notice.', 'extrp' ) );
+		
+		return sprintf( $html,
+			$full_src,
+			absint( $extrp_settings[ $type ]['attachment_id'] ),
+			get_submit_button( $txt_arr['btn_upload_txt'], 'set-noimage button thickbox', 'new_image', false ),
+			get_submit_button( $txt_arr['btn_reset_txt'], 'set-noimage button reset-noimage', 'reset', false ),
+			$attention
+		);
 	}
 	
-	$img_preview = $html_img_preview;
 	
-	$html = '<input type="text" value="%1$s" class="regular-text noimage" id="set-noimage" name="extrp_option[src]" readonly="readonly"><input id="attachment_id" name="extrp_option[attachment_id]" type="hidden" value="%2$s">%3$s %4$s
-		<div class="custom-img-container">
-			%5$s
-		</div>';
-
-	return sprintf( $html,
-		$full_src,
-		$extrp_settings[ $type ]['attachment_id'],
-		get_submit_button( $txt_arr['btn_upload_txt'], 'set-noimage button thickbox', 'new_image', false ),
-		get_submit_button( $txt_arr['btn_reset_txt'], 'set-noimage button reset-noimage', 'reset', false ),
-		$img_preview
-	);
+	$attach_id = extrp_get_attach_id( $full_src, null );
+	
+	if ( false != $attach_id )
+	{
+		$html_img_preview = sprintf( '<p><a href="%1$s" class="thickbox" title="%2$s"><img width="%3$s" height="%4$s" src="%5$s" class="extrp-shape-%6$s" data-size="%7$s" data-id="%8$s" alt="%2$s" id="upload-custom-img" data-title="%2$s"></a></p>',
+			$full_src,
+			get_the_title( $attach_id ),
+			intval( $extrp_settings[ $type ]['width'] ), 
+			intval( $extrp_settings[ $type ]['height'] ), 
+			$img_src, 
+			sanitize_key( $extrp_settings['shape'] ), 
+			sanitize_key( $extrp_settings[ $type ]['size'] ),
+			absint( $attach_id )
+		);
+		
+		return sprintf( $html,
+			$full_src,
+			absint( extrp_get_attach_id( $extrp_settings['noimage']['default'], null ) ),
+			get_submit_button( $txt_arr['btn_upload_txt'], 'set-noimage button thickbox', 'new_image', false ),
+			get_submit_button( $txt_arr['btn_reset_txt'], 'set-noimage button reset-noimage', 'reset', false ),
+			$html_img_preview
+		);
+	}
 }
 ?>

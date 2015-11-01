@@ -274,7 +274,7 @@ if ( ! class_exists( 'Aq_Resize' ) ) {
 	}
 }
 
-if ( !function_exists( 'extrp_aq_resize' ) ) {
+if ( ! function_exists( 'extrp_aq_resize' ) ) {
 	
 	/**
 	 * This is just a tiny wrapper function for the class above so that there is no

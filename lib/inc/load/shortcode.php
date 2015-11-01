@@ -29,13 +29,14 @@ function extrp_related_posts_shortcode( $atts = null, $result = '' )
 
 	$a = $extrp_sanitize->sanitize( $default_setting );
 
-	$result = extrp_create_html( $a['relatedby'], $post_id, $a['single'], $a['posts'], $a['post_date'], $a['subtitle'], $a['randomposts'], $a['titlerandom'], $a['title'], $a['desc'], $a['image_size'], $a['display'], $a['shape'], $a['crop'], $a['heading'], $a['postheading'], $a['post_excerpt'], $a['maxchars'], $a['highlight']['hl'], $a['highlight']['hlt'], $a['relevanssi'], $a['post__in'], $a['post__not_in'], $option ); 
+	$result = extrp_create_html( $a['relatedby'], $post_id, $a['single'], $a['posts'], $a['post_date'], $a['subtitle'], $a['randomposts'], $a['titlerandom'], $a['post_title'], $a['desc'], $a['image_size'], $a['display'], $a['shape'], $a['crop'], $a['heading'], $a['postheading'], $a['post_excerpt'], $a['maxchars'], $a['highlight'], $a['relevanssi'], $a['post__in'], $a['post__not_in'], $option ); 
 	
 	if ( $extrp_settings['active'] )
 		add_filter( 'the_content', 'extrp_filter_the_content', 10 );
 
-	$author_id         = $post->post_author;
-	$can_publish_posts = user_can( $author_id, extrp_capability_filter() );
+	$author_id = $post->post_author;
+	$option    = 'publish_posts';
+	$can_publish_posts = user_can( $author_id, extrp_capability_filter( $option ) );
 	if ( ! $can_publish_posts )
 		return; //well, users that can't publish posts, no cake for you. (default)	
 	

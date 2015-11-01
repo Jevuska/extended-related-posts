@@ -3,7 +3,7 @@
 Plugin Name: Extended Related Posts
 Plugin URI: http://www.jevuska.com/2015/10/22/extended-related-posts-plugin-wordpress/
 Description:  Create a better related posts more relevant under your post. Settings, shortcode and widget available.
-Version: 1.0.2
+Version: 1.0.3
 Author: Jevuska
 Author URI: http://www.jevuska.com
 License: GPL2
@@ -54,7 +54,7 @@ if ( ! class_exists( 'Extended_Related_Posts' ) ) :
 				define( 'EXTRP_PLUGIN_FILE', __FILE__ );
 			
 			if ( ! defined( 'EXTRP_PLUGIN_VERSION' ) )
-				define( 'EXTRP_PLUGIN_VERSION', '1.0.2' );
+				define( 'EXTRP_PLUGIN_VERSION', '1.0.3' );
 
 			if ( ! defined( 'EXTRP_PLUGIN_URL' ) )
 				define( 'EXTRP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -95,7 +95,6 @@ if ( ! class_exists( 'Extended_Related_Posts' ) ) :
 			
 			require_once( EXTRP_PATH_LIB . 'inc/class/class-extrp-load.php' );
 			require_once( EXTRP_PATH_LIB . 'inc/class/class-extrp-excerpt.php' );
-			
 			if ( is_admin() ) :
 				require_once( ABSPATH . 'wp-includes/pluggable.php' );
 				if ( current_user_can( 'manage_options' ) ) :
@@ -105,7 +104,6 @@ if ( ! class_exists( 'Extended_Related_Posts' ) ) :
 					require_once( EXTRP_ADMIN_PATH . 'class/class-extrp-setup.php' );
 					do_action( 'load-extrp-admin-page' );
 				endif;
-			else :
 			endif;
 			require_once( EXTRP_PATH_LIB . 'inc/class/class-extrp-widget.php' );
 			require_once( EXTRP_PATH_LIB . 'install.php' );

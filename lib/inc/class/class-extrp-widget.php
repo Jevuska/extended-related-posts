@@ -13,7 +13,10 @@ class EXTRP_Widget extends WP_Widget
 {
 	function __construct()
 	{
-		$widget_ops = array( false, 'description' => __( 'A related posts on your sidebar.', 'extrp' ) );
+		$widget_ops = array(
+			false,
+			'description' => __( 'A related posts on your sidebar.', 'extrp' )
+		);
 		parent::__construct( false, 'EXTRP Related Posts', $widget_ops );
 	}
 
@@ -43,7 +46,7 @@ class EXTRP_Widget extends WP_Widget
 			$a['subtitle'], 
 			$a['randomposts'], 
 			$a['titlerandom'], 
-			$a['title'], 
+			$a['post_title'], 
 			$a['desc'], 
 			$a['image_size'], 
 			$a['display'], 
@@ -53,8 +56,7 @@ class EXTRP_Widget extends WP_Widget
 			$a['postheading'], 
 			$a['post_excerpt'], 
 			$a['maxchars'], 
-			$a['highlight']['hl'], 
-			$a['highlight']['hlt'], 
+			$a['highlight'], 
 			$a['relevanssi'], 
 			$a['post__in'], 
 			$a['post__not_in'], 
@@ -81,59 +83,48 @@ class EXTRP_Widget extends WP_Widget
 
 	function update( $input, $old_input )
 	{
-		global $extrp_sanitize, $extrp_settings;
-
-		$extrp_data = $extrp_sanitize->big_data(); 
-		$id = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array('parameter'=>'post_type') );
-		
-		$post_type = [];
-		foreach ( $extrp_data[ $id ]['optional'] as $type) :
-			if ( isset( $input['post_type_' . $type] ) )
-			{
-				unset( $input['post_type_' . $type] );
-				$post_type[] = $type;
-			}
-		endforeach;
-		
-		if ( ! array_filter( $post_type ) )
-			$post_type[] = 'post';
-		
-		$input['post_type'] = $post_type;
+		global $extrp_sanitize;
 		
 		$input['post_date'] = array(
-			isset( $input['post_date_show_date'] ) ? $input['post_date_show_date'] : '',
-			isset( $input['post_date_time_diff'] ) ? $input['post_date_time_diff'] : ''
+			( isset( $input['post_date_show_date'] ) ) ? sanitize_key( $input['post_date_show_date'] ) : '',
+			( isset( $input['post_date_time_diff'] ) ) ? sanitize_key( $input['post_date_time_diff'] ) : ''
 		);
+		
+		if ( isset( $input['image_size'] ) )
+		{
+			if ( '' == sanitize_key( $input['image_size'] ) )
+				$input['post_title'] = (bool) 1;
+		}
 		
 		if ( isset( $input['highlight'] ) )
 		{
-			if ( $extrp_sanitize->highlight_name( $input['highlight'] ) )
-			{
-				if ( is_array( $input['highlight'] ) ) :
-					$input['hl'] = $input['highlight']['hl'];
-				else :
-					$input['hl'] = $input['highlight'];	
-				endif;
-					
-				$input['hlt'] = isset( $input['add']['hl_val_' . $input['hl']] ) ? $input['add']['hl_val_' . $input['hl']] :   $input['hl'];
-
-				if ( 'no' != $input['hlt'] ) {
-					if ( 'col' == $input['hlt'] || 'bgcol' == $input['hlt'] )
+			if ( '' != $input['highlight'] ) :
+				$input['hl']  = ( is_array( $input['highlight'] ) ) ? sanitize_key( $input['highlight']['hl'] ) : sanitize_key( $input['highlight'] );
+				
+				$input['hlt'] = ( isset( $input['add']['hl_val_' . $input['hl']] ) ) ? sanitize_text_field( $input['add']['hl_val_' . $input['hl']] ) : sanitize_key( $input['hl'] );
+				
+				if ( 'no' != $input['hl'] )
+				{
+					if ( 'col' == $input['hl'] || 'bgcol' == $input['hl'] )
 						$input['hlt'] = $extrp_sanitize->sanitize_hex_color( $input['hlt'] );
-					if ( 'css' == $input['hlt'] || 'class' == $input['hlt'] )
+					
+					if ( 'css' == $input['hl'] )
 						$input['hlt'] = sanitize_text_field( $input['hlt'] );
+					
+					if ( 'class' == $input['hl'] )
+						$input['hlt'] = sanitize_html_class( $input['hlt'] );
 				}
 				
 				$input['highlight'] = array(
-					 'hl' => sanitize_text_field( $input['hl'] ),
-					'hlt' => sanitize_text_field( $input['hlt'] ) 
+					 'hl' => $input['hl'],
+					'hlt' => $input['hlt'] 
 				);
-			}
+			endif;
 		}
 
 		$new_input = $old_input;
 		$new_input = [];
-		$default = extrp_default_setting( 'shortcode' );
+		$default   = extrp_default_setting( 'shortcode' );
 		
 		$keys = array_keys( $default );
 		
@@ -150,40 +141,30 @@ class EXTRP_Widget extends WP_Widget
 	function form( $instance )
 	{
 		global $extrp_settings, $extrp_sanitize;
-
-		$this->set = extrp_default_setting( 'shortcode' );
-
-		$this->exclude = array( 1, 7, 14, 18, 19, 20, 22, 30, 31, 32, 33, 34, 35, 36 );
 		
-		$this->data = $extrp_sanitize->big_data();
+		$data = $extrp_sanitize->big_data();
 
-		if ( $instance ) 
-		{
+		if ( $instance ) :
 			$instance = $extrp_sanitize->sanitize( $instance );
-			foreach ( $this->data as $key => $value ) :
-			
-				$normal = isset( $instance[ $value['parameter'] ] ) ? $instance[ $value['parameter'] ] : $value['normal'];
+			foreach ( $data as $key => $value ) :
+				$normal = ( isset( $instance[ $value['parameter'] ] ) ) ? $instance[ $value['parameter'] ] : $value['normal'];
 				
-				$this->data[ $key ]['id']          = $value['id'];
-				$this->data[ $key ]['normal']      = $normal;
-				$this->data[ $key ]['parameter']   = $value['parameter'];
-				$this->data[ $key ]['optional']    = $value['optional'];
-				$this->data[ $key ]['subtitle']    = $value['subtitle'];
-				$this->data[ $key ]['description'] = $value['description'];
-				$this->data[ $key ]['group']       = $value['group'];
-				$this->data[ $key ]['subgroup']    = $value['subgroup'];
-				$this->data[ $key ]['lang']        = $value['lang'];
+				$data[ $key ]['id']          = $value['id'];
+				$data[ $key ]['normal']      = $normal;
+				$data[ $key ]['parameter']   = $value['parameter'];
+				$data[ $key ]['optional']    = $value['optional'];
+				$data[ $key ]['subtitle']    = $value['subtitle'];
+				$data[ $key ]['description'] = $value['description'];
+				$data[ $key ]['group']       = $value['group'];
+				$data[ $key ]['subgroup']    = $value['subgroup'];
+				$data[ $key ]['lang']        = $value['lang'];
 			endforeach;
-			
-			$data = $this->data;
-			
-		} else {
-			$data = $this->data;
-		}
+		endif;
 
 		$key = array_keys( $data );
 		$plugin_data    = get_plugin_data( EXTRP_PLUGIN_FILE );
 		$plugin_version = 'v' . $plugin_data['Version'];
+		
 		printf( '<div class="extrp-widget-form"><label for="%1$s" class="hidden">%2$s</label><input id="%1$s" name="%3$s" type="hidden" value="%2$s" />',
 			$this->get_field_id( 'title_extrp' ),
 			esc_html( $plugin_version ),
@@ -198,14 +179,13 @@ class EXTRP_Widget extends WP_Widget
 			$optional    = $data[ $id ]['optional'];
 			$description = $data[ $id ]['description'];
 			
-			if ( 'post_type' == $parameter || 'post_date' == $parameter )
+			if ( 'post_date' == $parameter )
 			{
 				$input_field = '';
 				if ( ! is_array( $normal ) )
 					$normal = array( $normal );
 				foreach ( $optional as $k => $v ) :
-					
-					$checked = in_array( $k, $normal ) ? 'checked="checked"' : '';
+					$checked = ( in_array( $k, $normal ) ) ? 'checked="checked"' : '';
 					$desc = ( ! empty( $v ) ) ? $v : $k;
 					$input_field .= sprintf( '<input id="%1$s" name="%2$s" type="checkbox" value="%3$s" %4$s><label for="%1$s">%5$s</label><br>',
 						$this->get_field_id( $parameter . '_' . $k ),
@@ -217,27 +197,42 @@ class EXTRP_Widget extends WP_Widget
 				endforeach;
 				
 				printf( '<p><label for="%1$s">%2$s</label><br>%3$s',
-				$this->get_field_id( $parameter ),
-				$subtitle,
-				$input_field
+					$this->get_field_id( $parameter ),
+					$subtitle,
+					$input_field
 				);
 			}
 			
 			if ( 'subtitle' == $parameter || 'titlerandom' == $parameter )
-				printf( '<p><input id="%1$s" name="%2$s" type="text" value="%3$s" /> <label for="%1$s">%4$s</label></p>', $this->get_field_id( $parameter ), $this->get_field_name( $parameter ), $normal, $subtitle );
+				printf( '<p><input id="%1$s" name="%2$s" type="text" value="%3$s" /> <label for="%1$s">%4$s</label></p>',
+					$this->get_field_id( $parameter ),
+					$this->get_field_name( $parameter ),
+					sanitize_text_field( $normal ),
+					$subtitle
+				);
 			
 			if ( 'posts' == $parameter || 'maxchars' == $parameter )
-				printf( '<p><input class="small-text" id="%1$s" name="%3$s" type="number" value="%4$s" /> <label for="%1$s">%2$s</label></p>', $this->get_field_id( $parameter ), $subtitle, $this->get_field_name( $parameter ), $normal );
+				printf( '<p><input class="small-text" id="%1$s" name="%3$s" type="number" value="%4$s" /> <label for="%1$s">%2$s</label></p>',
+					$this->get_field_id( $parameter ),
+					$subtitle,
+					$this->get_field_name( $parameter ),
+					sanitize_text_field( $normal )
+				);
 			
 			if ( 'post__in' == $parameter || 'post__not_in' == $parameter )
-				printf( '<p><label for="%1$s">%2$s</label><textarea class="large-text" id="%1$s" name="%3$s">%4$s</textarea></p>', $this->get_field_id( $parameter ), $subtitle, $this->get_field_name( $parameter ), $extrp_sanitize->create_list_post_ids( $normal ) );
+				printf( '<p><label for="%1$s">%2$s</label><textarea class="large-text" id="%1$s" name="%3$s">%4$s</textarea></p>',
+					$this->get_field_id( $parameter ),
+					$subtitle,
+					$this->get_field_name( $parameter ),
+					$extrp_sanitize->data_textarea( $normal )
+				);
 			
 			if ( 'relatedby' == $parameter || 'postheading' == $parameter || 'display' == $parameter || 'shape' == $parameter || 'image_size' == $parameter || 'highlight' == $parameter ) :
 
 				printf( '<p><select id="%1$s" name="%2$s" class="%3$s-select">', 
 					$this->get_field_id( $parameter ),
 					$this->get_field_name( $parameter ),
-					$parameter
+					sanitize_html_class( $parameter )
 				);
 				
 				if ( 'image_size' == $parameter ) :
@@ -252,19 +247,19 @@ class EXTRP_Widget extends WP_Widget
 				foreach ( $optional as $k => $v ) :
 					$classhl = '';
 					if ( 'image_size' == $parameter || 'highlight' == $parameter )
-							$val = $k;
-						else
-							$val = $v;
+						$val = $k;
+					else
+						$val = $v;
 						
-					$selected = $normal == $val ? 'selected="selected"' : '';
+					$selected = ( $normal == $val ) ? 'selected="selected"' : '';
 					if ( 'highlight' == $parameter ) {
 						$classhl .= 'class="select-' . $k . '"';
-						$selected = $extrp_sanitize->highlight( $normal )['hl'] == $val ? ' selected="selected"' : '';
+						$selected = ( $extrp_sanitize->highlight( $normal )['hl'] ==  $val ) ? ' selected="selected"' : '';
 					}
 					
 					printf( '<option %1$s value="%2$s" %3$s>%4$s</option>',
 						$classhl,
-						$val,
+						sanitize_text_field( $val ),
 						$selected,
 						ucwords( esc_attr( $val ) )
 					);
@@ -275,19 +270,22 @@ class EXTRP_Widget extends WP_Widget
 					$subtitle
 				);
 				
-				if ( 'highlight' == $parameter ) {
-					echo extrp_hl_input( $extrp_sanitize->highlight( $normal ), $parameter, $optional, $this->get_field_name( 'add' ) );
-				}
-				
+				if ( 'highlight' == $parameter )
+					echo extrp_hl_input(
+						$extrp_sanitize->highlight( $normal ),
+						sanitize_key( $parameter ),
+						$optional,
+						$this->get_field_name( 'add' )
+					);
 			endif;
 			
-			if ( 'single' == $parameter || 'title' == $parameter || 'desc' == $parameter || 'randomposts' == $parameter || 'crop' == $parameter || 'relevanssi' == $parameter || 'post_excerpt' == $parameter ) :
+			if ( 'single' == $parameter || 'post_title' == $parameter || 'desc' == $parameter || 'randomposts' == $parameter || 'crop' == $parameter || 'relevanssi' == $parameter || 'post_excerpt' == $parameter ) :
 				$selected = ( true == $normal ) ? 'checked="checked"' : '';
 				printf( '<p><input type="checkbox" id="%1$s" name="%2$s" value="%3$s" class="widget-%4$s" %5$s/> <label for="%1$s"><span>%6$s</span></label> ',
 					$this->get_field_id( $parameter ),
 					$this->get_field_name( $parameter ),
 					true,
-					$parameter,
+					sanitize_html_class( $parameter ),
 					$selected,
 					$subtitle
 				);
@@ -303,5 +301,3 @@ function extrp_register_widgets()
 {
 	register_widget( 'EXTRP_Widget' );
 }
-
-add_action( 'widgets_init', 'extrp_register_widgets' );

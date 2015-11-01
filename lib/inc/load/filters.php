@@ -9,24 +9,23 @@
 if ( ! defined( 'ABSPATH' ) || ! defined( 'EXTRP_PLUGIN_FILE' ) )
 	exit;
 
-function extrp_capability_filter()
+function extrp_capability_filter( $option )
 {
-	$option = 'publish_posts'; //avalible option refer to https://codex.wordpress.org/Roles_and_Capabilities
-	return apply_filters( 'extrp_capability_filter', $option );
+	//avalible option refer to https://codex.wordpress.org/Roles_and_Capabilities
+	$cap = apply_filters( 'extrp_capability_filter', $option );
+	return sanitize_key( $cap );
 }
 
-function extrp_max_chars( $maxchars = '' )
+function extrp_max_chars( $maxchars )
 {
-	global $extrp_settings;
-	if ( empty( $maxchars ) )
-		$maxchars = apply_filters( 'extrp_max_chars', $extrp_settings['max_char'] );
+	$maxchars = apply_filters( 'extrp_max_chars', $maxchars );
 	return absint( $maxchars );
 }
 
-function extrp_limit_count_id()
+function extrp_limit_count_id( $limit )
 {
-	$limit = 1;
-	return apply_filters( 'extrp_limit_count_id', (int) $limit );
+	$limit = apply_filters( 'extrp_limit_count_id', $limit );
+	return absint( $limit );
 }
 
 function do_related_by_tag()

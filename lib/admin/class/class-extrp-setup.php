@@ -40,16 +40,22 @@ class EXTRP_Setup
 	
 	public static function on_deactivation()
 	{
+		global $extrp_settings;
+		
+		$default = extrp_default_setting();
 		delete_option( 'extrp_version' );
 		update_option( 'extrp_with_relevanssi', (bool) 0 );
 		$upgraded_from = get_option( 'extrp_version_upgraded_from' );
 		if ( $upgraded_from )
 			delete_option( 'extrp_version_upgraded_from' );
+		
+		wp_delete_attachment( extrp_get_attach_id( $extrp_settings['noimage']['default'], null ), true  );
 	}
 	
 	public static function on_uninstall()
 	{
 		global $extrp_settings;
+		
 		remove_action('extrp_set_noimage_first');
 		self::delete_cache();
 		delete_option( 'extrp_option' );

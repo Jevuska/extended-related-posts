@@ -4,7 +4,7 @@ Donate link: http://www.jevuska.com/donate/
 Tags: posts, relevanssi, relevant, search, shortcode, widget, multilanguage, thumbnail
 Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 ---
@@ -42,9 +42,16 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
 ![screenshot 4](lib/assets/images/screenshots/extrp-widget.jpg)
 
 ## Changelog
+* 1.0.3 = November 02, 2015
+ * Fix sanitize input field
+ * Fix stopwords functionality
+ * Rename function `create_list_post_ids` into `data_textarea` and fix functionality
+ * Fix image default for thumbnail
+ * Remove `post_type` parameter from shortcode and widget
+
 * 1.0.2 = October 29, 2015
  * patch `get_search_query` for shortcode and widget as base search if on search page
- 
+
 * 1.0.1 = October 25, 2015
  * Fix PHP warnings
  * Fix `extrp_del_cache_transient`
@@ -52,8 +59,11 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
  * Sanitize input field
  * Fix code readability
  * Fix stable tag readme file
- 
+
 ## Upgrade Notice
+* 1.0.3
+ * This version fixes a security related bug. Upgrade immediately.
+ 
 * 1.0.1
  * This version fixes a security related bug. Upgrade immediately.
 

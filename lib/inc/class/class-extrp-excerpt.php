@@ -35,14 +35,11 @@ class EXTRP_Excerpt
 	{
 		if ( ! is_array( $args ) )
 			return;
-		$args = wp_parse_args( $args, array(
-			 'col_css' => 'style=color:' 
-		) );
-		
+
 		$this->post_id   = ( null === $args['post_id'] ) ? get_the_ID() : (int) $args['post_id'];
 		$this->q         = $args['q'];
 		$this->highlight = $this->highlight_html( $args['highlight'] );
-		$this->maxchars  = $this->countwords( absint( $args['n'] ) );
+		$this->maxchars  = $this->countwords( absint( $args['maxchars'] ) );
 		$this->excerpt   = $this->get_the_excerpt();
 	}
 	
@@ -60,15 +57,15 @@ class EXTRP_Excerpt
 		return $this->excerpt;
 	}
 	
-	protected function countwords( $n = '' )
+	protected function countwords( $maxchars )
 	{
-		return extrp_max_chars( $n );
+		return extrp_max_chars( $maxchars );
 	}
 	
 	protected function post_content()
 	{
 		$post = get_post( $this->post_id );
-		if ( !empty( $post->post_password ) )
+		if ( ! empty( $post->post_password ) )
 		{
 			if ( stripslashes( $_COOKIE['wp-postpass_' . COOKIEHASH] ) != $post->post_password )
 			{
@@ -85,19 +82,25 @@ class EXTRP_Excerpt
 		
 		if ( $last == $this->q )
 			return $lastsplit;
+
 		$text = preg_replace( '/[._-]+/', '', $this->q );
 		
 		$r     = explode( ' ', $text );
-		$words = extrp_filter_stopwords( $r );
 		
-		$last      = $text;
-		$lastsplit = $words;
-		return $words;
+		if ( ! array_filter( $r ) )
+			return $lastsplit;
+		
+		$words = extrp_filter_stopwords( $r );
+
+		if ( ! array_filter( $words ) )
+			return $lastsplit;
+		
+		return array_values( array_unique( $words ) );
 	}
 	
 	protected function highlight_excerpt()
 	{
-		$text = strip_tags( $this->content );
+		$text = wp_strip_all_tags( $this->content );
 		for ( $i = 0; $i < sizeof( $this->keys ); $i++ )
 			$this->keys[ $i ] = preg_quote( $this->keys[ $i ], '/' );
 		$workkeys = $this->keys;
@@ -211,23 +214,23 @@ class EXTRP_Excerpt
 	
 	protected function highlight_html( $args )
 	{
-		if ( 'no' != $args[0] ) :
+		if ( 'no' != $args['hl'] ) :
 			$array = array(
 				'strong',
 				'mark',
 				'em' 
 			);
-			if ( in_array( $args[0], $array ) ) :
-				return sprintf( '<%1$s>\0</%1$s>', $args[0] );
+			if ( in_array( $args['hl'], $array ) ) :
+				return sprintf( '<%1$s>\0</%1$s>', $args['hl'] );
 			else :
-				if ( 'col' == $args[0] )
-					return sprintf( '<span style="color:%s">\0</span>', $args[1] );
-				if ( 'bgcol' == $args[0] )
-					return sprintf( '<span style="background-color:%s">\0</span>', $args[1] );
-				if ( 'css' == $args[0] )
-					return sprintf( '<span style="%s">\0</span>', $args[1] );
-				if ( 'class' == $args[0] )
-					return sprintf( '<span %s>\0</span>', $args[1] );
+				if ( 'col' == $args['hl'] )
+					return sprintf( '<span style="color:%s">\0</span>', $args['hlt'] );
+				if ( 'bgcol' == $args['hl'] )
+					return sprintf( '<span style="background-color:%s">\0</span>', $args['hlt'] );
+				if ( 'css' == $args['hl'] )
+					return sprintf( '<span style="%s">\0</span>', $args['hlt'] );
+				if ( 'class' == $args['hl'] )
+					return sprintf( '<span %s>\0</span>', $args['hlt'] );
 			endif;
 		else :
 			return '\0';
@@ -238,7 +241,6 @@ class EXTRP_Excerpt
 	{
 		static $filter_deactivated = false;
 		global $more;
-		global $wp_query;
 		
 		if ( ! $filter_deactivated )
 		{

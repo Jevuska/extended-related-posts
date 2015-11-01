@@ -53,8 +53,8 @@ class EXTRP_Load
 			'load_file' 
 		), 30 );
 		
-		add_action( 'extrp_set_noimage_first', 'extrp_set_noimage' );
 		add_filter( 'plugin_action_links', 'extrp_plugin_action_links', 10, 5 );
+		add_action( 'widgets_init', 'extrp_register_widgets' );
 	}
 	
 	public function load_file()

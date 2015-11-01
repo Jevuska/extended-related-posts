@@ -42,22 +42,18 @@ class EXTRP_Shortcode_Table extends WP_List_Table
 		
 		$data = [];
 		foreach ( $setting as $k ) :
-			$id       = $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => $k ) );
+			$id       = absint( $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => $k ) ) );
 			
 			$normal   = $extrp_data[ $id ]['normal'];
 			$optional = $extrp_data[ $id ]['optional'];
 			
 			if ( is_array( $extrp_data[ $id ]['normal'] ) ) :
-				if ( 'post_type' == $k ) :
-					$normal = '<kbd>' . implode( '</kbd><kbd>', array_values( $normal ) ) . '</kbd>';
-				else :
-					$normal = '<kbd>' . implode( '</kbd><kbd>', array_keys( $normal ) ) . '</kbd>';
-				endif;
+				$normal = '<kbd>' . implode( '</kbd><kbd>', array_keys( $normal ) ) . '</kbd>';
 			else :
-					if ( 'post__in' == $k || 'post__not_in' == $k || 'image_size' == $k || 'post_date' == $k )
-						$normal = '<em>empty</em>';
-					else
-						$normal = '<kbd>' . $normal . '</kbd>';
+				if ( 'post__in' == $k || 'post__not_in' == $k || 'image_size' == $k || 'post_date' == $k )
+					$normal = '<em>empty</em>';
+				else
+					$normal = '<kbd>' . $normal . '</kbd>';
 			endif;
 			
 			if ( is_array( $extrp_data[ $id ]['optional'] ) ) :

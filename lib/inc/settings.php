@@ -37,7 +37,7 @@ function extrp_default_setting( $option = '' )
 		
 		case 'shortcode' :
 			$keys    = array_keys( $args );
-			$exclude = array( 0, 13, 17, 18, 19, 21, 24, 29, 30, 31 );
+			$exclude = array( 0, 1, 13, 17, 18, 19, 21, 24, 29, 30, 31 );
 			for ( $i = 0; $i < count( $keys ); $i++ ) :
 				if ( in_array( $i, $exclude ) )
 					unset( $args[ $keys[ $i ] ] );

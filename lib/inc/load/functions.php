@@ -33,7 +33,7 @@ function extrp_theme_setup()
 function update_with_relevanssi_option()
 {
 	global $extrp_settings, $extrp_sanitize;
-	
+
 	if ( ! $extrp_settings )
 		$extrp_settings = extrp_default_setting();
 	
@@ -63,8 +63,6 @@ function update_with_relevanssi_option()
 		if ( false == get_option( 'extrp_with_relevanssi' ) )
 			update_option( 'extrp_with_relevanssi', true );
 	}
-
-	do_action('extrp_set_noimage_first');
 }
 
 function extrp_set_noimage()
@@ -77,10 +75,9 @@ function extrp_set_noimage()
 	if ( ! isset( $extrp_settings['noimage']['default'] ) )
 		return;
 
-	if ( '' == $extrp_settings['noimage']['default'] ) 
+	if ( '' == $extrp_settings['noimage']['default'] || false == wp_get_attachment_image_src( $extrp_settings['noimage']['attachment_id'], 'full', false ) ) 
 	{
 		$bail_noimage = extrp_bail_noimage();
-		
 		update_option( 'extrp_option', $bail_noimage );
 	}
 }
@@ -92,8 +89,7 @@ function extrp_bail_noimage()
 	$args = array(
 		'post_id' => null,
 		'src'     => esc_url_raw( EXTRP_URL_PLUGIN_IMAGES . 'default.png' ),
-		'size'    => 'thumbnail',
-		'first'   => true
+		'size'    => 'thumbnail'
 	);
 		
 	$thumbnail     = extrp_thumbnail( $args );
@@ -110,6 +106,7 @@ function extrp_bail_noimage()
 		'crop'          => wp_validate_boolean( $extrp_noimage['crop'] )		
 	);
 	$args = wp_parse_args( $output, $extrp_settings );
+
 	return $args;
 }
 
@@ -132,14 +129,13 @@ function extrp_related_posts( $args = '' )
 
 function extrp_set_related_posts( $post, $arg = '' )
 {
-	
 	$a = extrp_do_your_settings( $post, $arg );
 	
 	$post_id = ( null === $post->ID ) ? get_the_ID() : (int) $post->ID;
 	
 	remove_filter( 'the_content', 'extrp_filter_the_content' );
 
-	$result = extrp_create_html( $a['relatedby'], $post_id, $a['single'], $a['posts'], $a['post_date'], $a['subtitle'], $a['randomposts'], $a['titlerandom'], $a['title'], $a['desc'], $a['image_size'], $a['display'], $a['shape'], $a['crop'], $a['heading'], $a['postheading'], $a['post_excerpt'], $a['maxchars'], $a['highlight']['hl'], $a['highlight']['hlt'], $a['relevanssi'], $a['post__in'], $a['post__not_in'] );
+	$result = extrp_create_html( $a['relatedby'], $post_id, $a['single'], $a['posts'], $a['post_date'], $a['subtitle'], $a['randomposts'], $a['titlerandom'], $a['post_title'], $a['desc'], $a['image_size'], $a['display'], $a['shape'], $a['crop'], $a['heading'], $a['postheading'], $a['post_excerpt'], $a['maxchars'], $a['highlight'], $a['relevanssi'], $a['post__in'], $a['post__not_in'] );
 
 	add_filter( 'the_content', 'extrp_filter_the_content', 10 );
 
@@ -157,7 +153,7 @@ function extrp_do_your_settings( $post, $arg = '' )
 		$b['image_size'] = false;
 	
 	if ( !empty( $arg ) ) :
-		$d     = is_array( $arg ) ? $arg : array(
+		$d     = ( is_array( $arg ) ) ? $arg : array(
 			 'post__not_in' => $extrp_sanitize->post_ids( $arg ) 
 		);
 		$i     = extrp_default_setting( 'shortcode' );
@@ -179,7 +175,7 @@ function extrp_do_your_settings( $post, $arg = '' )
 	return $b;
 }
 
-function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postcount = '', $date = '', $subtitle = '', $randomposts = '', $titlerandom = '', $title = '', $desc = '', $size = '', $display = '', $shape = '', $crop = '', $heading = '', $postheading = '', $snippet = '', $maxchars = '', $hl = '', $hlt = '', $relevanssi = false, $post_in = '', $post_not_in = '', $option = '', $widget = '' )
+function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postcount = '', $date = '', $subtitle = '', $randomposts = '', $titlerandom = '', $title = '', $desc = '', $size = '', $display = '', $shape = '', $crop = '', $heading = '', $postheading = '', $snippet = '', $maxchars = '', $highlight = '', $relevanssi = false, $post_in = '', $post_not_in = '', $option = '', $widget = '' )
 {
 	global $extrp_settings;
 
@@ -187,7 +183,7 @@ function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postc
 		return false;
 	
 	$expiration = $extrp_settings['expire'];
-	$respon = extrp_json( $relatedby, $post_id, $postcount, $date, $randomposts, $size, $title, $shape, $postheading, $crop, $expiration, $snippet, $maxchars, $hl, $hlt, $relevanssi, $post_in, $post_not_in, $option );
+	$respon = extrp_json( $relatedby, $post_id, $postcount, $date, $randomposts, $size, $title, $shape, $postheading, $crop, $expiration, $snippet, $maxchars, $highlight, $relevanssi, $post_in, $post_not_in, $option );
 	
 	if ( ! $respon )
 		return false;
@@ -210,15 +206,15 @@ function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postc
 	
 	if ( $subtitle && $titlerandom )
 	{
-		$subtitle = 'random' != $rb ? $subtitle : $titlerandom;
+		$subtitle = ( 'random' != $rb ) ? $subtitle : $titlerandom;
 	}
 	else if ( $subtitle )
 	{
-		$subtitle = 'random' != $rb ? $subtitle : '';
+		$subtitle = ( 'random' != $rb ) ? $subtitle : '';
 	}
 	else if ( $titlerandom )
 	{
-		$subtitle = 'random' != $rb ? '' : $titlerandom;
+		$subtitle = ( 'random' != $rb ) ? '' : $titlerandom;
 	}
 	else
 	{
@@ -327,7 +323,7 @@ function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postc
 	return $result;
 }
 
-function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts = '', $size = '', $title = '', $shape = '', $postheading = '', $crop = '', $expiration, $snippet, $maxchars = '', $hl = '', $hlt = '', $relevanssi = false, $post_in = '', $post_not_in = '', $option = '' )
+function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts = '', $size = '', $title = '', $shape = '', $postheading = '', $crop = '', $expiration, $snippet, $maxchars = '', $highlight = '', $relevanssi = false, $post_in = '', $post_not_in = '', $option = '' )
 {
 	global $extrp_settings;
 	remove_filter( 'extrp_option_related_by', 'do_related_by_random' );
@@ -357,16 +353,16 @@ function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts 
 			$post_ids  = extrp_search_postids_db( $post_id, $postcount );
 			$exist_cat = extrp_get_list_cat_ids( $post_id );
 			$exist_tag = array_filter( extrp_get_list_tag_ids_arr( $post_id ) );
-			$q         = get_the_title( $post_id );
+			$q         = extrp_get_the_title( $post_id );
 			
 			if ( 'shortcode' == $option && is_category() )
-				$q         = 	single_cat_title("", false);
+				$q = single_cat_title( '', false );
 
 			if ( 'shortcode' == $option && is_tag() )
-				$q         = 	single_tag_title("", false);
+				$q = single_tag_title( '', false );
 			
 			if ( 'shortcode' == $option && is_search() )
-				$q         = 	get_search_query();
+				$q = get_search_query();
 			
 			$array_relatedby = array_keys( extrp_related_by( $post_id, $q, $postcount ) );
 			
@@ -450,7 +446,7 @@ function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts 
 					}
 					else
 					{
-						$post_excerpt = extrp_get_excerpt( $id, $maxchars, $q, $hl, $hlt, $snippet );
+						$post_excerpt = extrp_get_excerpt( $id, $maxchars, $q, $highlight, $snippet );
 					}
 					$post_content[] = array (
 						'id' => $id,
@@ -471,9 +467,9 @@ function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts 
 				
 				if ( $cache ) :
 					if ( 'shortcode' == $option )
-						set_transient( 'extrp_cache_post_shortcode_' . $post_id, $respon, $expiration );
+						set_transient( 'extrp_cache_post_shortcode_' . absint( $post_id ), $respon, absint( $expiration ) );
 					else
-						set_transient( 'extrp_cache_post_' . $post_id, $respon, $expiration );
+						set_transient( 'extrp_cache_post_' . absint( $post_id ), $respon, absint( $expiration ) );
 				endif;
 			else :
 				$respon = false;
@@ -491,16 +487,17 @@ function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts 
 function jv_query( $relatedby, $post_id, $q, $postcount, $post_in = '', $post_not_in = '', $relevanssi = false )
 {
 	global $extrp_settings;
+	
 	$s = extrp_related_by( $post_id, $q, $postcount, $relatedby );
-
+	$post_ids  = extrp_search_postids_db( $post_id, $postcount );
 	$post__in = array_filter( $post_in ) ? array_diff( $post_in, array(
 		 $post_id 
 	) ) : array();
 	
-	$post__not_in = $post_not_in == '' ? array( $post_id ) : array_unique( 
+	$post__not_in = ( '' == $post_not_in ) ? array( $post_id ) : array_unique( 
 		wp_parse_args( array( $post_id ), $post_not_in )
 	);
-
+	
 	$post__in_key = ( 'post__in' != $s[0] ) ? 'post__in' : '';
 	$post__in_val = ( 'post__in' != $s[0] ) ? $post__in : '';
 
@@ -567,7 +564,7 @@ function extrp_style_uri()
 	return $path_css . 'style.css';
 }
 
-function extrp_get_excerpt( $post_id, $maxchars = '', $q = '', $hl = '', $hlt = '', $snippet = '' )
+function extrp_get_excerpt( $post_id, $maxchars = '', $q = '', $highlight = '', $snippet = '' )
 {
 	$post_id = ( null === $post_id ) ? get_the_ID() : (int) $post_id;
 	
@@ -575,16 +572,13 @@ function extrp_get_excerpt( $post_id, $maxchars = '', $q = '', $hl = '', $hlt = 
 		$args = array(
 			'post_id'   => $post_id,
 			'q'         => $q,
-			'highlight' => array(
-				 $hl,
-				$hlt 
-			),
-			'n'         => $maxchars 
+			'highlight' => $highlight,
+			'maxchars'  => $maxchars
 		);
 		$extrp_excerpt = extrp_excerpt( $args );
 		$excerpt = $extrp_excerpt->get();
 	else :
-		$excerpt      = extrp_max_charlength(
+		$excerpt = extrp_max_charlength(
 			$maxchars, 
 			strip_shortcodes( get_the_excerpt() ) 
 		);
@@ -636,8 +630,8 @@ function extrp_get_list_tag_ids_arr( $post_id )
 
 function extrp_search_postids_db( $post_id, $postcount )
 {
+	$limit = extrp_limit_count_id( 1 );
 	$arr   = extrp_split_title( $post_id );
-	$limit = extrp_limit_count_id();
 	if ( array_filter( $arr ) ) :
 		$post_ids = extrp_sql_post_ids( $arr, $limit, $post_id );
 
@@ -646,7 +640,7 @@ function extrp_search_postids_db( $post_id, $postcount )
 		
 		if ( (int) 1 == count( $post_ids ) )
 			$post_ids = extrp_sql_post_ids( $arr, $postcount, $post_id );
-
+		
 		if ( (int) 2 == count( $post_ids ) || (int) 3 == count( $post_ids ) )
 			$post_ids = extrp_sql_post_ids( $arr, (int) 2, $post_id );
 		
@@ -683,27 +677,33 @@ function extrp_sql_post_ids( $arr, $limit, $post_id )
 	}
 
 	if ( $result )
-		return array_unique( $result );
+		return array_values( array_unique( $result ) );
 	return false;
 }
 
 function extrp_post_type()
 {
-	global $extrp_settings;
+	global $extrp_settings, $extrp_sanitize;
 	$post_type = apply_filters( 'extrp_post_type', $extrp_settings['post_type'] );
-	if ( ! $post_type )
-		return false;
-	return $post_type;
+	return $extrp_sanitize->post_types( $post_type );
+}
+
+function extrp_get_the_title( $post_id )
+{
+	$post_title = join( ' ', extrp_split_title( $post_id ) );
+	return $post_title;
 }
 
 function extrp_split_title( $post_id )
 {
-	$the_title = get_the_title( absint( $post_id ) );
+	global $extrp_sanitize;
 	
-	if ( ! empty( $the_title ) ) :
-		$title = sanitize_title_for_query( $the_title );
-		$r     = explode( '-', $title );
-		return extrp_filter_stopwords( $r );
+	$post_title = get_the_title( absint( $post_id ) );
+	
+	if ( ! empty( $post_title ) ) :
+		$post_title = $extrp_sanitize->remove_char( $post_title );
+		$array      = explode( ' ', $post_title );
+		return extrp_filter_stopwords( $array );
 	endif;
 	return false;
 }
@@ -715,7 +715,7 @@ function extrp_filter_stopwords( $r )
 		$split_title = array();
 		
 		for ( $i = 0; $i < count( $r ); $i++ ) :
-			if (  3 < strlen( $r[ $i ] ) && in_array( $r[ $i ], $stopwords ) === false )
+			if (  3 < mb_strlen( $r[ $i ] ) && in_array( $r[ $i ], $stopwords ) === false )
 				$split_title[] = $r[ $i ];
 		endfor;
 		
@@ -727,17 +727,21 @@ function extrp_filter_stopwords( $r )
 
 function extrp_stopwords()
 {
-	global $extrp_settings;
-	$badwords = $extrp_settings['badword'];
-	if ( !empty( $badwords ) )
+	global $extrp_settings, $extrp_sanitize;
+	
+	$stopword = $extrp_settings['stopwords'];
+	
+	if ( ! empty( $stopword ) )
 	{
-		$words     = explode( ',', _x( $badwords, 'Comma-separated list of search stopwords in your language' ) );
+		$words     = explode( ',', _x( $stopword, 'Comma-separated list of search stopwords in your language' ) );
 		$stopwords = array();
 		foreach ( $words as $word )
 		{
 			$word = trim( $word, "\r\n\t " );
-			if ( $word )
-				$stopwords[] = $word;
+			$word = $extrp_sanitize->remove_char( $word );
+			if ( 0 == mb_strlen( $word ) )
+				continue;
+			$stopwords[] = $word;
 		}
 		return $stopwords;
 	}
@@ -764,10 +768,13 @@ function extrp_get_the_post_thumbnail( $post_id, $size = '', $crop = '', $img_cl
 
 function extrp_get_attach_id( $src, $post_id = 0 )
 {
+	global $extrp_sanitize;
+
 	$args = array(
-		'src'     => $src,
-		'post_id' => $post_id
+		'src'     => esc_url_raw( $src ),
+		'post_id' => absint( $post_id )
 	);
+	
 	$thumb = extrp_thumbnail( $args );
 	return $thumb->get_attachment_id( $src );
 }
