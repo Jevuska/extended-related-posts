@@ -40,7 +40,20 @@ class EXTRP_Setup
 	
 	public static function on_deactivation()
 	{
-		global $extrp_settings;
+		global $extrp_settings, $extrp_screen_id, $extrp_screen_id_tool;
+		$current_user = wp_get_current_user();
+		$user_id      = $current_user->ID;
+		
+		delete_user_meta( $user_id, 'closedpostboxes_' . $extrp_screen_id );
+		delete_user_meta( $user_id, 'metaboxhidden_' . $extrp_screen_id );
+		delete_user_meta( $user_id, 'meta-box-order_' . $extrp_screen_id );
+		delete_user_meta( $user_id, 'closedpostboxes_' . $extrp_screen_id_tool );
+		delete_user_meta( $user_id, 'metaboxhidden_' . $extrp_screen_id_tool );
+		delete_user_meta( $user_id, 'meta-box-order_' . $extrp_screen_id_tool );
+		
+		self::delete_cache();
+		
+		wp_clear_scheduled_hook( 'extrp_delete_cache' );
 		
 		$default = extrp_default_setting();
 		delete_option( 'extrp_version' );
@@ -54,25 +67,10 @@ class EXTRP_Setup
 	
 	public static function on_uninstall()
 	{
-		global $extrp_settings;
-		
-		remove_action('extrp_set_noimage_first');
-		self::delete_cache();
 		delete_option( 'extrp_option' );
 		delete_option( 'extrp_with_relevanssi' );
 		delete_option( 'widget_extrp_widget' );
-		
-		wp_clear_scheduled_hook( 'extrp_delete_cache' );
-
-		if ( 
-			isset( $extrp_settings['noimage']['attachment_id'] ) 
-			&& '' != $extrp_settings['noimage']['attachment_id'] 
-			&& false === wp_delete_attachment( $extrp_settings['noimage']['attachment_id'], true  ) 
-			) 
-		{
-			$msg = __( 'Fail to delete No Image default. Try to delete it manually.', 'extrp' );
-			add_settings_error( 'extrp-notices', esc_attr( 'delete-attachment-notice' ), $msg, 'notice-warning' );
-		}
+		remove_action('extrp_set_noimage_first');
 	}
 	
 	protected static function delete_cache()

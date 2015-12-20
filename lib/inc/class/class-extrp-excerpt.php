@@ -11,9 +11,6 @@
  
 if ( ! defined( 'ABSPATH' ) || ! defined( 'EXTRP_PLUGIN_FILE' ) )
 	exit;
-if ( ! defined( 'ABSPATH' ) )
-	exit;
-
 
 if ( ! defined( '_EXTRP_LEN_SEARCH' ) )
 	define( '_EXTRP_LEN_SEARCH', 15 );

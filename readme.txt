@@ -1,10 +1,10 @@
 === Extended Related Posts ===
 Contributors: Jevuska
 Donate link: http://www.jevuska.com/donate/
-Tags: posts, relevanssi, relevant, search, shortcode, widget, multilanguage, thumbnail
+Tags: posts, relevanssi, relevant, search, shortcode, widget, multilanguage, thumbnail, related
 Requires at least: 4.3
-Tested up to: 4.3
-Stable tag: 1.0.3
+Tested up to: 4.4
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
 5. Widget Settings
 
 == Changelog ==
+* 1.0.4 = December 21, 2015
+ * Fixes setup plugin and variables
+ 
 * 1.0.3 = November 02, 2015
  * Fix sanitize input field
  * Fix stopwords functionality
@@ -53,6 +56,9 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
  * First official release!
 
 == Upgrade Notice ==
+* 1.0.4
+ * This version fixes a security related bug. Upgrade immediately.
+ 
 * 1.0.3
  * This version fixes a security related bug. Upgrade immediately.
 

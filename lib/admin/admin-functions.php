@@ -18,10 +18,10 @@ function extrp_plugin_updates()
 {
 	$current_version = get_option( 'extrp_version' );
 
-	if ( version_compare( $current_version, '1.0.3', '<' ) )
+	if ( version_compare( $current_version, EXTRP_PLUGIN_VERSION, '<' ) )
 	{
-		include( EXTRP_ADMIN_PATH . 'updates/extrp-1.0.2.php' );
-		update_option( 'extrp_version', '1.0.3' );
+		include( EXTRP_ADMIN_PATH . 'updates/extrp-1.0.php' );
+		update_option( 'extrp_version', EXTRP_PLUGIN_VERSION );
 	}
 }
 

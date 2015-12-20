@@ -143,7 +143,7 @@ class EXTRP_Widget extends WP_Widget
 		global $extrp_settings, $extrp_sanitize;
 		
 		$data = $extrp_sanitize->big_data();
-
+		
 		if ( $instance ) :
 			$instance = $extrp_sanitize->sanitize( $instance );
 			foreach ( $data as $key => $value ) :

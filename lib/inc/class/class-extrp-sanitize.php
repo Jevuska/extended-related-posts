@@ -61,15 +61,15 @@ class EXTRP_Sanitize
 		
 		if ( is_array( $lists ) )
 		{
-			foreach ( $lists as $id )
-			{
+			foreach ( $lists as $id ) :
 				$id = absint( $id );
 				
 				if ( '' == $id )
 					continue;
 				
 				$result[] = $id;
-			}
+			endforeach;
+			
 			if ( array_filter( $result ) )
 				$list = implode( ',', array_values( array_unique( $result ) ) );
 		}
@@ -77,14 +77,14 @@ class EXTRP_Sanitize
 		{
 			$words = explode( ',', _x( $lists, 'Comma-separated list of search stopwords in your language' ) );
 			
-			foreach ( $words as $word )
-			{
+			foreach ( $words as $word ) :
 				$word = $this->remove_char( $word );
 				if ( 0 == mb_strlen( $word ) )
 					continue;
 				
 				$result[] = $word;
-			}
+			endforeach;
+			
 			if ( array_filter( $result ) )
 				$list = implode( ',', array_values( array_unique( $result ) ) );
 		}
@@ -94,19 +94,16 @@ class EXTRP_Sanitize
 	public function remove_char( $q )
 	{
 		if ( '' == $q )
-			return '';
+			return $q;
 		
-		$q = sanitize_title_with_dashes( $q, '', 'save' );
+		$q = sanitize_title_with_dashes( urldecode( $q ), '', 'save' );
 		$q = wp_strip_all_tags( $q );
 		$q = preg_replace( '/&#?[a-z0-9]+;/i','', $q );
 		$q = preg_replace( '/[^%A-Za-z0-9 _-]/', ' ', $q );
 		$q = preg_replace( '/&.+?;/', '', $q );
 		$q = preg_replace( '/_+/', ' ', $q );
-		$q = preg_replace( '|-+|', ' ', $q );
 		$q = preg_replace( '/\s+/', ' ', $q );
-		$q = str_replace("'", '', $q );
-		$q = str_replace('"', '', $q );
-		$q = trim( $q, ' ' );
+		$q = preg_replace( '|-+|', ' ', $q );
 		$q = htmlspecialchars( urldecode( trim( $q ) ) );
 		return $q;
 	}
@@ -125,9 +122,7 @@ class EXTRP_Sanitize
 		$h3 = 'h3';
 		$heading = sanitize_key( $heading );
 		if ( in_array( $heading, $this->array_parameter( 'heading' ) ) )
-		{
 			return $heading;
-		}
 		return sanitize_key( $h3 );
 	}
 	
@@ -160,9 +155,7 @@ class EXTRP_Sanitize
 	{
 		$pattern = '/^[a-z_-]+$/';
 		if ( preg_match( $pattern, $key ) )
-		{
 			return $key;
-		}
 		return false;
 	}
 	
@@ -188,19 +181,23 @@ class EXTRP_Sanitize
 		$array   = array_keys( $this->array_parameter( 'highlight' ) );
 		$noinput = array_slice( $array, 1, 3, true );
 		
-		if ( $hl != current( $array ) )
-		{
+		if ( $hl != current( $array ) ) :
+		
 			if ( in_array( $hl, $noinput ) )
 				$hlt = $hl;
+			
 			if ( strpos( $hl, 'col' ) )
 				$hlt = $this->sanitize_hex_color( $hlt );
-			if ( strpos( $hl, 'ss' ) )
+			
+			if ( strpos( $hl, 'ss' ) ) :
 				$hlt = sanitize_text_field( $hlt );
-		}
-		else
-		{
+			endif;
+			
+		else :
+		
 			$hlt = 'no';
-		}
+			
+		endif;
 		
 		$highlight = array(
 			'hl'  => sanitize_text_field( $hl ),
@@ -246,36 +243,32 @@ class EXTRP_Sanitize
 	public function array_sizes()
 	{
 		global $_wp_additional_image_sizes;
-		$sizes                        = array();
-		$get_intermediate_image_sizes = get_intermediate_image_sizes();
+		$sizes              = array();
+		$intermediate_sizes = get_intermediate_image_sizes();
 		
-		foreach ( $get_intermediate_image_sizes as $_size )
-		{
+		foreach ( $intermediate_sizes as $_size ) :
+		
 			if ( in_array( $_size,
 				array(
 					'thumbnail',
 					'medium',
 					'large' 
 				)
-			) )
-			{
+			) ) :
 				$sizes[ $_size ]['width']  = get_option( $_size . '_size_w' );
 				$sizes[ $_size ]['height'] = get_option( $_size . '_size_h' );
 				$sizes[ $_size ]['crop']   = (bool) get_option( $_size . '_crop' );
 				
-			}
+			endif;
 			
 			if ( isset( $_wp_additional_image_sizes[ $_size ] ) )
-			{
 				$sizes[ $_size ] = array(
 					'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
 					'height' => $_wp_additional_image_sizes[ $_size ]['height'],
 					'crop'   => $_wp_additional_image_sizes[ $_size ]['crop'] 
 				);
-				
-			}
 			
-		}
+		endforeach;
 		
 		return $sizes;
 	}
@@ -301,23 +294,22 @@ class EXTRP_Sanitize
 		return false;
 	}
 	
-	
 	public function customsize( $args )
 	{
 		$array = array();
 
 		if ( empty( $args ) )
 			return false;
-
-		for ( $i = 0 ; $i < count( $args ) ; $i++ )
-		{
+		
+		for ( $i = 0 ; $i < count( $args ) ; $i++ ) :
 			$array[ $i ] = array(
 				'size'   => $this->customsize_key( $args[ $i ]['size'] ),
 				'width'  => intval( $args[ $i ]['width'] ),
 				'height' => intval( $args[ $i ]['height'] ),
 				'crop'   => $this->customsize_crop( $args[ $i ]['crop'] ) 
 			);
-		}
+		endfor;
+		
 		return $array;
 	}
 	
@@ -334,6 +326,7 @@ class EXTRP_Sanitize
 			if ( in_array( $k, $array ) )
 				$result[] = $k;
 		endforeach;
+		
 		return $result;
 	}
 	
@@ -357,14 +350,11 @@ class EXTRP_Sanitize
 
 		$noimage = $extrp_settings['noimage'];
 			
-		if ( ! isset( $noimage['default'] ) ||  $args === $noimage ||  false == wp_get_attachment_image_src( $noimage['attachment_id'], 'full', false ) )
-		{
+		if ( ! isset( $noimage['default'] ) ||  $args === $noimage ||  false == wp_get_attachment_image_src( $noimage['attachment_id'], 'full', false ) ) :
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-			{
 				return true;
-			}
 			return $args;
-		}
+		endif;
 		
 		$default = array(
 			'post_id'   => null,
@@ -379,6 +369,7 @@ class EXTRP_Sanitize
 		
 		if ( ! $data_thumb )
 			return false;
+		
 		return $data_thumb;
 	}
 	
@@ -423,7 +414,7 @@ class EXTRP_Sanitize
 			return $key;
 		
 	  endforeach;
-
+	  
 	  return false; 
 	}
 
@@ -1066,7 +1057,7 @@ class EXTRP_Sanitize
 		$data  = array_splice( $_data, 0, 32 );
 		array_unshift( $data, '' );
 		unset( $data[0] );
-
+		
 		$default = array();
 		for( $i = 1 ; $i <= count( $data ) ; $i++ ) :
 			$default[ $data[ $i ]['parameter'] ] = $data[ $i ]['normal'];

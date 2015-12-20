@@ -20,6 +20,7 @@ class EXTRP_Admin
 	protected $slug_tool  = 'extrp-tool';
 	protected $tabs;
 	public $with_relevanssi;
+	
 	static public function init()
 	{
 		$class = __CLASS__;
@@ -28,7 +29,6 @@ class EXTRP_Admin
 	
 	public function __construct()
 	{
-		
 		add_action( 'admin_init', array(
 			$this,
 			'page_init' 
@@ -48,7 +48,6 @@ class EXTRP_Admin
 			$this,
 			'ajx_noimg_view_cb' 
 		) );
-		
 	}
 	
 	public function page_init()
@@ -82,13 +81,13 @@ class EXTRP_Admin
 		
 		$extrp_data = $extrp_sanitize->big_data();
 		
-		$item = array( 
+		$item = array(
 			$this->title,
 			$this->menu_title,
 			$this->slug
 		);
 		
-		$item_tool = array( 
+		$item_tool = array(
 			__( 'Tool of Extended Related Posts', 'extrp' ),
 			__( 'EXTRP Tool', 'extrp' ),
 			$this->slug_tool
@@ -117,7 +116,7 @@ class EXTRP_Admin
 				$attr_tool[2],
 				array(
 					$this,
-					'create_page_tool'
+					'create_page'
 				)
 			);
 		
@@ -149,7 +148,7 @@ class EXTRP_Admin
 			$this,
 			'extrp_admin_inline_js' 
 		) );
-
+		
 		add_action( 'admin_footer-widgets.php', array(
 			$this,
 			'extrp_admin_inline_js' 
@@ -161,9 +160,9 @@ class EXTRP_Admin
 		global $extrp_sanitize, $extrp_settings;
 		
 		$extrp_data = $extrp_sanitize->big_data();
-		$default = extrp_default_setting();
+		$default    = extrp_default_setting();
 		
-		$new_input = array();
+		$new_input  = array();
 		
 		$id = absint( $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'post_type' ) ) );
 		
@@ -184,8 +183,7 @@ class EXTRP_Admin
 			( isset( $input['post_date_time_diff'] ) ) ? sanitize_key( $input['post_date_time_diff'] ) : ''
 		);
 		
-		if ( isset( $input['delcache'] ) )
-		{
+		if ( isset( $input['delcache'] ) ) :
 			global $wpdb;
 			
 			$caches = wp_cache_get( 'extrp_transient_cache_all', 'extrpcache' );
@@ -223,32 +221,28 @@ class EXTRP_Admin
 				$msg = __( 'Cache was empty, there is no cache need to be deleted.', 'extrp' );
 				add_settings_error( 'extrp-notices', esc_attr( 'delete-cache' ), $msg, 'notice-warning' );
 			endif;
-		}
+		endif;
 
-		if ( ! isset( $input['thumb'] ) && ! isset( $input['post_title'] ) )
-		{
+		if ( ! isset( $input['thumb'] ) && ! isset( $input['post_title'] ) ) :
 			$msg = __( 'Unable to hide the post title if thumbnail not set.', 'extrp' );
 				add_settings_error( 'extrp-notices', 'hide-title', $msg, 'notice-warning' );
 			$input['post_title'] = (bool) 1;
-		}
+		endif;
 		
-		if ( isset( $input['relevanssi'] ) && 1 == $input['relevanssi'] )
-		{
+		if ( isset( $input['relevanssi'] ) && 1 == $input['relevanssi'] ) :
 			if ( 0 == $this->with_relevanssi ) :
 				add_settings_error( 'extrp-notices', esc_attr( 'error-notice-relevanssi' ), __( 'Unable to use Relevanssi algorithm, please activate/install Relevanssi plugin', 'extrp' ), 'notice-warning' );
 				$input['relevanssi'] = (bool) 0;
 			endif;
-		}
+		endif;
 		
-		if ( isset( $input['customsize_size'] ) && '' !== $input['customsize_size'] )
-		{
-			if ( false == $extrp_sanitize->customsize_key( $input['customsize_size'] ) )
-			{
+		if ( isset( $input['customsize_size'] ) && '' !== $input['customsize_size'] ) :
+			if ( false == $extrp_sanitize->customsize_key( $input['customsize_size'] ) ) :
 				$msg     = __( 'Unable to add this image size, please check your input again.', 'extrp' );
 				$keyname = sprintf( '<kbd>%s</kbd>', esc_html( $input['customsize_size'] ) );
 				add_settings_error( 'extrp-notices', 'error-notice-customsize', $msg . $keyname, 'error' );
 				$input['customsize'] = $extrp_settings['customsize'];
-			} else {
+			else :
 				if ( '' != intval( $input['customsize_width'] ) && '' != intval( $input['customsize_height'] ) ) :
 					$input['customsize_crop'] = ( isset( $input['customsize_crop'] ) ) ? (bool) 1 : (bool) 0;
 		
@@ -268,18 +262,18 @@ class EXTRP_Admin
 					add_settings_error( 'extrp-notices', 'error-notice-customsize', $msg, 'error' );
 					$input['customsize'] = $extrp_settings['customsize'];
 				endif;
-			}
-		}
+			endif;
+		endif;
 		
-		if ( isset( $input['highlight'] ) )
-		{
+		if ( isset( $input['highlight'] ) ) :
+		
 			if ( '' != $input['highlight'] ) :
+			
 				$input['hl']  = ( is_array( $input['highlight'] ) ) ? $extrp_sanitize->highlight_name( $input['highlight']['hl'] ) : $extrp_sanitize->highlight_name( $input['highlight'] );
 				
 				$input['hlt'] = ( isset( $input['hl_val_' . $input['hl']] ) ) ? sanitize_text_field( $input['hl_val_' . $input['hl']] ) : sanitize_key( $input['hl'] );
 				
-				if ( 'no' != $input['hl'] )
-				{
+				if ( 'no' != $input['hl'] ) :
 					if ( 'col' == $input['hl'] || 'bgcol' == $input['hl'] )
 						$input['hlt'] = $extrp_sanitize->sanitize_hex_color( $input['hlt'] );
 					
@@ -288,47 +282,50 @@ class EXTRP_Admin
 					
 					if ( 'class' == $input['hl'] )
 						$input['hlt'] = sanitize_html_class( $input['hlt'] );
-				};
+				endif;
 				
 				$input['highlight'] = array(
 					 'hl' => $input['hl'],
 					'hlt' => $input['hlt']
 				);
+				
 			else :
+			
 				$msg = __( 'Unable to set highlight, please check your input again.', 'extrp' );
 				add_settings_error( 'extrp-notices', 'error-notice-highlight', $msg, 'error' );
 				$input['highlight'] = $extrp_settings['highlight'];
+				
 			endif;
-		}
+		endif;
 		
 		$keys = array_keys( $default );
 
-		if ( isset( $input['reset'] ) && 'Reset' == sanitize_text_field( $input['reset'] ) )
-		{
+		if ( isset( $input['reset'] ) && 'Reset' == sanitize_text_field( $input['reset'] ) ) :
 			$msg = __( 'Success to reset your data.', 'extrp' );
 			add_settings_error( 'extrp-notices', esc_attr( 'reset-notice' ), $msg, 'updated' );
 			$attach_id = extrp_get_attach_id( esc_url_raw( $input['src'] ), null );
 			
-			if ( ! $attach_id )
-			{
+			if ( ! $attach_id ) :
+				
 				$attach_id_default = extrp_get_attach_id( $extrp_sanitize->noimage_default(), null );
+				
 				if ( ! $attach_id_default )
 					return extrp_bail_noimage();
-			}
+				
+			endif;
+			
 			return $default;
-		}
+		endif;
 		
-		if ( isset( $input['src'] ) )
-		{
+		if ( isset( $input['src'] ) ) :
 			$attach_id = extrp_get_attach_id( esc_url_raw( $input['src'] ), null );
 
-			if ( ! $attach_id )
-			{
+			if ( ! $attach_id ) :
 				$attach_id_default = extrp_get_attach_id( $extrp_sanitize->noimage_default(), null );
 				if ( ! $attach_id_default )
 					return extrp_bail_noimage();
 				return $extrp_settings;
-			}
+			endif;
 			
 			$input['noimage'] = array(
 					'attachment_id' => absint( $input['attachment_id'] ),
@@ -337,7 +334,7 @@ class EXTRP_Admin
 					'src'           => esc_url_raw( $input['src'] ),
 					'crop'          => ( isset( $input['crop'] ) ) ? wp_validate_boolean( $input['crop'] ) : false
 			);
-		}
+		endif;
 		
 		foreach ( $keys as $k ) :
 			if ( isset( $input[ $k ] ) )
@@ -345,22 +342,18 @@ class EXTRP_Admin
 			else
 				$new_input[ $k ] = false;
 		endforeach;
+		
 		return $extrp_sanitize->sanitize( $new_input );
 	}
 	
 	public function screen_tab()
 	{
-		global $extrp_screen_id, $extrp_screen_id_tool, $extrp_data;
+		global $current_screen, $extrp_data;
 		
-		$screen = get_current_screen();
-		if ( $screen->id != $extrp_screen_id )
-			return;
-
 		$this->tabs = extrp_tabs_array();
 		
-		foreach ( $this->tabs as $id => $data )
-		{			
-			$screen->add_help_tab( array(
+		foreach ( $this->tabs as $id => $data ) :
+			$current_screen->add_help_tab( array(
 				'id' => $id,
 				'title' => __( $data['title'], 'extrp' ),
 				'callback' => array(
@@ -368,100 +361,26 @@ class EXTRP_Admin
 					'prepare' 
 				) 
 			) );
-		}
-
-		$screen->set_help_sidebar( extrp_help_sidebar() );
-		
-		$group = extrp_mb_group();
-		foreach ( $group as $k => $v ) :
-		
-			if ( 'sidebar' == $extrp_data[ $k ]['parameter'] )
-			{
-				continue;
-			}
-			
-			if ( 'tool' == $v || 'sidebar' == $extrp_data[ $k ]['parameter'] )
-			{
-				add_meta_box(
-					$v,
-					ucwords( $extrp_data[ $k ]['subgroup'] ),
-					array(),
-					$extrp_screen_id_tool,
-					'side',
-					'core'
-				);
-				continue;
-			}
-			
-			add_meta_box(
-				$v,
-				ucwords( $extrp_data[ $k ]['subgroup'] ),
-				array(),
-				$extrp_screen_id,
-				'side',
-				'core'
-			);
 		endforeach;
-	}
-
-	public function screen_tab_tool()
-	{
-		global $extrp_screen_id_tool, $extrp_data;
 		
-		$screen = get_current_screen();
-		if (  $screen->id != $extrp_screen_id_tool )
-			return;
-
-		$this->tabs = extrp_tool_tabs_array();
-		
-		foreach ( $this->tabs as $id => $data )
-		{			
-			$screen->add_help_tab( array(
-				'id' => $id,
-				'title' => __( $data['title'], 'extrp' ),
-				'callback' => array(
-					$this,
-					'prepare' 
-				) 
-			) );
-		}
-
-		$screen->set_help_sidebar( extrp_help_sidebar() );
+		$current_screen->set_help_sidebar( extrp_help_sidebar() );
 		
 		$group = extrp_mb_group();
+		
 		foreach ( $group as $k => $v ) :
-
-			if ( 'tool' == $v )
-			{
-				add_meta_box(
-					$v,
-					ucwords( $extrp_data[ $k ]['subgroup'] ),
-					array(),
-					$extrp_screen_id_tool,
-					'side',
-					'core'
-				);
-				break;
-			}
-		endforeach;
-	}
-	
-	public function create_page()
-	{
-		global $extrp_sanitize, $extrp_screen_id, $extrp_data;
-
-		$screen = get_current_screen();
-		if ( $screen->id != $extrp_screen_id )
-			return;
-
-		$group = extrp_mb_group();
-
-		foreach ( $group as $k => $v ) :
+			
 			if ( 'tool' == $v )
 				continue;
+			
 			$id = ( 'save' == $v ) ? 'submitdiv' : $v;
+			$screen = $current_screen->id;
+			
+			
+			if ( 'support' == $v || 'features' == $v  )
+				$screen = $current_screen->id . '_undrag';
+			
 			$context = ( 'sidebar' == $extrp_data[ $k ]['parameter'] ) ? 'side' : 'advanced';
-
+			
 			add_settings_section( 
 				$id . '_section', 
 				'', 
@@ -472,23 +391,29 @@ class EXTRP_Admin
 				$this->slug . '_' . $id
 			);
 			
-			add_meta_box( 
-				$id, 
-				strtoupper( $extrp_data[ $k ]['subgroup'] ),
+			if ( 'sidebar' == $item['parameter'] )
+				continue;
+			
+			add_meta_box(
+				$id,
+				ucwords( $extrp_data[ $k ]['subgroup'] ),
 				array(
 					$this,
 					'callback_meta_box'
 				), 
-				$this->slug, 
-				$context, 
+				$screen,
+				$context,
 				'high',
 				array( 'mb' => $v )
 			);
 			
 			foreach ( $extrp_data as $item ) :
+			
 				if ( $id == $item['group'] ) :
+				
 					if ( 'sidebar' == $item['parameter'] )
-							continue;
+						continue;
+						
 					add_settings_field( 
 						$item['parameter'] . '_setting', 
 						$item['subtitle'], 
@@ -500,87 +425,97 @@ class EXTRP_Admin
 						$id . '_section',
 						array( 'id' => $item['id'] )
 					);
+					
 				endif;
+				
 			endforeach;
+			
 		endforeach;
-	
-		add_filter(
-			'admin_footer_text', 
-			array( 
-				$this, 
-				'admin_footer_text' 
-			) 
-		);
+	}
+
+	public function screen_tab_tool()
+	{
+		global $current_screen, $extrp_data;
 		
-		add_filter(
-			'update_footer', 
-			array( 
-				$this, 
-				'update_footer' 
-			), 
-			20 
-		);
+		$this->tabs = extrp_tool_tabs_array();
 		
-		$this->create_mb();
+		foreach ( $this->tabs as $id => $data ) :
+			$current_screen->add_help_tab( array(
+				'id' => $id,
+				'title' => __( $data['title'], 'extrp' ),
+				'callback' => array(
+					$this,
+					'prepare' 
+				) 
+			) );
+		endforeach;
+		
+		$current_screen->set_help_sidebar( extrp_help_sidebar() );
+		
+		$group = extrp_mb_group();
+		foreach ( $group as $k => $v ) :
+			if ( 'tool' == $v ) :
+				add_settings_section( 
+					$v . '_section', 
+					'', 
+					array(
+						$this,
+						'print_section_info_' . $v
+					), 
+					$this->slug . '_' . $v
+				);
+			
+				add_meta_box(
+					$v,
+					ucwords( $extrp_data[ $k ]['subgroup'] ),
+					array(
+						$this,
+						'callback_meta_box'
+					), 
+					$current_screen->id,
+					'advanced',
+					'high',
+					array( 'mb' => $extrp_data[ $v ]['group'] )
+				);
+				break;
+			endif;
+		endforeach;
 	}
 	
-	public function create_page_tool()
+	public function create_page()
 	{
+		global $current_screen, $extrp_screen_id, $extrp_screen_id_tool;
 		
-		global $extrp_screen_id_tool, $extrp_data, $extrp_sanitize;
-		
-		$screen = get_current_screen();
-		if ( $screen->id != $extrp_screen_id_tool )
-			return;
-		
-		$id = absint( $extrp_sanitize->extrp_multidimensional_search( $extrp_data, array( 'parameter' => 'tool') ) );
-
-		add_settings_section( 
-				$extrp_data[ $id ]['parameter'] . '_section', 
-				'', 
-				array(
-					$this,
-					'print_section_info_' . $extrp_data[ $id ]['parameter']
-				), 
-				$this->slug . '_' . $extrp_data[ $id ]['parameter']
+		if ( $current_screen->id == $extrp_screen_id || $current_screen->id == $extrp_screen_id_tool ) :
+			add_filter(
+				'admin_footer_text', 
+				array( 
+					$this, 
+					'admin_footer_text' 
+				) 
 			);
+			
+			add_filter(
+				'update_footer', 
+				array( 
+					$this, 
+					'update_footer' 
+				), 
+				20 
+			);
+		endif;
 		
-		add_meta_box(
-			$extrp_data[ $id ]['group'], 
-			strtoupper( $extrp_data[ $id ]['subgroup'] ), 
-			array(
-				$this,
-				'callback_meta_box'
-			), 
-			$this->slug_tool, 
-			'advanced',
-			'high',
-			array( 'mb' => $extrp_data[ $id ]['group'] )
-		);
-		
-		add_filter( 
-			'admin_footer_text', 
-			array( 
-				$this, 
-				'admin_footer_text' 
-			) 
-		);
-		
-		add_filter( 
-			'update_footer', 
-			array( 
-				$this, 
-				'update_footer' 
-			), 
-			20 
-		);
-		
-		$this->create_mb_tool();
+		if ( $current_screen->id == $extrp_screen_id )
+			$this->create_mb();
+		else
+			$this->create_mb_tool();
 	}
 	
 	protected function create_mb()
-	{		
-		$col = ( 1 == get_current_screen()->get_columns() ) ? '1' : '2';
+	{
+		global $current_screen;
+		
+		$col = ( 1 == $current_screen->get_columns() ) ? '1' : '2';
 		
 		printf(
 			'<div id="extrp" class="wrap">
@@ -596,10 +531,11 @@ class EXTRP_Admin
 					<form method="post" action="options.php">
 						<div id="postbox-container-2" class="postbox-container">
 							<?php settings_fields( 'extrp' ); ?>
-							<?php do_meta_boxes( $this->slug, 'advanced', 'extrp_option' ); ?>
+							<?php do_meta_boxes( $current_screen->id, 'advanced', 'extrp_option' ); ?>
 						</div>
 						<div id="postbox-container-1" class="postbox-container">
-							<?php do_meta_boxes( $this->slug, 'side', 'extrp_option' ); ?>
+							<?php do_meta_boxes( $current_screen->id . '_undrag', 'side', 'extrp_option' ); ?>
+							<?php do_meta_boxes( $current_screen->id, 'side', 'extrp_option' ); ?>
 						</div>
 						<?php 
 							wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
@@ -616,8 +552,10 @@ class EXTRP_Admin
 	
 	protected function create_mb_tool()
 	{
-		$col = ( 1 == get_current_screen()->get_columns() ) ? '1' : '2';
-	
+		global $current_screen;
+		
+		$col = ( 1 == $current_screen->get_columns() ) ? '1' : '2';
+		
 		printf(
 			'<div id="extrp" class="wrap">
 				<h1>%s</h1>
@@ -629,11 +567,14 @@ class EXTRP_Admin
 			$col
 		);		
 		?>
-	
 					</div>
 					<div id="postbox-container" class="postbox-container">
-						<?php do_meta_boxes( $this->slug_tool, 'advanced', 'tool' ); ?>
+						<?php do_meta_boxes( $current_screen->id, 'advanced', 'extrp_option_tool' ); ?>
 					</div>
+					<?php 
+						wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
+						wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false );
+					?>
 			</div>
 		</div>
 		<?php
@@ -641,26 +582,25 @@ class EXTRP_Admin
 	
 	public function prepare( $screen, $tab )
 	{
-		printf(
-			'<p>%s</p>', 
+		printf( '<p>%s</p>', 
 			__( $tab['callback'][0]->tabs[ $tab['id'] ]['content'],'extrp' ) 
 		);
 	}
-	
-	
 	
 	public function callback_meta_box( $post = null, $args )
 	{
 		$option = $args['args']['mb'];
 		switch( $option )
 		{
-			case 'general':
+			case 'general' :
 				do_settings_sections( 'extrp_general' );
-			break;
-			case 'thumbnail':
+				break;
+				
+			case 'thumbnail' :
 				do_settings_sections( 'extrp_thumbnail' );
-			break;
-			case 'additional':
+				break;
+				
+			case 'additional' :
 				do_settings_sections( 'extrp_additional' );?>
 				<div id="major-publishing-actions">
 					<div id="publishing-action">
@@ -673,8 +613,9 @@ class EXTRP_Admin
 				<div class="clear"></div>
 				</div>
 			<?php	
-			break;
-			case 'save': ?>
+				break;
+				
+			case 'save' : ?>
 				<div id="major-publishing-actions">
 					<div id="publishing-action">
 						<?php submit_button( __( 'Save Changes', 'extrp' ), 'button-primary settings-save', 'save_settings', false, array( 'id' => 'save_settings_footer' ) ); ?>
@@ -686,14 +627,17 @@ class EXTRP_Admin
 				</div>
 			<?php
 				do_settings_sections( 'extrp_save' );
-			break;
-			case 'support':
+				break;
+				
+			case 'support' :
 				do_settings_sections( 'extrp_support' );
-			break;
-			case 'features':
+				break;
+				
+			case 'features' :
 				do_settings_sections( 'extrp_features' );
-			break;
-			default:
+				break;
+				
+			default :
 				do_settings_sections( 'extrp_tool' );
 				?>
 				<div id="major-publishing-actions">
@@ -804,72 +748,75 @@ class EXTRP_Admin
 		
 		switch ( $parameter )
 		{
-			case 'active':
+			case 'active' :
 				$input_field = extrp_checkbox( $parameter );
-			break;
-			case 'post_type':
-			case 'post_date':
+				break;
+				
+			case 'post_type' :
+			case 'post_date' :
 				$input_field = extrp_multiple_checkbox( $parameter, $optional );
-			break;
-			case 'relatedby':
-			case 'display':
-			case 'image_size':
+				break;
+				
+			case 'relatedby' :
+			case 'display' :
+			case 'image_size' :
 			case 'shape':
-			case 'post_excerpt':
-			case 'highlight':
+			case 'post_excerpt' :
+			case 'highlight' :
 				$input_field = extrp_selected_input( $parameter, $optional );
 				if ( 'display' == $parameter || 'shape' == $parameter)
 					$additional_field = extrp_sample_preview( $parameter, $optional );
 				if ( 'highlight' == $parameter)
 					$additional_field = extrp_hl_input( $extrp_settings[ $parameter ], $parameter, $optional, 'extrp_option' );
-			break;
-			case 'noimage':
+				break;
+				
+			case 'noimage' :
 				$input_field = extrp_upload_input( $parameter, $description_field );
 				$description_field = $description_field['main_desc'];
 			break;
-			case 'customsize':
+			
+			case 'customsize' :
 				$input_field = extrp_multiple_input_text( $parameter, $optional, $description_field );
 				$description_field = $description_field['main_desc'];
-			break;
-			case 'posts':
-			case 'maxchars':
+				break;
+				
+			case 'posts' :
+			case 'maxchars' :
 			case 'expire':
 			case 'schedule':
 				$input_field = extrp_input_type( $parameter, 'number' );
 				if ( 'schedule' == $parameter )
 					$description_field = implode( '</br>', $description_field );
-			break;
-			case 'heading':
+				break;
+				
+			case 'heading' :
 			case 'postheading':
 				$input_field = extrp_multiple_radio( $parameter, $optional );
-			break;
+				break;
 			
-			case 'subtitle':
+			case 'subtitle' :
 			case 'titlerandom':
 				$input_field = extrp_input_type( $parameter, 'text' );
-			break;
+				break;
 			
-			case 'stopwords':
+			case 'stopwords' :
 			case 'post__in':
 			case 'post__not_in':
 				$input_field = extrp_textarea( $parameter );
-			break;
+				break;
 			
-			case 'relevanssi':
+			case 'relevanssi' :
 			case 'cache':
 				$description_field = implode( '</br>', $description_field );
-			break;
+				break;
 			
-			default:
+			default :
 				$input_field = extrp_checkbox( $parameter );
 				$additional_field = '';
-			break;
+				break;
 		}
 
-		printf( '
-				%1$s
-				<p class="description">%2$s</p>
-			%3$s',
+		printf( '%1$s<p class="description">%2$s</p>%3$s',
 			$input_field,
 			$description_field,
 			$additional_field
@@ -879,8 +826,7 @@ class EXTRP_Admin
 	{
 		global $extrp_sanitize, $extrp_screen_id;
 		
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'heartbeat-nonce' ) || ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
-		{
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'heartbeat-nonce' ) || ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) ) :
 			$noperm = array(
 				'result' => array(
 					'msg'     => __( 'You do not have permission to do that.', 'extrp' ),
@@ -889,19 +835,16 @@ class EXTRP_Admin
 			);
 			$msg = wp_json_encode( $noperm );
 			wp_die( $msg );
-		}
+		endif;
 
-		if ( isset( $_POST['chk'] ) && 'settings_page_extrp' == sanitize_key( $_POST['chk'] ) )
-		{
-			
+		if ( isset( $_POST['chk'] ) && 'settings_page_extrp' == sanitize_key( $_POST['chk'] ) ) :
 			$thumb = $extrp_sanitize->data_thumb( array(
 				'size' => $extrp_sanitize->size( $_POST['size'] ),
 				'src'  => esc_url( $_POST['src'] ),
 				'crop' => wp_validate_boolean( $_POST['crop'] )
 			) );
 			
-			if ( ! $thumb )
-			{
+			if ( ! $thumb ) :
 				$fail = array(
 					'result' => array(
 						'msg'     => __( 'Fail to generate image. Refresh your page and try again.', 'extrp' ),
@@ -910,10 +853,9 @@ class EXTRP_Admin
 				);
 				$msg  = wp_json_encode( $fail );
 				wp_die( $msg );
-			}
+			endif;
 			
-			if ( ! $thumb['src'] )
-			{
+			if ( ! $thumb['src'] ) :
 				$noperm = array(
 					'result' => array(
 						'msg'     => __( 'Image not exists. Please check your image from media library. You can add new one or push &#39;Save Changes&#39; button to get default image directly.', 'extrp' ),
@@ -922,7 +864,7 @@ class EXTRP_Admin
 				);
 				$msg    = wp_json_encode( $noperm );
 				wp_die( $msg );
-			};
+			endif;
 		
 			$success = array(
 				'result' => array(
@@ -941,9 +883,8 @@ class EXTRP_Admin
 			
 			$result = wp_json_encode( $success );
 			wp_die( $result );
-		}
-		else
-		{
+			
+		else :
 			$noperm = array(
 				'result' => array(
 					'msg'     => __( 'You do not have permission to do that.', 'extrp' ),
@@ -952,22 +893,20 @@ class EXTRP_Admin
 			);
 			$msg    = wp_json_encode( $noperm );
 			wp_die( $msg );
-		}
+		endif;
 	}
 	
 	public function chk_relevanssi()
 	{
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'heartbeat-nonce' ) || ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) )
-		{
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'heartbeat-nonce' ) || ! check_ajax_referer( 'heartbeat-nonce', 'nonce', false ) ) :
 			$error = array(
 				'result' => (int) 3 
 			);
 			$msg   = wp_json_encode( $error );
 			wp_die( $msg );
-		}
+		endif;
 
-		if ( isset( $_POST['chk'] ) && ( 'tools_page_extrp-tool' == sanitize_key( $_POST['chk'] ) || 'widgets' == sanitize_key( $_POST['chk'] ) ) )
-		{
+		if ( isset( $_POST['chk'] ) && ( 'tools_page_extrp-tool' == sanitize_key( $_POST['chk'] ) || 'widgets' == sanitize_key( $_POST['chk'] ) ) ) :
 			if ( 1 == get_option( 'extrp_with_relevanssi' ) && function_exists( 'relevanssi_do_query' ) ) :
 				$success = array(
 					'result' => (bool) 1 
@@ -979,14 +918,13 @@ class EXTRP_Admin
 				);
 				$msg  = wp_json_encode( $fail );
 			endif;
-		}
-		else
-		{
+			
+		else :
 			$broken = array(
 				 'result' => (int) 2 
 			);
 			$msg    = wp_json_encode( $broken );
-		}
+		endif;
 		wp_die( $msg );
 	}
 	public function admin_footer_text()

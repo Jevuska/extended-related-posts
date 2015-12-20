@@ -3,8 +3,8 @@ Contributors: Jevuska
 Donate link: http://www.jevuska.com/donate/
 Tags: posts, relevanssi, relevant, search, shortcode, widget, multilanguage, thumbnail
 Requires at least: 4.3
-Tested up to: 4.3
-Stable tag: 1.0.3
+Tested up to: 4.4
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 ---
@@ -42,6 +42,9 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
 ![screenshot 4](lib/assets/images/screenshots/extrp-widget.jpg)
 
 ## Changelog
+* 1.0.4 = December 21, 2015
+ * Fixes setup plugin and variables
+ 
 * 1.0.3 = November 02, 2015
  * Fix sanitize input field
  * Fix stopwords functionality
@@ -61,6 +64,9 @@ You can use php code `<?php do_action('jv-related-posts'); ?>` and add this sing
  * Fix stable tag readme file
 
 ## Upgrade Notice
+* 1.0.4
+ * This version fixes a security related bug. Upgrade immediately.
+ 
 * 1.0.3
  * This version fixes a security related bug. Upgrade immediately.
  
