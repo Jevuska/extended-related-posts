@@ -40,8 +40,7 @@ function update_with_relevanssi_option()
 	if ( ! get_option( 'extrp_with_relevanssi' ) )
 		update_option( 'extrp_with_relevanssi', false );
 	
-	if ( ! function_exists( 'relevanssi_do_query' ) )
-	{
+	if ( ! function_exists( 'relevanssi_do_query' ) ) :
 		$result = array();
 		foreach ( $extrp_settings as $key => $value ) :
 			if ( isset( $key ) ) :
@@ -52,17 +51,14 @@ function update_with_relevanssi_option()
 			endif;
 		endforeach;
 		
-		if ( true == get_option( 'extrp_with_relevanssi' ) )
-		{
+		if ( true == get_option( 'extrp_with_relevanssi' ) ) :
 			update_option( 'extrp_with_relevanssi', false );
 			update_option( 'extrp_option', $result );
-		}
-	}
-	else
-	{
+		endif;
+	else :
 		if ( false == get_option( 'extrp_with_relevanssi' ) )
 			update_option( 'extrp_with_relevanssi', true );
-	}
+	endif;
 }
 
 function extrp_set_noimage()
@@ -75,11 +71,10 @@ function extrp_set_noimage()
 	if ( ! isset( $extrp_settings['noimage']['default'] ) )
 		return;
 
-	if ( '' == $extrp_settings['noimage']['default'] || false == wp_get_attachment_image_src( $extrp_settings['noimage']['attachment_id'], 'full', false ) ) 
-	{
+	if ( '' == $extrp_settings['noimage']['default'] || false == wp_get_attachment_image_src( $extrp_settings['noimage']['attachment_id'], 'full', false ) )  :
 		$bail_noimage = extrp_bail_noimage();
 		update_option( 'extrp_option', $bail_noimage );
-	}
+	endif;
 }
 
 function extrp_bail_noimage()
@@ -141,6 +136,7 @@ function extrp_set_related_posts( $post, $arg = '' )
 
 	if ( ! $result )
 		return;
+	
 	return $result;
 }
 
@@ -161,11 +157,10 @@ function extrp_do_your_settings( $post, $arg = '' )
 		foreach ( $b as $k => $v ) :
 			if ( ! array_key_exists( $k, $i ) )
 				unset( $b[ $k ] );
-			foreach ( $new_d as $kk => $vv )
-			{
+			foreach ( $new_d as $kk => $vv ) :
 				if ( ! array_key_exists( $kk, $i ) )
 					unset( $new_d[ $kk ] );
-			}
+			endforeach;
 		endforeach;
 		
 		$b = wp_parse_args( $new_d, $b );
@@ -198,28 +193,20 @@ function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postc
 	if ( '' != $size && 'list' == $display )
 		$display = 'left_wrap';
 	
-	if ( ! $size )
-	{
+	if ( ! $size ) :
 		$ul_f = '<ul>';
 		$ul_l = '</ul>';
-	}
+	endif;
 	
-	if ( $subtitle && $titlerandom )
-	{
+	if ( $subtitle && $titlerandom ) :
 		$subtitle = ( 'random' != $rb ) ? $subtitle : $titlerandom;
-	}
-	else if ( $subtitle )
-	{
+	elseif ( $subtitle ) :
 		$subtitle = ( 'random' != $rb ) ? $subtitle : '';
-	}
-	else if ( $titlerandom )
-	{
+	elseif ( $titlerandom ) :
 		$subtitle = ( 'random' != $rb ) ? '' : $titlerandom;
-	}
-	else
-	{
+	else :
 		$subtitle = '';
-	}
+	endif;
 	
 	$subtitles = '';
 	if ( ! empty ( $subtitle ) && 'widget' != $widget )
@@ -244,29 +231,23 @@ function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postc
 				$_post->post_title->attr, 
 				$_post->post_title->title );
 			
-			if ( '' != $_post->post_thumbnail ) 
-			{
+			if ( '' != $_post->post_thumbnail ) :
 				$class = 'extrp-shape-' . $shape;
 				$thumbnail .= $_post->post_thumbnail; 
-			}
+			endif;
 			
 			$post_title .= $item_title;
 
 			if ( $desc )
 				$description .= $_post->post_excerpt;
 
-			if ( ! empty( $_post->post_date ) )
-			{
+			if ( ! empty( $_post->post_date ) ) :
 				$time = '';
 				if ( in_array( 'show_date', $date ) )
-				{
 					$time .= '<span class="posted-on"><time class="entry-date published" datetime="%1$s">%2$s</time></span>';
-				}
 				
 				if ( in_array( 'time_diff', $date ) )
-				{
 					$time .= '<span class="posted-on"><i>%3$s</i></span>';
-				}
 				
 				$time .= '<br class="clearfix">';
 
@@ -275,29 +256,29 @@ function extrp_create_html( $relatedby = '', $post_id = '', $single = '', $postc
 					$_post->post_date->published,
 					$_post->post_date->time_diff . ' ' . __( 'ago', 'extrp' )
 				);
-			}
+			endif;
 	
 			switch ( $display )
 			{
-				case 'inline';
+				case 'inline' :
 					$item .= extrp_inline_style( $post_date, $thumbnail, $post_title, $description );
 					break;
 				
-				case 'left';
-				case 'right';
+				case 'left' :
+				case 'right' :
 					$item .= extrp_float_style( $post_date, $thumbnail, $post_title, $description, $display );
 					break;
 				
-				case 'left_wrap';
-				case 'right_wrap';
+				case 'left_wrap' :
+				case 'right_wrap' :
 					$item .= extrp_wrap_style( $post_date, $thumbnail, $post_title, $description, $display );
 					break;
 					
-				case 'list_group';
+				case 'list_group' :
 					$item .= extrp_list_group_style( $post_date, $thumbnail, $post_title, $description );
 					break;
 				
-				default:
+				default :
 					$item .= extrp_list_style( $post_date, $post_title, $description );
 					break;
 			}
@@ -404,50 +385,46 @@ function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts 
 		wp_reset_query();
 		wp_reset_postdata();
 		if ( $default ) :
-		    $post_date = array();
+		    $post_date      = array();
 			$post_thumbnail = '';
-			$post_title = array();
-			$post_content = array();
+			$post_title     = array();
+			$post_content   = array();
+			
 			if ( $query->have_posts() ) :
 				while ( $query->have_posts()) :
 					$query->the_post();
 					$id = get_the_ID();
-
-					if ( array_filter( $date ) )
-					{
+					
+					if ( array_filter( $date ) ) :
 						$post_date = array(
 							'published' => get_the_date( '', $id ),
 							'updated' => esc_attr( get_post_modified_time( 'c', true, $id ) ),
-							'time_diff' => esc_html( human_time_diff( get_post_time( 'U', true, $id ), current_time ('timestamp') ) )
+							'time_diff' => esc_html( human_time_diff( get_post_time( 'U', true, $id ), current_time ('timestamp' ) ) )
 						);
-					};
-			
-					if ( $title ) {
+					endif;
+					
+					if ( $title ) :
 						$post_title = array(
 							'postheading' => esc_html( $postheading ),
 							'permalink' => esc_url( get_permalink( $id ) ),
 							'attr' => the_title_attribute( 'echo=0&post=' . $id ),
 							'title' => get_the_title( $id )
 						);
-					};
+					endif;
 					
-					if ( '' != $size )
-					{
+					if ( '' != $size ) :
 						$class = 'extrp-shape-' . $shape;
 						$post_thumbnail = extrp_get_the_post_thumbnail( $id, $size, $crop, $class );
-					}
-			
-					if ( $relevanssi )
-					{
+					endif;
+					
+					if ( $relevanssi ) :
 						$post_excerpt = $query->post_excerpt ? 
 							get_the_excerpt() :
-							extrp_get_excerpt( $id, $maxchars, $q, $hl, $hlt, $snippet );
-							
-					}
-					else
-					{
+							extrp_get_excerpt( $id, $maxchars, $q, $highlight, $snippet );
+					else :
 						$post_excerpt = extrp_get_excerpt( $id, $maxchars, $q, $highlight, $snippet );
-					}
+					endif;
+					
 					$post_content[] = array (
 						'id' => $id,
 						'post_date' => $post_date,
@@ -459,25 +436,32 @@ function extrp_json( $relatedby, $post_id, $postcount, $date = '', $randomposts 
 				
 				$c['post_id'] = array(
 					$post_id => array(
-							'relatedby' => $relatedby,
-							'post_content' => $post_content,
+						'relatedby'    => $relatedby,
+						'post_content' => $post_content,
 					) 
 				);
+				
 				$respon = wp_json_encode( $c );
 				
 				if ( $cache ) :
-					if ( 'shortcode' == $option )
+					if ( 'shortcode' == $option ) :
 						set_transient( 'extrp_cache_post_shortcode_' . absint( $post_id ), $respon, absint( $expiration ) );
-					else
+					else :
 						set_transient( 'extrp_cache_post_' . absint( $post_id ), $respon, absint( $expiration ) );
+					endif;
 				endif;
+				
 			else :
 				$respon = false;
 			endif;
+			
 		endif;
+		
 		wp_reset_query();
 		wp_reset_postdata();
+		
 	endif;
+	
 	if ( ! $respon )
 		return false;
 	
@@ -632,9 +616,9 @@ function extrp_search_postids_db( $post_id, $postcount )
 {
 	$limit = extrp_limit_count_id( 1 );
 	$arr   = extrp_split_title( $post_id );
-	if ( array_filter( $arr ) ) :
+	if ( ! empty( $arr ) && array_filter( $arr ) ) :
 		$post_ids = extrp_sql_post_ids( $arr, $limit, $post_id );
-
+		
 		if ( (int) 0 == count( $post_ids ) )
 			return false;
 		
@@ -690,7 +674,10 @@ function extrp_post_type()
 
 function extrp_get_the_title( $post_id )
 {
-	$post_title = join( ' ', extrp_split_title( $post_id ) );
+	$post_title = '';
+	$titles     = extrp_split_title( $post_id );
+	if ( ! empty( $titles ) )
+		$post_title = join( ' ', $titles );
 	return $post_title;
 }
 

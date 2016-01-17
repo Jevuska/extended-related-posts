@@ -521,9 +521,7 @@ class EXTRP_Thumbnail
 	{
 
 		if ( false == $this->image() || empty( $this->img_src ) ) 
-		{
 			return false;
-		}
 
 		$result = array();
 
@@ -565,11 +563,10 @@ class EXTRP_Thumbnail
 	{
 		global $extrp_settings, $extrp_sanitize;
 
-		if ( ! is_admin() && ! $this->is_local_attachment( $this->img_src ) )
-		{
+		if ( ! is_admin() && ! $this->is_local_attachment( $this->img_src ) ) :
 			if ( ! $extrp_settings['ext_thumb'] )
 				return false;
-		}
+		endif;
 		
 		if ( ! $this->remote_head() )
 			return false;
@@ -579,9 +576,7 @@ class EXTRP_Thumbnail
 		$mime_type = $filetype['type'];
 		
 		if ( false !== strpos( $mime_type, 'image' ) )
-		{
-				return $this->img_src; 
-		}
+			return $this->img_src; 
 		
 		return false;
 	}
@@ -710,7 +705,7 @@ class EXTRP_Thumbnail
 		global $_wp_additional_image_sizes;
 		
 		$this->img_thumb_url = '';
-
+		
 		if ( isset( $_wp_additional_image_sizes[ $this->size ] ) )
 		{
 			$this->img_width  = $_wp_additional_image_sizes[ $this->size ]['width'];

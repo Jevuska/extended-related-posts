@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Extended Related Posts
-Plugin URI: http://www.jevuska.com/2015/10/22/extended-related-posts-plugin-wordpress/
+Plugin URI: https://www.jevuska.com/2015/10/22/extended-related-posts-plugin-wordpress/
 Description:  Create a better related posts more relevant under your post. Settings, shortcode and widget available.
-Version: 1.0.4
+Version: 1.0.7
 Author: Jevuska
-Author URI: http://www.jevuska.com
+Author URI: https://www.jevuska.com
 License: GPL2
 Domain Path: /lib/languages
 Text Domain: extrp
@@ -54,7 +54,7 @@ if ( ! class_exists( 'Extended_Related_Posts' ) ) :
 				define( 'EXTRP_PLUGIN_FILE', __FILE__ );
 			
 			if ( ! defined( 'EXTRP_PLUGIN_VERSION' ) )
-				define( 'EXTRP_PLUGIN_VERSION', '1.0.4' );
+				define( 'EXTRP_PLUGIN_VERSION', '1.0.7' );
 
 			if ( ! defined( 'EXTRP_PLUGIN_URL' ) )
 				define( 'EXTRP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Extended_Related_Posts' ) ) :
 		public function load_textdomain()
 		{
 			$domain          = 'extrp';
-			$extrp_lang_dir  = EXTRP_PATH_LIB . 'languages/';
+			$extrp_lang_dir  = wp_normalize_path( EXTRP_PATH_LIB . 'languages/' );
 			$extrp_lang_dir  = apply_filters( 'extrp_languages_directory', $extrp_lang_dir );
 			$locale          = apply_filters( 'plugin_locale', get_locale(), $domain );
 			$mofile          = sprintf( '%1$s-%2$s.mo', $domain, $locale );

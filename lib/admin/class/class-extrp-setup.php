@@ -13,17 +13,16 @@ class EXTRP_Setup
 {
 	public static function on_activation()
 	{
-		global $extrp_sanitize, $extrp_settings;
+		global $extrp_settings;
 		
 		if ( empty( $extrp_settings ) ) :
 			$extrp_settings = extrp_default_setting();
 		else :
 			$new_update = extrp_default_setting( 'update' );
-			foreach ( $new_update as $key => $value )
-			{
+			foreach ( $new_update as $key => $value ) :
 				if ( ! isset( $extrp_settings[ $key ] ) )
 					$extrp_settings[ $key ] = $value;
-			}
+			endforeach;
 		endif;
 		
 		update_option( 'extrp_option', $extrp_settings );
@@ -33,7 +32,7 @@ class EXTRP_Setup
 		if ( '' != $current_version ) :
 			update_option( 'extrp_version_upgraded_from', $current_version );
 		else :
-			$extrp_data = get_plugin_data( EXTRP_PLUGIN_PATH . '/extended-related-posts.php' );
+			$extrp_data = get_plugin_data( wp_normalize_path( EXTRP_PLUGIN_PATH . '/extended-related-posts.php' ) );
 			update_option( 'extrp_version', $extrp_data['Version'] );
 		endif;
 	}

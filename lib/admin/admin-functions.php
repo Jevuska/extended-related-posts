@@ -162,13 +162,11 @@ function extrp_checkbox( $type )
 	if ( ( isset( $extrp_settings[ $type ] ) && $extrp_settings[ $type ] == true ) )
 		$checked = 'checked="checked"';
 	
-	$output = 
-		sprintf( 
-			'<label for="%1$s"><input type="checkbox" id="%1$s" name="extrp_option[%1$s]" value="%2$s" %3$s/></label>', 
-			esc_attr( $type ), 
-			true, 
-			$checked
-		);
+	$output = sprintf( '<label for="%1$s"><input type="checkbox" id="%1$s" name="extrp_option[%1$s]" value="%2$s" %3$s/></label>',
+		esc_attr( $type ), 
+		true, 
+		$checked
+	);
 	return $output;
 }
 
@@ -178,24 +176,15 @@ function extrp_multiple_checkbox( $type, $array )
 	
 	$input_field = '';
 	
-	foreach ( $array as $k => $v) :
-		$checked = in_array( $k, $extrp_settings[ $type ] ) ? 'checked="checked"' : '';
+	foreach ( $array as $k => $v ) :
+		$checked = ( isset( $extrp_settings[ $type ] ) && in_array( $k, $extrp_settings[ $type ] ) ) ? 'checked="checked"' : '';
 		$desc = ( ! empty( $v ) ) ? $v : $k;
-		$input_field .= 
-			sprintf( 
-				'<label for="%1$s_%2$s">
-					<input 
-					id="%1$s_%2$s" 
-					name="extrp_option[%1$s_%2$s]" 
-					type="checkbox" 
-					value="%2$s" 
-					%3$s>%4$s  
-				</label>',
-				esc_attr( $type ), 
-				esc_attr( $k ), 
-				$checked, 
-				ucwords( esc_attr( $desc ) ) 
-			);
+		$input_field .=  sprintf( '<label for="%1$s_%2$s"><input id="%1$s_%2$s" name="extrp_option[%1$s_%2$s]" type="checkbox" value="%2$s" %3$s>%4$s </label>',
+			esc_attr( $type ),
+			esc_attr( $k ),
+			$checked,
+			ucwords( esc_attr( $desc ) )
+		);
 	endforeach;
 	
 	return $input_field;
@@ -207,24 +196,15 @@ function extrp_multiple_radio( $type, $array )
 	
 	$input_field = '';
 	
-	foreach ( $array as $k => $v) :
+	foreach ( $array as $k => $v ) :
 		$selected = ( $extrp_settings[ $type ] == $v ) ? 'checked="checked"' : '';
 		$desc = ( ! empty( $v ) ) ? $v : $k;
-		$input_field .= 
-			sprintf( 
-				'<label for="%1$s_%2$s">
-					<input 
-					id="%1$s_%2$s" 
-					name="extrp_option[%1$s]" 
-					type="radio" 
-					value="%2$s" 
-					%3$s>%4$s  
-				</label>',
-				esc_attr( $type ), 
-				esc_attr( $v ), 
-				$selected, 
-				ucwords( esc_attr( $desc ) ) 
-			);
+		$input_field .= sprintf( '<label for="%1$s_%2$s"><input id="%1$s_%2$s" name="extrp_option[%1$s]" type="radio" value="%2$s" %3$s>%4$s</label>',
+			esc_attr( $type ), 
+			esc_attr( $v ), 
+			$selected, 
+			ucwords( esc_attr( $desc ) ) 
+		);
 	endforeach;
 	
 	return $input_field;

@@ -71,7 +71,7 @@ class EXTRP_Admin
 		);
 		
 		$this->with_relevanssi = get_option( 'extrp_with_relevanssi' );
-		$this->plugin_data     = get_plugin_data( EXTRP_PLUGIN_PATH . '/extended-related-posts.php' );
+		$this->plugin_data     = get_plugin_data( wp_normalize_path( EXTRP_PLUGIN_PATH . '/extended-related-posts.php' ) );
 		$this->updates         = extrp_plugin_updates();
 	}
 	
@@ -391,9 +391,6 @@ class EXTRP_Admin
 				$this->slug . '_' . $id
 			);
 			
-			if ( 'sidebar' == $item['parameter'] )
-				continue;
-			
 			add_meta_box(
 				$id,
 				ucwords( $extrp_data[ $k ]['subgroup'] ),
@@ -475,7 +472,7 @@ class EXTRP_Admin
 					$current_screen->id,
 					'advanced',
 					'high',
-					array( 'mb' => $extrp_data[ $v ]['group'] )
+					array( 'mb' => $v )
 				);
 				break;
 			endif;
@@ -760,7 +757,7 @@ class EXTRP_Admin
 			case 'relatedby' :
 			case 'display' :
 			case 'image_size' :
-			case 'shape':
+			case 'shape' :
 			case 'post_excerpt' :
 			case 'highlight' :
 				$input_field = extrp_selected_input( $parameter, $optional );
@@ -773,7 +770,7 @@ class EXTRP_Admin
 			case 'noimage' :
 				$input_field = extrp_upload_input( $parameter, $description_field );
 				$description_field = $description_field['main_desc'];
-			break;
+				break;
 			
 			case 'customsize' :
 				$input_field = extrp_multiple_input_text( $parameter, $optional, $description_field );
@@ -782,31 +779,31 @@ class EXTRP_Admin
 				
 			case 'posts' :
 			case 'maxchars' :
-			case 'expire':
-			case 'schedule':
+			case 'expire' :
+			case 'schedule' :
 				$input_field = extrp_input_type( $parameter, 'number' );
 				if ( 'schedule' == $parameter )
 					$description_field = implode( '</br>', $description_field );
 				break;
 				
 			case 'heading' :
-			case 'postheading':
+			case 'postheading' :
 				$input_field = extrp_multiple_radio( $parameter, $optional );
 				break;
 			
 			case 'subtitle' :
-			case 'titlerandom':
+			case 'titlerandom' :
 				$input_field = extrp_input_type( $parameter, 'text' );
 				break;
 			
 			case 'stopwords' :
-			case 'post__in':
-			case 'post__not_in':
+			case 'post__in' :
+			case 'post__not_in' :
 				$input_field = extrp_textarea( $parameter );
 				break;
 			
 			case 'relevanssi' :
-			case 'cache':
+			case 'cache' :
 				$description_field = implode( '</br>', $description_field );
 				break;
 			
@@ -822,6 +819,7 @@ class EXTRP_Admin
 			$additional_field
 		);
 	}
+	
 	public function ajx_noimg_view_cb()
 	{
 		global $extrp_sanitize, $extrp_screen_id;
@@ -885,6 +883,7 @@ class EXTRP_Admin
 			wp_die( $result );
 			
 		else :
+		
 			$noperm = array(
 				'result' => array(
 					'msg'     => __( 'You do not have permission to do that.', 'extrp' ),
@@ -929,7 +928,8 @@ class EXTRP_Admin
 	}
 	public function admin_footer_text()
 	{
-		$html = '<span id="footer-thankyou">&copy; 2015 - %s %s %s</p>';
+		$year = current_time( 'Y' );
+		$html = '<span id="footer-thankyou">&copy; 2015 &#8211; ' . $year . ' &#8212; %s %s %s</p>';
 		
 		printf( $html,
 			esc_html( $this->plugin_data['Name'] ), 
@@ -940,12 +940,24 @@ class EXTRP_Admin
 	
 	public function update_footer()
 	{
-		$txt = '%s %s';
-		
-		printf( $txt, 
-			__( 'Version', 'extrp' ), 
+		$version = sprintf ( '%s %s',
+			__( 'Version', 'extrp' ),
 			esc_html( $this->plugin_data['Version'] )
 		);
+		
+		$all_plugins     = get_plugins();
+		$current         = get_site_transient( 'update_plugins' );
+		$upgrade_plugins = array();
+		foreach ( (array)$all_plugins as $plugin_file => $plugin_data) :
+			if ( isset( $current->response[ $plugin_file ] ) && plugin_basename( EXTRP_PLUGIN_FILE ) == $plugin_file ) :
+				$upgrade_plugins[ $plugin_file ]         = ( object ) $plugin_data;
+				$upgrade_plugins[ $plugin_file ]->update = $current->response[ $plugin_file ];
+				$version = '<strong><a href="' . network_admin_url( 'update-core.php' ) . '">' . sprintf( __( 'Get Version %s' ), $upgrade_plugins[ $plugin_file ]->update->new_version ) . '</a></strong>';
+				break;
+			endif;
+		endforeach;
+		
+		echo $version;
 	}
 	
 	public function extrp_enqueu_scripts()
@@ -1001,10 +1013,10 @@ class EXTRP_Admin
 	
 	public function extrp_admin_inline_js()
 	{
-		print "<script type='text/javascript'>\n";
-		print "jQuery( document ).ready( function( $ ) {\n";
-		print "$( this ).extrp();\n";
-		print "} );\n";
-		print "</script>\n";
+		echo "<script type='text/javascript'>\n";
+		echo "jQuery( document ).ready( function( $ ) {\n";
+		echo "$( this ).extrp();\n";
+		echo "} );\n";
+		echo "</script>\n";
 	}
 }

@@ -1,10 +1,10 @@
-# Copyright (C) 2015 Extended Related Posts
+# Copyright (C) 2016 Extended Related Posts
 # This file is distributed under the same license as the Extended Related Posts package.
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended Related Posts\n"
-"POT-Creation-Date: 2015-12-21 03:32+0800\n"
+"POT-Creation-Date: 2016-01-17 08:06+0800\n"
 "PO-Revision-Date: 2015-09-12 10:11+0800\n"
 "Last-Translator: Rachmanuddin Chair Yahya <contact@jevuska.com>\n"
 "Language-Team: JEVUSKA <contact@jevuska.com>\n"
@@ -19,14 +19,6 @@ msgstr ""
 "Language: en_US\n"
 "X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#. Author of the plugin/theme
-msgid "Jevuska"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://www.jevuska.com/"
-msgstr ""
 
 #. Description of the plugin/theme
 msgid "Create a better related posts more relevant under your post. Settings, shortcode and widget available."
@@ -69,7 +61,7 @@ msgstr ""
 msgid "Shortcode with parameters"
 msgstr ""
 
-#: admin/admin-functions.php:68 admin/class/class-extrp-admin.php:971 inc/class/class-extrp-sanitize.php:548
+#: admin/admin-functions.php:68 admin/class/class-extrp-admin.php:982 inc/class/class-extrp-sanitize.php:548
 msgid "Related News"
 msgstr ""
 
@@ -125,35 +117,35 @@ msgstr ""
 msgid "Plugin Page"
 msgstr ""
 
-#: admin/admin-functions.php:289 admin/admin-functions.php:290
+#: admin/admin-functions.php:269 admin/admin-functions.php:270
 msgid "Use HTML color codes (#rrggbb)"
 msgstr ""
 
-#: admin/admin-functions.php:291
+#: admin/admin-functions.php:271
 msgid "You can use any CSS styling here, style will be inserted with a <span>"
 msgstr ""
 
-#: admin/admin-functions.php:292
+#: admin/admin-functions.php:272
 msgid "Name a class here, the terms will be wrapped in a <span> with the class"
 msgstr ""
 
-#: admin/admin-functions.php:415
+#: admin/admin-functions.php:395
 msgid "Image not exists. Please check your image from media library. You can add new one "
 msgstr ""
 
-#: admin/admin-functions.php:419
+#: admin/admin-functions.php:399
 msgid "The url default image not set up. You can add new one "
 msgstr ""
 
-#: admin/admin-functions.php:422
+#: admin/admin-functions.php:402
 msgid "or push &#39;Save Changes&#39; button to get default image directly."
 msgstr ""
 
-#: admin/admin-functions.php:424
+#: admin/admin-functions.php:404
 msgid "Dismiss this notice."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:91 admin/class/class-extrp-admin.php:565
+#: admin/class/class-extrp-admin.php:91 admin/class/class-extrp-admin.php:562
 msgid "Tool of Extended Related Posts"
 msgstr ""
 
@@ -197,131 +189,136 @@ msgstr ""
 msgid "Success to reset your data."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:527 admin/class/class-extrp-admin.php:566
+#: admin/class/class-extrp-admin.php:524 admin/class/class-extrp-admin.php:563
 msgid "Create a better related posts under your post."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:607 admin/class/class-extrp-admin.php:621
+#: admin/class/class-extrp-admin.php:604 admin/class/class-extrp-admin.php:618
 msgid "Save Changes"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:610 admin/class/class-extrp-admin.php:624 admin/class/class-extrp-admin.php:649 inc/class/class-extrp-sanitize.php:788
+#: admin/class/class-extrp-admin.php:607 admin/class/class-extrp-admin.php:621 admin/class/class-extrp-admin.php:646 inc/class/class-extrp-sanitize.php:788
 msgid "Reset"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:610
+#: admin/class/class-extrp-admin.php:607
 msgid "Delete Cache"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:645
+#: admin/class/class-extrp-admin.php:642
 msgid "Back to Settings"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:648
+#: admin/class/class-extrp-admin.php:645
 msgid "Generate Code"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:663
+#: admin/class/class-extrp-admin.php:660
 msgid "This are global settings, and some of configuration may affect your default shortcode, unless shortcode that set-up with parameters. Enter your settings below:"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:669
+#: admin/class/class-extrp-admin.php:666
 msgid "Some of these settings may affect your shortcode settings, especially Thumbnail Custom Size settings. Enter your settings below:"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:675
+#: admin/class/class-extrp-admin.php:672
 msgid "This are global settings, and some of configuration may affect your default shortcode, unless shortcode with set-up with parameters. Enter your settings below:"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:681
+#: admin/class/class-extrp-admin.php:678
 msgid "save"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:693
+#: admin/class/class-extrp-admin.php:690
 msgid "PayPal Donate"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:712
+#: admin/class/class-extrp-admin.php:709
 msgid "Setup Widget"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:714
+#: admin/class/class-extrp-admin.php:711
 msgid "Create Shortcode"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:721
+#: admin/class/class-extrp-admin.php:718
 msgid "Instruction available under <code>Help</code> tab on your screen ( top right )."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:729
+#: admin/class/class-extrp-admin.php:726
 msgid "Shortcode result"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:730
+#: admin/class/class-extrp-admin.php:727
 msgid "Theme PHP code result"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:832 admin/class/class-extrp-admin.php:890
+#: admin/class/class-extrp-admin.php:830 admin/class/class-extrp-admin.php:889
 msgid "You do not have permission to do that."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:850
+#: admin/class/class-extrp-admin.php:848
 msgid "Fail to generate image. Refresh your page and try again."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:861
+#: admin/class/class-extrp-admin.php:859
 msgid "Image not exists. Please check your image from media library. You can add new one or push &#39;Save Changes&#39; button to get default image directly."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:879
+#: admin/class/class-extrp-admin.php:877
 msgid "Success"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:936
+#: admin/class/class-extrp-admin.php:935
 msgid "plugin by"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:946
+#: admin/class/class-extrp-admin.php:943
 msgid "Version"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:972 inc/class/class-extrp-sanitize.php:572
+#: admin/class/class-extrp-admin.php:954
+#, php-format
+msgid "Get Version %s"
+msgstr ""
+
+#: admin/class/class-extrp-admin.php:983 inc/class/class-extrp-sanitize.php:572
 msgid "Random News"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:973
+#: admin/class/class-extrp-admin.php:984
 msgid "You don&#39;t need this parameter by this highlight type."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:974
+#: admin/class/class-extrp-admin.php:985
 msgid "Please choose type of highlight first."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:975
+#: admin/class/class-extrp-admin.php:986
 msgid "Its default value, enter another one."
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:976
+#: admin/class/class-extrp-admin.php:987
 msgid "No Value"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:977
+#: admin/class/class-extrp-admin.php:988
 msgid "Activate or install Relevanssi plugin"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:978
+#: admin/class/class-extrp-admin.php:989
 msgid "OK"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:979
+#: admin/class/class-extrp-admin.php:990
 msgid "empty"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:980
+#: admin/class/class-extrp-admin.php:991
 msgid "Select or Upload Media Of Your Chosen Persuasion"
 msgstr ""
 
-#: admin/class/class-extrp-admin.php:981
+#: admin/class/class-extrp-admin.php:992
 msgid "Set as No Image Thumbnail"
 msgstr ""
 
@@ -714,6 +711,6 @@ msgstr ""
 msgid "No Thumbnail"
 msgstr ""
 
-#: inc/load/functions.php:276
+#: inc/load/functions.php:257
 msgid "ago"
 msgstr ""

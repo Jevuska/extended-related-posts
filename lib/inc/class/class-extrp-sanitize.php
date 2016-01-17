@@ -1059,7 +1059,8 @@ class EXTRP_Sanitize
 		unset( $data[0] );
 		
 		$default = array();
-		for( $i = 1 ; $i <= count( $data ) ; $i++ ) :
+		$count   = count( $data );
+		for( $i = 1 ; $i <= $count ; $i++ ) :
 			$default[ $data[ $i ]['parameter'] ] = $data[ $i ]['normal'];
 		endfor;
 		return $default;

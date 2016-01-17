@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended Related Posts\n"
-"POT-Creation-Date: 2015-12-21 03:33+0800\n"
-"PO-Revision-Date: 2015-12-21 03:33+0800\n"
+"POT-Creation-Date: 2016-01-17 08:11+0800\n"
+"PO-Revision-Date: 2016-01-17 08:12+0800\n"
 "Last-Translator: \n"
 "Language-Team: JEVUSKA <contact@jevuska.com>\n"
 "Language: id_ID\n"
@@ -20,14 +20,6 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#. Author of the plugin/theme
-msgid "Jevuska"
-msgstr "Jevuska"
-
-#. Author URI of the plugin/theme
-msgid "http://www.jevuska.com/"
-msgstr "http://www.jevuska.com/"
 
 #. Description of the plugin/theme
 msgid ""
@@ -95,7 +87,7 @@ msgstr ""
 msgid "Shortcode with parameters"
 msgstr "Shortcode dengan parameter"
 
-#: admin/admin-functions.php:68 admin/class/class-extrp-admin.php:971
+#: admin/admin-functions.php:68 admin/class/class-extrp-admin.php:982
 #: inc/class/class-extrp-sanitize.php:548
 msgid "Related News"
 msgstr "Berita Terkait"
@@ -174,40 +166,40 @@ msgstr "Untuk informasi lanjut:"
 msgid "Plugin Page"
 msgstr "Halaman Plugin"
 
-#: admin/admin-functions.php:289 admin/admin-functions.php:290
+#: admin/admin-functions.php:269 admin/admin-functions.php:270
 msgid "Use HTML color codes (#rrggbb)"
 msgstr "Gunakan kode warna HTML (#rrggbb)"
 
-#: admin/admin-functions.php:291
+#: admin/admin-functions.php:271
 msgid "You can use any CSS styling here, style will be inserted with a <span>"
 msgstr ""
 "Anda dapat menggunakan style CSS apapun di sini, style akan diapit dengan kode <span>"
 
-#: admin/admin-functions.php:292
+#: admin/admin-functions.php:272
 msgid "Name a class here, the terms will be wrapped in a <span> with the class"
 msgstr "Nama class di sini, nama yang dimasukkan akan diapit oleh kode <span>"
 
-#: admin/admin-functions.php:415
+#: admin/admin-functions.php:395
 msgid ""
 "Image not exists. Please check your image from media library. You can add new one "
 msgstr ""
 "Gambar tidak ada. Silakan cek gambar dari perpustakaan media. Anda dapat menambahkan "
 "yang baru"
 
-#: admin/admin-functions.php:419
+#: admin/admin-functions.php:399
 msgid "The url default image not set up. You can add new one "
 msgstr "Gambar default url tidak diatur. Anda dapat menambahkan yang baru"
 
-#: admin/admin-functions.php:422
+#: admin/admin-functions.php:402
 msgid "or push &#39;Save Changes&#39; button to get default image directly."
 msgstr ""
 "atau menekan tombol 'Simpan Perubahan' untuk mendapatkan gambar default langsung."
 
-#: admin/admin-functions.php:424
+#: admin/admin-functions.php:404
 msgid "Dismiss this notice."
 msgstr "Tutup Pemberitahuan ini."
 
-#: admin/class/class-extrp-admin.php:91 admin/class/class-extrp-admin.php:565
+#: admin/class/class-extrp-admin.php:91 admin/class/class-extrp-admin.php:562
 msgid "Tool of Extended Related Posts"
 msgstr "Perkakas Extended Related Posts"
 
@@ -258,32 +250,32 @@ msgstr "Tidak dapat mengatur fitur Sorot, silahkan periksa input Anda lagi."
 msgid "Success to reset your data."
 msgstr "Berhasil mengatur kembali data Anda."
 
-#: admin/class/class-extrp-admin.php:527 admin/class/class-extrp-admin.php:566
+#: admin/class/class-extrp-admin.php:524 admin/class/class-extrp-admin.php:563
 msgid "Create a better related posts under your post."
 msgstr "Membuat pos terkait Anda lebih relevan"
 
-#: admin/class/class-extrp-admin.php:607 admin/class/class-extrp-admin.php:621
+#: admin/class/class-extrp-admin.php:604 admin/class/class-extrp-admin.php:618
 msgid "Save Changes"
 msgstr "Simpan Perubahan"
 
-#: admin/class/class-extrp-admin.php:610 admin/class/class-extrp-admin.php:624
-#: admin/class/class-extrp-admin.php:649 inc/class/class-extrp-sanitize.php:788
+#: admin/class/class-extrp-admin.php:607 admin/class/class-extrp-admin.php:621
+#: admin/class/class-extrp-admin.php:646 inc/class/class-extrp-sanitize.php:788
 msgid "Reset"
 msgstr "Atur Kembali"
 
-#: admin/class/class-extrp-admin.php:610
+#: admin/class/class-extrp-admin.php:607
 msgid "Delete Cache"
 msgstr "Hapus Cache"
 
-#: admin/class/class-extrp-admin.php:645
+#: admin/class/class-extrp-admin.php:642
 msgid "Back to Settings"
 msgstr "Kembali Ke Halaman Pengaturan"
 
-#: admin/class/class-extrp-admin.php:648
+#: admin/class/class-extrp-admin.php:645
 msgid "Generate Code"
 msgstr "Hasilkan Kode"
 
-#: admin/class/class-extrp-admin.php:663
+#: admin/class/class-extrp-admin.php:660
 msgid ""
 "This are global settings, and some of configuration may affect your default "
 "shortcode, unless shortcode that set-up with parameters. Enter your settings below:"
@@ -292,7 +284,7 @@ msgstr ""
 "dasar, kecuali shortcode yang ditambahkan parameter. Silahkan lakukan pengaturan di "
 "bawah ini:"
 
-#: admin/class/class-extrp-admin.php:669
+#: admin/class/class-extrp-admin.php:666
 msgid ""
 "Some of these settings may affect your shortcode settings, especially Thumbnail "
 "Custom Size settings. Enter your settings below:"
@@ -300,7 +292,7 @@ msgstr ""
 "Beberapa pengaturan kemungkinan dapat mempengaruhi pengaturan shortcode, khususnya "
 "pengaturan ukuran gambar tambahan. Silahkan lakukan pengaturan di bawah ini:"
 
-#: admin/class/class-extrp-admin.php:675
+#: admin/class/class-extrp-admin.php:672
 msgid ""
 "This are global settings, and some of configuration may affect your default "
 "shortcode, unless shortcode with set-up with parameters. Enter your settings below:"
@@ -309,43 +301,43 @@ msgstr ""
 "dasar, kecuali shortcode yang ditambahkan parameter. Silahkan lakukan pengaturan di "
 "bawah ini:"
 
-#: admin/class/class-extrp-admin.php:681
+#: admin/class/class-extrp-admin.php:678
 msgid "save"
 msgstr "Simpan Perubahan"
 
-#: admin/class/class-extrp-admin.php:693
+#: admin/class/class-extrp-admin.php:690
 msgid "PayPal Donate"
 msgstr "Donasi Lewat PayPal"
 
-#: admin/class/class-extrp-admin.php:712
+#: admin/class/class-extrp-admin.php:709
 msgid "Setup Widget"
 msgstr "Atur Widget"
 
-#: admin/class/class-extrp-admin.php:714
+#: admin/class/class-extrp-admin.php:711
 msgid "Create Shortcode"
 msgstr "Buat Shortcode"
 
-#: admin/class/class-extrp-admin.php:721
+#: admin/class/class-extrp-admin.php:718
 msgid "Instruction available under <code>Help</code> tab on your screen ( top right )."
 msgstr "Instruksi tersedia di tab <code>Bantuan</code> pada layar Anda ( kanan atas )."
 
-#: admin/class/class-extrp-admin.php:729
+#: admin/class/class-extrp-admin.php:726
 msgid "Shortcode result"
 msgstr "Hasil Shortcode"
 
-#: admin/class/class-extrp-admin.php:730
+#: admin/class/class-extrp-admin.php:727
 msgid "Theme PHP code result"
 msgstr "Hasil Kode PHP untuk Tema"
 
-#: admin/class/class-extrp-admin.php:832 admin/class/class-extrp-admin.php:890
+#: admin/class/class-extrp-admin.php:830 admin/class/class-extrp-admin.php:889
 msgid "You do not have permission to do that."
 msgstr "Anda tidak diizinkan untuk melakukan ini."
 
-#: admin/class/class-extrp-admin.php:850
+#: admin/class/class-extrp-admin.php:848
 msgid "Fail to generate image. Refresh your page and try again."
 msgstr "Gagal. Segarkan halaman Anda dan coba sekali lagi."
 
-#: admin/class/class-extrp-admin.php:861
+#: admin/class/class-extrp-admin.php:859
 msgid ""
 "Image not exists. Please check your image from media library. You can add new one or "
 "push &#39;Save Changes&#39; button to get default image directly."
@@ -354,55 +346,60 @@ msgstr ""
 "baru satu atau menekan tombol 'Simpan Perubahan' untuk mendapatkan gambar default "
 "langsung."
 
-#: admin/class/class-extrp-admin.php:879
+#: admin/class/class-extrp-admin.php:877
 msgid "Success"
 msgstr "Sukses"
 
-#: admin/class/class-extrp-admin.php:936
+#: admin/class/class-extrp-admin.php:935
 msgid "plugin by"
 msgstr "plugin oleh"
 
-#: admin/class/class-extrp-admin.php:946
+#: admin/class/class-extrp-admin.php:943
 msgid "Version"
 msgstr "Versi"
 
-#: admin/class/class-extrp-admin.php:972 inc/class/class-extrp-sanitize.php:572
+#: admin/class/class-extrp-admin.php:954
+#, php-format
+msgid "Get Version %s"
+msgstr "Dapatkan Versi %s"
+
+#: admin/class/class-extrp-admin.php:983 inc/class/class-extrp-sanitize.php:572
 msgid "Random News"
 msgstr "Berita Acak"
 
-#: admin/class/class-extrp-admin.php:973
+#: admin/class/class-extrp-admin.php:984
 msgid "You don&#39;t need this parameter by this highlight type."
 msgstr "Anda tidak membutuhkan nilai untuk jenis highlight ini."
 
-#: admin/class/class-extrp-admin.php:974
+#: admin/class/class-extrp-admin.php:985
 msgid "Please choose type of highlight first."
 msgstr "Silahkan pliih jenis highlight terlebih dahulu"
 
-#: admin/class/class-extrp-admin.php:975
+#: admin/class/class-extrp-admin.php:986
 msgid "Its default value, enter another one."
 msgstr "Nilai dasar, masukkan lainnya"
 
-#: admin/class/class-extrp-admin.php:976
+#: admin/class/class-extrp-admin.php:987
 msgid "No Value"
 msgstr "Tanpa Nilai"
 
-#: admin/class/class-extrp-admin.php:977
+#: admin/class/class-extrp-admin.php:988
 msgid "Activate or install Relevanssi plugin"
 msgstr "Aktifkan atau instal plugin Relevanssi"
 
-#: admin/class/class-extrp-admin.php:978
+#: admin/class/class-extrp-admin.php:989
 msgid "OK"
 msgstr "OK"
 
-#: admin/class/class-extrp-admin.php:979
+#: admin/class/class-extrp-admin.php:990
 msgid "empty"
 msgstr "kosong"
 
-#: admin/class/class-extrp-admin.php:980
+#: admin/class/class-extrp-admin.php:991
 msgid "Select or Upload Media Of Your Chosen Persuasion"
 msgstr "Pilih atau Upload Gambar Yang Anda Inginkan"
 
-#: admin/class/class-extrp-admin.php:981
+#: admin/class/class-extrp-admin.php:992
 msgid "Set as No Image Thumbnail"
 msgstr "Atur sebagai Gambar No Image"
 
@@ -857,9 +854,15 @@ msgstr "Pos terkait di sidebar Anda"
 msgid "No Thumbnail"
 msgstr "Tanpa Gambar"
 
-#: inc/load/functions.php:276
+#: inc/load/functions.php:257
 msgid "ago"
 msgstr "yang lalu"
+
+#~ msgid "Changed the text, or leave as an empty to hide."
+#~ msgstr "Mengubah teks, atau kosongkan untuk menyembunyikan."
+
+#~ msgid "https://www.jevuska.com/"
+#~ msgstr "https://www.jevuska.com/"
 
 #~ msgid "Fail to delete No Image default. Try to delete it manually."
 #~ msgstr "Gagal menghapus No Image default. Coba untuk menghapusnya secara manual."

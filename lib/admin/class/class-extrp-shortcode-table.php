@@ -127,14 +127,14 @@ class EXTRP_Shortcode_Table extends WP_List_Table
     {
         switch( $column_name )
 		{
-            case 'id':
-            case 'parameter':
-            case 'normal':
-            case 'optional':
-			case 'lang':
-            case 'description':
+            case 'id' :
+            case 'parameter' :
+            case 'normal' :
+            case 'optional' :
+			case 'lang' :
+            case 'description' :
                 return $item[ $column_name ];
-            default:
+            default :
                 return print_r( $item, true ) ;
         }
     }
